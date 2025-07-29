@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Fine Tuning - techniques, methods, and best practices for adapting pre-trained models"
+    />
+    <title>Fine Tuning | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="llm.html" class="dropdown-link">LLM</a></li>
+                  <li>
+                    <a href="fine-tuning.html" class="dropdown-link active"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li><a href="rag.html" class="dropdown-link">RAG</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">Fine Tuning</h1>
+            <p class="page-subtitle">
+              Master the art of adapting pre-trained models for specific tasks
+              and domains
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <div class="container">
+          <div class="content-layout">
+            <!-- Table of Contents -->
+            <aside class="toc-sidebar">
+              <div class="toc-container">
+                <h2 class="toc-title">Contents</h2>
+                <nav class="toc">
+                  <ul class="toc-list">
+                    <li><a href="#overview" class="toc-link">Overview</a></li>
+                    <li>
+                      <a href="#types" class="toc-link">Types of Fine Tuning</a>
+                    </li>
+                    <li>
+                      <a href="#techniques" class="toc-link">Techniques</a>
+                    </li>
+                    <li><a href="#process" class="toc-link">Process</a></li>
+                    <li>
+                      <a href="#data-preparation" class="toc-link"
+                        >Data Preparation</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#evaluation" class="toc-link">Evaluation</a>
+                    </li>
+                    <li>
+                      <a href="#implementation" class="toc-link"
+                        >Implementation</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#best-practices" class="toc-link"
+                        >Best Practices</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+              <!-- Overview Section -->
+              <section id="overview" class="content-section">
+                <h2 class="section-title">What is Fine Tuning?</h2>
+                <p class="section-intro">
+                  Fine tuning is the process of adapting a pre-trained model to
+                  perform better on a specific task or domain by training it on
+                  task-specific data. This leverages the knowledge learned
+                  during pre-training while specializing the model for your
+                  particular use case.
+                </p>
+
+                <div class="definition-box">
+                  <h3>Key Benefits</h3>
+                  <ul>
+                    <li>
+                      <strong>Efficiency:</strong> Requires less data and
+                      compute than training from scratch
+                    </li>
+                    <li>
+                      <strong>Performance:</strong> Often achieves better
+                      results than general-purpose models
+                    </li>
+                    <li>
+                      <strong>Specialization:</strong> Adapts to domain-specific
+                      language and tasks
+                    </li>
+                    <li>
+                      <strong>Cost-effective:</strong> Reduces training time and
+                      computational resources
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="comparison-chart">
+                  <h3>Training From Scratch vs Fine Tuning</h3>
+                  <div class="comparison-grid">
+                    <div class="comparison-item">
+                      <h4>Training From Scratch</h4>
+                      <ul>
+                        <li>Requires massive datasets</li>
+                        <li>High computational cost</li>
+                        <li>Longer training time</li>
+                        <li>Risk of poor convergence</li>
+                      </ul>
+                    </div>
+                    <div class="comparison-item">
+                      <h4>Fine Tuning</h4>
+                      <ul>
+                        <li>Smaller task-specific datasets</li>
+                        <li>Lower computational cost</li>
+                        <li>Faster training</li>
+                        <li>Leverages pre-trained knowledge</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Types Section -->
+              <section id="types" class="content-section">
+                <h2 class="section-title">Types of Fine Tuning</h2>
+
+                <div class="types-grid">
+                  <div class="type-card">
+                    <h3>Full Fine Tuning</h3>
+                    <p>
+                      Updates all parameters of the pre-trained model during
+                      training.
+                    </p>
+                    <div class="type-details">
+                      <h4>Characteristics:</h4>
+                      <ul>
+                        <li>Highest flexibility and performance</li>
+                        <li>Requires most computational resources</li>
+                        <li>Risk of catastrophic forgetting</li>
+                        <li>Best for sufficient training data</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="type-card">
+                    <h3>Parameter-Efficient Fine Tuning</h3>
+                    <p>
+                      Updates only a small subset of parameters while keeping
+                      most frozen.
+                    </p>
+                    <div class="type-details">
+                      <h4>Methods:</h4>
+                      <ul>
+                        <li>LoRA (Low-Rank Adaptation)</li>
+                        <li>Adapter layers</li>
+                        <li>Prefix tuning</li>
+                        <li>BitFit (bias-only fine tuning)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="type-card">
+                    <h3>Feature-based Fine Tuning</h3>
+                    <p>
+                      Uses pre-trained model as feature extractor, training only
+                      new layers.
+                    </p>
+                    <div class="type-details">
+                      <h4>Applications:</h4>
+                      <ul>
+                        <li>Classification tasks</li>
+                        <li>Limited computational resources</li>
+                        <li>Small datasets</li>
+                        <li>Quick prototyping</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Techniques Section -->
+              <section id="techniques" class="content-section">
+                <h2 class="section-title">Advanced Techniques</h2>
+
+                <div class="techniques-list">
+                  <div class="technique-item">
+                    <h3>LoRA (Low-Rank Adaptation)</h3>
+                    <p>
+                      Adds trainable low-rank matrices to existing layers while
+                      keeping original weights frozen.
+                    </p>
+                    <div class="technique-formula">
+                      <code>W' = W + αBAᵀ</code>
+                      <span
+                        >Where B and A are low-rank matrices, α is scaling
+                        factor</span
+                      >
+                    </div>
+                    <div class="technique-benefits">
+                      <strong>Benefits:</strong>
+                      <ul>
+                        <li>Reduces trainable parameters by 99%+</li>
+                        <li>Maintains model performance</li>
+                        <li>Enables multiple task-specific adapters</li>
+                        <li>Easy to deploy and switch between tasks</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="technique-item">
+                    <h3>Adapter Layers</h3>
+                    <p>
+                      Inserts small neural network modules between existing
+                      layers.
+                    </p>
+                    <div class="technique-architecture">
+                      <strong>Architecture:</strong>
+                      <ol>
+                        <li>Down-projection layer (reduces dimensionality)</li>
+                        <li>Non-linear activation function</li>
+                        <li>Up-projection layer (restores dimensionality)</li>
+                        <li>Residual connection</li>
+                      </ol>
+                    </div>
+                  </div>
+
+                  <div class="technique-item">
+                    <h3>Prompt Tuning</h3>
+                    <p>
+                      Optimizes continuous prompt embeddings while keeping model
+                      parameters frozen.
+                    </p>
+                    <div class="technique-variants">
+                      <strong>Variants:</strong>
+                      <ul>
+                        <li>
+                          <strong>Prefix Tuning:</strong> Adds trainable
+                          prefixes to each layer
+                        </li>
+                        <li>
+                          <strong>P-Tuning:</strong> Optimizes prompt embeddings
+                          with MLPs
+                        </li>
+                        <li>
+                          <strong>Soft Prompts:</strong> Learns continuous token
+                          embeddings
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Process Section -->
+              <section id="process" class="content-section">
+                <h2 class="section-title">Fine Tuning Process</h2>
+
+                <div class="process-flow">
+                  <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                      <h3>Model Selection</h3>
+                      <p>Choose appropriate pre-trained model based on:</p>
+                      <ul>
+                        <li>Task similarity to pre-training objective</li>
+                        <li>Model architecture compatibility</li>
+                        <li>Computational constraints</li>
+                        <li>Available fine-tuning support</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                      <h3>Data Preparation</h3>
+                      <p>Prepare and format your task-specific dataset:</p>
+                      <ul>
+                        <li>Data cleaning and validation</li>
+                        <li>Format conversion to model requirements</li>
+                        <li>Train/validation/test splits</li>
+                        <li>Data augmentation if needed</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                      <h3>Hyperparameter Setup</h3>
+                      <p>Configure training parameters:</p>
+                      <ul>
+                        <li>
+                          Learning rate (typically lower than pre-training)
+                        </li>
+                        <li>Batch size and gradient accumulation</li>
+                        <li>Number of epochs</li>
+                        <li>Warmup and scheduling strategies</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                      <h3>Training & Monitoring</h3>
+                      <p>Execute fine-tuning with careful monitoring:</p>
+                      <ul>
+                        <li>Track training and validation metrics</li>
+                        <li>Monitor for overfitting</li>
+                        <li>Early stopping based on validation performance</li>
+                        <li>Regular checkpointing</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                      <h3>Evaluation</h3>
+                      <p>Assess model performance:</p>
+                      <ul>
+                        <li>Task-specific metrics evaluation</li>
+                        <li>Comparison with baselines</li>
+                        <li>Error analysis and edge cases</li>
+                        <li>Generalization testing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Data Preparation Section -->
+              <section id="data-preparation" class="content-section">
+                <h2 class="section-title">Data Preparation</h2>
+
+                <div class="data-prep-guidelines">
+                  <div class="guideline-category">
+                    <h3>Data Quality</h3>
+                    <ul>
+                      <li>
+                        <strong>Relevance:</strong> Ensure data matches your
+                        target task
+                      </li>
+                      <li>
+                        <strong>Diversity:</strong> Include varied examples and
+                        edge cases
+                      </li>
+                      <li>
+                        <strong>Balance:</strong> Maintain balanced class
+                        distributions
+                      </li>
+                      <li>
+                        <strong>Accuracy:</strong> Verify and clean incorrect
+                        labels
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="guideline-category">
+                    <h3>Data Quantity</h3>
+                    <ul>
+                      <li>
+                        <strong>Minimum:</strong> 100-1000 examples per class
+                      </li>
+                      <li>
+                        <strong>Optimal:</strong> 1000-10000 examples per class
+                      </li>
+                      <li>
+                        <strong>Parameter-efficient:</strong> Can work with
+                        fewer examples
+                      </li>
+                      <li>
+                        <strong>Quality over quantity:</strong> Clean data is
+                        more valuable
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="guideline-category">
+                    <h3>Format Requirements</h3>
+                    <ul>
+                      <li>
+                        <strong>Input format:</strong> Match pre-trained model
+                        expectations
+                      </li>
+                      <li>
+                        <strong>Tokenization:</strong> Use same tokenizer as
+                        pre-training
+                      </li>
+                      <li>
+                        <strong>Sequence length:</strong> Consider model's
+                        maximum context
+                      </li>
+                      <li>
+                        <strong>Special tokens:</strong> Include necessary
+                        formatting tokens
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="data-formats">
+                  <h3>Common Data Formats</h3>
+                  <div class="format-examples">
+                    <div class="format-example">
+                      <h4>Text Classification</h4>
+                      <div class="code-example">
+                        <pre><code>{
+  "text": "The movie was fantastic and entertaining",
+  "label": "positive"
+}</code></pre>
+                      </div>
+                    </div>
+
+                    <div class="format-example">
+                      <h4>Question Answering</h4>
+                      <div class="code-example">
+                        <pre><code>{
+  "context": "Paris is the capital of France...",
+  "question": "What is the capital of France?",
+  "answer": "Paris"
+}</code></pre>
+                      </div>
+                    </div>
+
+                    <div class="format-example">
+                      <h4>Instruction Following</h4>
+                      <div class="code-example">
+                        <pre><code>{
+  "instruction": "Summarize the following text",
+  "input": "Long text to be summarized...",
+  "output": "Brief summary of the text"
+}</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Evaluation Section -->
+              <section id="evaluation" class="content-section">
+                <h2 class="section-title">Evaluation Strategies</h2>
+
+                <div class="evaluation-metrics">
+                  <div class="metrics-category">
+                    <h3>Performance Metrics</h3>
+                    <ul>
+                      <li>
+                        <strong>Accuracy:</strong> Overall correctness
+                        percentage
+                      </li>
+                      <li>
+                        <strong>F1 Score:</strong> Harmonic mean of precision
+                        and recall
+                      </li>
+                      <li>
+                        <strong>ROUGE/BLEU:</strong> Text generation quality
+                      </li>
+                      <li>
+                        <strong>Perplexity:</strong> Language modeling
+                        performance
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="metrics-category">
+                    <h3>Robustness Metrics</h3>
+                    <ul>
+                      <li>
+                        <strong>Out-of-distribution:</strong> Performance on
+                        unseen data
+                      </li>
+                      <li>
+                        <strong>Adversarial:</strong> Resistance to adversarial
+                        examples
+                      </li>
+                      <li>
+                        <strong>Fairness:</strong> Performance across different
+                        groups
+                      </li>
+                      <li>
+                        <strong>Consistency:</strong> Stable outputs for similar
+                        inputs
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="evaluation-practices">
+                  <h3>Best Practices</h3>
+                  <div class="practice-list">
+                    <div class="practice-item">
+                      <h4>Hold-out Validation</h4>
+                      <p>
+                        Reserve a portion of data for final evaluation that's
+                        never used during training or hyperparameter tuning.
+                      </p>
+                    </div>
+
+                    <div class="practice-item">
+                      <h4>Cross-validation</h4>
+                      <p>
+                        Use k-fold cross-validation for robust performance
+                        estimation, especially with limited data.
+                      </p>
+                    </div>
+
+                    <div class="practice-item">
+                      <h4>Error Analysis</h4>
+                      <p>
+                        Systematically analyze failure cases to identify
+                        patterns and improvement opportunities.
+                      </p>
+                    </div>
+
+                    <div class="practice-item">
+                      <h4>Baseline Comparison</h4>
+                      <p>
+                        Compare against appropriate baselines: original model,
+                        simpler methods, and previous state-of-the-art.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Implementation Section -->
+              <section id="implementation" class="content-section">
+                <h2 class="section-title">Implementation Examples</h2>
+
+                <div class="implementation-examples">
+                  <div class="example-tab">
+                    <h3>LoRA Fine Tuning with Hugging Face</h3>
+                    <div class="code-example">
+                      <pre><code>from peft import LoraConfig, get_peft_model, TaskType
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
+
+# Load base model and tokenizer
+model_name = "microsoft/DialoGPT-medium"
+model = AutoModelForCausalLM.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+# Configure LoRA
+lora_config = LoraConfig(
+    task_type=TaskType.CAUSAL_LM,
+    r=16,  # rank
+    lora_alpha=32,
+    lora_dropout=0.1,
+    target_modules=["c_attn"]  # target attention modules
+)
+
+# Apply LoRA to model
+model = get_peft_model(model, lora_config)
+
+# Training arguments
+training_args = TrainingArguments(
+    output_dir="./lora-finetuned",
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    learning_rate=5e-4,
+    num_train_epochs=3,
+    logging_steps=100,
+    save_steps=500,
+    evaluation_strategy="steps",
+    eval_steps=500
+)
+
+# Initialize trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
+    tokenizer=tokenizer
+)
+
+# Start training
+trainer.train()</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="example-tab">
+                    <h3>OpenAI Fine Tuning</h3>
+                    <div class="code-example">
+                      <pre><code>import openai
+
+# Prepare training data in JSONL format
+training_data = [
+    {"messages": [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is machine learning?"},
+        {"role": "assistant", "content": "Machine learning is..."}
+    ]},
+    # More examples...
+]
+
+# Upload training file
+file_response = openai.File.create(
+    file=open("training_data.jsonl", "rb"),
+    purpose="fine-tune"
+)
+
+# Create fine-tuning job
+fine_tune_response = openai.FineTuningJob.create(
+    training_file=file_response.id,
+    model="gpt-3.5-turbo",
+    hyperparameters={
+        "n_epochs": 3,
+        "batch_size": 1,
+        "learning_rate_multiplier": 0.1
+    }
+)
+
+print(f"Fine-tuning job created: {fine_tune_response.id}")
+
+# Monitor training progress
+import time
+while True:
+    job_status = openai.FineTuningJob.retrieve(fine_tune_response.id)
+    if job_status.status == "succeeded":
+        print(f"Fine-tuning completed! Model: {job_status.fine_tuned_model}")
+        break
+    elif job_status.status == "failed":
+        print("Fine-tuning failed")
+        break
+    time.sleep(60)</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices Section -->
+              <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <div class="best-practices-grid">
+                  <div class="practice-category">
+                    <h3>Training Strategy</h3>
+                    <ul>
+                      <li>Start with lower learning rates (1e-5 to 1e-4)</li>
+                      <li>
+                        Use learning rate scheduling (cosine, linear decay)
+                      </li>
+                      <li>
+                        Implement gradient clipping to prevent instability
+                      </li>
+                      <li>Monitor both training and validation metrics</li>
+                      <li>Use early stopping to prevent overfitting</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Data Management</h3>
+                    <ul>
+                      <li>Ensure high-quality, diverse training data</li>
+                      <li>Balance datasets to avoid bias</li>
+                      <li>Validate data format compatibility</li>
+                      <li>Use data augmentation when appropriate</li>
+                      <li>Maintain proper train/validation/test splits</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Resource Optimization</h3>
+                    <ul>
+                      <li>
+                        Use parameter-efficient methods for limited resources
+                      </li>
+                      <li>
+                        Implement gradient accumulation for larger batch sizes
+                      </li>
+                      <li>Use mixed precision training (FP16/BF16)</li>
+                      <li>Consider model parallelism for large models</li>
+                      <li>Regular checkpointing to prevent data loss</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Evaluation & Deployment</h3>
+                    <ul>
+                      <li>Test on held-out data never seen during training</li>
+                      <li>Compare against multiple baselines</li>
+                      <li>Perform error analysis and edge case testing</li>
+                      <li>Monitor model performance in production</li>
+                      <li>Plan for model updates and retraining</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="common-pitfalls">
+                  <h3>Common Pitfalls to Avoid</h3>
+                  <div class="pitfall-list">
+                    <div class="pitfall-item">
+                      <h4>Catastrophic Forgetting</h4>
+                      <p>
+                        The model loses previously learned knowledge. Use lower
+                        learning rates and consider regularization techniques.
+                      </p>
+                    </div>
+
+                    <div class="pitfall-item">
+                      <h4>Overfitting</h4>
+                      <p>
+                        Model performs well on training data but poorly on new
+                        data. Use validation monitoring and early stopping.
+                      </p>
+                    </div>
+
+                    <div class="pitfall-item">
+                      <h4>Data Leakage</h4>
+                      <p>
+                        Test data information appears in training data. Maintain
+                        strict data separation and validation.
+                      </p>
+                    </div>
+
+                    <div class="pitfall-item">
+                      <h4>Insufficient Data</h4>
+                      <p>
+                        Not enough training examples for effective fine-tuning.
+                        Consider data augmentation or parameter-efficient
+                        methods.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

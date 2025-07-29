@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to RAG (Retrieval-Augmented Generation) - architecture, implementation, and best practices"
+    />
+    <title>RAG (Retrieval-Augmented Generation) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="llm.html" class="dropdown-link">LLM</a></li>
+                  <li>
+                    <a href="fine-tuning.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag.html" class="dropdown-link active">RAG</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">RAG (Retrieval-Augmented Generation)</h1>
+            <p class="page-subtitle">
+              Combine the power of information retrieval with language
+              generation for accurate, up-to-date AI responses
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <div class="container">
+          <div class="content-layout">
+            <!-- Table of Contents -->
+            <aside class="toc-sidebar">
+              <div class="toc-container">
+                <h2 class="toc-title">Contents</h2>
+                <nav class="toc">
+                  <ul class="toc-list">
+                    <li><a href="#overview" class="toc-link">Overview</a></li>
+                    <li>
+                      <a href="#architecture" class="toc-link">Architecture</a>
+                    </li>
+                    <li>
+                      <a href="#components" class="toc-link">Components</a>
+                    </li>
+                    <li><a href="#types" class="toc-link">Types of RAG</a></li>
+                    <li>
+                      <a href="#retrieval" class="toc-link"
+                        >Retrieval Methods</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#implementation" class="toc-link"
+                        >Implementation</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#evaluation" class="toc-link">Evaluation</a>
+                    </li>
+                    <li>
+                      <a href="#best-practices" class="toc-link"
+                        >Best Practices</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+              <!-- Overview Section -->
+              <section id="overview" class="content-section">
+                <h2 class="section-title">What is RAG?</h2>
+                <p class="section-intro">
+                  Retrieval-Augmented Generation (RAG) is a technique that
+                  combines information retrieval with text generation. It allows
+                  language models to access and utilize external knowledge
+                  sources to provide more accurate, up-to-date, and contextually
+                  relevant responses.
+                </p>
+
+                <div class="definition-box">
+                  <h3>Key Benefits</h3>
+                  <ul>
+                    <li>
+                      <strong>Accuracy:</strong> Reduces hallucinations by
+                      grounding responses in factual information
+                    </li>
+                    <li>
+                      <strong>Currency:</strong> Accesses up-to-date information
+                      not in training data
+                    </li>
+                    <li>
+                      <strong>Transparency:</strong> Provides sources and
+                      references for generated content
+                    </li>
+                    <li>
+                      <strong>Flexibility:</strong> Easy to update knowledge
+                      without retraining models
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="rag-vs-traditional">
+                  <h3>RAG vs Traditional LLMs</h3>
+                  <div class="comparison-table">
+                    <div class="comparison-row">
+                      <div class="comparison-header">Aspect</div>
+                      <div class="comparison-header">Traditional LLM</div>
+                      <div class="comparison-header">RAG System</div>
+                    </div>
+                    <div class="comparison-row">
+                      <div class="comparison-cell">
+                        <strong>Knowledge Source</strong>
+                      </div>
+                      <div class="comparison-cell">Training data only</div>
+                      <div class="comparison-cell">
+                        Training data + external sources
+                      </div>
+                    </div>
+                    <div class="comparison-row">
+                      <div class="comparison-cell">
+                        <strong>Knowledge Updates</strong>
+                      </div>
+                      <div class="comparison-cell">Requires retraining</div>
+                      <div class="comparison-cell">Update knowledge base</div>
+                    </div>
+                    <div class="comparison-row">
+                      <div class="comparison-cell">
+                        <strong>Factual Accuracy</strong>
+                      </div>
+                      <div class="comparison-cell">May hallucinate</div>
+                      <div class="comparison-cell">Grounded in sources</div>
+                    </div>
+                    <div class="comparison-row">
+                      <div class="comparison-cell">
+                        <strong>Transparency</strong>
+                      </div>
+                      <div class="comparison-cell">Black box</div>
+                      <div class="comparison-cell">Citable sources</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Architecture Section -->
+              <section id="architecture" class="content-section">
+                <h2 class="section-title">RAG Architecture</h2>
+
+                <div class="architecture-diagram">
+                  <h3>High-Level Architecture</h3>
+                  <div class="architecture-flow">
+                    <div class="flow-step">
+                      <div class="step-icon">🔍</div>
+                      <h4>Query Processing</h4>
+                      <p>
+                        User query is processed and converted to retrievable
+                        format
+                      </p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                      <div class="step-icon">📚</div>
+                      <h4>Retrieval</h4>
+                      <p>
+                        Relevant documents are retrieved from knowledge base
+                      </p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                      <div class="step-icon">🔗</div>
+                      <h4>Augmentation</h4>
+                      <p>Retrieved content is combined with original query</p>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                      <div class="step-icon">✍️</div>
+                      <h4>Generation</h4>
+                      <p>LLM generates response using augmented context</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="technical-architecture">
+                  <h3>Technical Components</h3>
+                  <div class="component-grid">
+                    <div class="component-item">
+                      <h4>Document Store</h4>
+                      <p>Stores the knowledge base documents and metadata</p>
+                      <ul>
+                        <li>Vector databases (Pinecone, Weaviate)</li>
+                        <li>Traditional databases (PostgreSQL, MongoDB)</li>
+                        <li>Search engines (Elasticsearch)</li>
+                      </ul>
+                    </div>
+
+                    <div class="component-item">
+                      <h4>Embedding Model</h4>
+                      <p>Converts text to dense vector representations</p>
+                      <ul>
+                        <li>Sentence transformers</li>
+                        <li>OpenAI embeddings</li>
+                        <li>Domain-specific encoders</li>
+                      </ul>
+                    </div>
+
+                    <div class="component-item">
+                      <h4>Retriever</h4>
+                      <p>Finds relevant documents based on query similarity</p>
+                      <ul>
+                        <li>Dense retrieval (semantic similarity)</li>
+                        <li>Sparse retrieval (keyword matching)</li>
+                        <li>Hybrid approaches</li>
+                      </ul>
+                    </div>
+
+                    <div class="component-item">
+                      <h4>Generator</h4>
+                      <p>Language model that produces final response</p>
+                      <ul>
+                        <li>GPT-4, Claude, Gemini</li>
+                        <li>Open-source models (Llama, Mistral)</li>
+                        <li>Fine-tuned models</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Components Section -->
+              <section id="components" class="content-section">
+                <h2 class="section-title">Core Components</h2>
+
+                <div class="components-detailed">
+                  <div class="component-section">
+                    <h3>1. Knowledge Base Preparation</h3>
+                    <div class="component-details">
+                      <h4>Document Processing</h4>
+                      <ul>
+                        <li>
+                          <strong>Chunking:</strong> Split documents into
+                          manageable pieces
+                        </li>
+                        <li>
+                          <strong>Cleaning:</strong> Remove noise, format
+                          consistently
+                        </li>
+                        <li>
+                          <strong>Metadata:</strong> Add titles, sources,
+                          timestamps
+                        </li>
+                        <li>
+                          <strong>Embedding:</strong> Convert chunks to vector
+                          representations
+                        </li>
+                      </ul>
+
+                      <div class="code-example">
+                        <h5>Document Chunking Example</h5>
+                        <pre><code>def chunk_document(text, chunk_size=512, overlap=50):
+    """Split document into overlapping chunks"""
+    chunks = []
+    start = 0
+    
+    while start < len(text):
+        end = start + chunk_size
+        chunk = text[start:end]
+        
+        # Ensure we don't cut words in half
+        if end < len(text):
+            last_space = chunk.rfind(' ')
+            if last_space > chunk_size // 2:
+                chunk = chunk[:last_space]
+                end = start + last_space
+        
+        chunks.append(chunk.strip())
+        start = end - overlap
+    
+    return chunks</code></pre>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="component-section">
+                    <h3>2. Retrieval System</h3>
+                    <div class="retrieval-methods">
+                      <div class="method-item">
+                        <h4>Dense Retrieval</h4>
+                        <p>
+                          Uses semantic similarity between query and document
+                          embeddings
+                        </p>
+                        <ul>
+                          <li>Better at understanding context and intent</li>
+                          <li>Works well for conceptual queries</li>
+                          <li>Requires good embedding model</li>
+                        </ul>
+                      </div>
+
+                      <div class="method-item">
+                        <h4>Sparse Retrieval</h4>
+                        <p>Traditional keyword-based search (TF-IDF, BM25)</p>
+                        <ul>
+                          <li>Excellent for exact matches</li>
+                          <li>Fast and computationally efficient</li>
+                          <li>Good for factual, specific queries</li>
+                        </ul>
+                      </div>
+
+                      <div class="method-item">
+                        <h4>Hybrid Retrieval</h4>
+                        <p>
+                          Combines dense and sparse methods for optimal results
+                        </p>
+                        <ul>
+                          <li>Best of both approaches</li>
+                          <li>Requires score fusion techniques</li>
+                          <li>Higher complexity but better performance</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="component-section">
+                    <h3>3. Context Augmentation</h3>
+                    <div class="augmentation-strategies">
+                      <h4>Context Preparation Strategies</h4>
+                      <ul>
+                        <li>
+                          <strong>Ranking:</strong> Order retrieved documents by
+                          relevance
+                        </li>
+                        <li>
+                          <strong>Filtering:</strong> Remove low-quality or
+                          irrelevant results
+                        </li>
+                        <li>
+                          <strong>Summarization:</strong> Condense lengthy
+                          documents
+                        </li>
+                        <li>
+                          <strong>Template-based:</strong> Structure context
+                          with templates
+                        </li>
+                      </ul>
+
+                      <div class="code-example">
+                        <h5>Context Template Example</h5>
+                        <pre><code>context_template = """
+Context information is below:
+
+{context_str}
+
+Given the context information and not prior knowledge, answer the query.
+
+Query: {query_str}
+
+Answer:"""</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Types Section -->
+              <section id="types" class="content-section">
+                <h2 class="section-title">Types of RAG Systems</h2>
+
+                <div class="rag-types">
+                  <div class="type-category">
+                    <h3>By Retrieval Strategy</h3>
+                    <div class="type-list">
+                      <div class="type-item">
+                        <h4>Naive RAG</h4>
+                        <p>Simple retrieve-then-generate approach</p>
+                        <ul>
+                          <li>Basic embedding-based retrieval</li>
+                          <li>Direct concatenation of context</li>
+                          <li>Single-step process</li>
+                        </ul>
+                      </div>
+
+                      <div class="type-item">
+                        <h4>Advanced RAG</h4>
+                        <p>
+                          Enhanced with pre-retrieval and post-retrieval
+                          optimization
+                        </p>
+                        <ul>
+                          <li>Query expansion and rewriting</li>
+                          <li>Retrieval result reranking</li>
+                          <li>Context compression</li>
+                        </ul>
+                      </div>
+
+                      <div class="type-item">
+                        <h4>Modular RAG</h4>
+                        <p>Flexible pipeline with specialized modules</p>
+                        <ul>
+                          <li>Interchangeable components</li>
+                          <li>Multi-step reasoning</li>
+                          <li>Adaptive retrieval strategies</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="type-category">
+                    <h3>By Architecture</h3>
+                    <div class="architecture-types">
+                      <div class="arch-type">
+                        <h4>Sequential RAG</h4>
+                        <p>Traditional pipeline: Retrieve → Generate</p>
+                        <div class="arch-pros-cons">
+                          <div class="pros">
+                            <strong>Pros:</strong>
+                            <ul>
+                              <li>Simple to implement</li>
+                              <li>Fast execution</li>
+                              <li>Transparent process</li>
+                            </ul>
+                          </div>
+                          <div class="cons">
+                            <strong>Cons:</strong>
+                            <ul>
+                              <li>No retrieval refinement</li>
+                              <li>Limited context adaptation</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="arch-type">
+                        <h4>Iterative RAG</h4>
+                        <p>Multiple retrieval-generation cycles</p>
+                        <div class="arch-pros-cons">
+                          <div class="pros">
+                            <strong>Pros:</strong>
+                            <ul>
+                              <li>Refines retrieval</li>
+                              <li>Better for complex queries</li>
+                              <li>Self-correcting</li>
+                            </ul>
+                          </div>
+                          <div class="cons">
+                            <strong>Cons:</strong>
+                            <ul>
+                              <li>Higher latency</li>
+                              <li>More complex</li>
+                              <li>Higher costs</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="arch-type">
+                        <h4>Adaptive RAG</h4>
+                        <p>Dynamically chooses between retrieval strategies</p>
+                        <div class="arch-pros-cons">
+                          <div class="pros">
+                            <strong>Pros:</strong>
+                            <ul>
+                              <li>Optimal for each query</li>
+                              <li>Efficient resource usage</li>
+                              <li>Best performance</li>
+                            </ul>
+                          </div>
+                          <div class="cons">
+                            <strong>Cons:</strong>
+                            <ul>
+                              <li>Complex implementation</li>
+                              <li>Requires training</li>
+                              <li>Hard to debug</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Retrieval Methods Section -->
+              <section id="retrieval" class="content-section">
+                <h2 class="section-title">Advanced Retrieval Methods</h2>
+
+                <div class="retrieval-techniques">
+                  <div class="technique-group">
+                    <h3>Query Enhancement</h3>
+                    <div class="technique-list">
+                      <div class="technique-item">
+                        <h4>Query Expansion</h4>
+                        <p>Add related terms to improve retrieval coverage</p>
+                        <div class="code-example">
+                          <pre><code># Example: Expand "AI" to include related terms
+original_query = "AI applications"
+expanded_query = "AI applications artificial intelligence machine learning ML"</code></pre>
+                        </div>
+                      </div>
+
+                      <div class="technique-item">
+                        <h4>Query Rewriting</h4>
+                        <p>
+                          Reformulate queries for better retrieval performance
+                        </p>
+                        <div class="code-example">
+                          <pre><code># Transform complex queries into multiple simple ones
+complex_query = "What are the benefits and drawbacks of using RAG?"
+rewritten_queries = [
+    "What are the benefits of RAG?",
+    "What are the drawbacks of RAG?",
+    "RAG advantages and disadvantages"
+]</code></pre>
+                        </div>
+                      </div>
+
+                      <div class="technique-item">
+                        <h4>HyDE (Hypothetical Document Embeddings)</h4>
+                        <p>
+                          Generate hypothetical answers and use them for
+                          retrieval
+                        </p>
+                        <ul>
+                          <li>LLM generates possible answer</li>
+                          <li>Use generated text for similarity search</li>
+                          <li>Often more effective than query alone</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="technique-group">
+                    <h3>Multi-Vector Retrieval</h3>
+                    <div class="multi-vector-methods">
+                      <div class="method-card">
+                        <h4>ColBERT</h4>
+                        <p>
+                          Late interaction between query and document tokens
+                        </p>
+                        <ul>
+                          <li>Token-level matching</li>
+                          <li>Better granularity</li>
+                          <li>Efficient computation</li>
+                        </ul>
+                      </div>
+
+                      <div class="method-card">
+                        <h4>Multi-Vector Embeddings</h4>
+                        <p>
+                          Multiple embeddings per document for different aspects
+                        </p>
+                        <ul>
+                          <li>Summary embedding</li>
+                          <li>Key facts embedding</li>
+                          <li>Topic-specific embeddings</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="technique-group">
+                    <h3>Hierarchical Retrieval</h3>
+                    <div class="hierarchical-approach">
+                      <h4>Two-Stage Retrieval</h4>
+                      <ol>
+                        <li>
+                          <strong>Stage 1:</strong> Fast, broad retrieval (e.g.,
+                          BM25)
+                        </li>
+                        <li>
+                          <strong>Stage 2:</strong> Precise reranking (e.g.,
+                          cross-encoder)
+                        </li>
+                      </ol>
+
+                      <div class="code-example">
+                        <pre><code>def two_stage_retrieval(query, documents, top_k=100, final_k=5):
+    # Stage 1: Fast retrieval
+    initial_results = bm25_search(query, documents, top_k)
+    
+    # Stage 2: Reranking with cross-encoder
+    reranked_results = cross_encoder_rerank(
+        query, initial_results, final_k
+    )
+    
+    return reranked_results</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Implementation Section -->
+              <section id="implementation" class="content-section">
+                <h2 class="section-title">Implementation Examples</h2>
+
+                <div class="implementation-examples">
+                  <div class="impl-example">
+                    <h3>Basic RAG with LangChain</h3>
+                    <div class="code-example">
+                      <pre><code>from langchain.document_loaders import TextLoader
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.llms import OpenAI
+from langchain.chains import RetrievalQA
+
+# Load and process documents
+loader = TextLoader("knowledge_base.txt")
+documents = loader.load()
+
+# Split documents into chunks
+text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+texts = text_splitter.split_documents(documents)
+
+# Create embeddings and vector store
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma.from_documents(texts, embeddings)
+
+# Create QA chain
+qa_chain = RetrievalQA.from_chain_type(
+    llm=OpenAI(),
+    chain_type="stuff",
+    retriever=vectorstore.as_retriever(search_kwargs={"k": 3})
+)
+
+# Ask a question
+query = "What is machine learning?"
+response = qa_chain.run(query)
+print(response)</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="impl-example">
+                    <h3>Custom RAG Implementation</h3>
+                    <div class="code-example">
+                      <pre><code>import numpy as np
+from sentence_transformers import SentenceTransformer
+import openai
+
+class CustomRAG:
+    def __init__(self, documents, embedding_model="all-MiniLM-L6-v2"):
+        self.embedding_model = SentenceTransformer(embedding_model)
+        self.documents = documents
+        self.embeddings = self.embedding_model.encode(documents)
+    
+    def retrieve(self, query, top_k=3):
+        # Encode query
+        query_embedding = self.embedding_model.encode([query])
+        
+        # Calculate similarities
+        similarities = np.dot(query_embedding, self.embeddings.T)[0]
+        
+        # Get top-k documents
+        top_indices = np.argsort(similarities)[-top_k:][::-1]
+        retrieved_docs = [self.documents[i] for i in top_indices]
+        
+        return retrieved_docs
+    
+    def generate_response(self, query, retrieved_docs):
+        # Prepare context
+        context = "\n\n".join(retrieved_docs)
+        
+        # Create prompt
+        prompt = f"""
+        Context: {context}
+        
+        Question: {query}
+        
+        Answer based on the context above:
+        """
+        
+        # Generate response
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=150,
+            temperature=0.7
+        )
+        
+        return response.choices[0].text.strip()
+    
+    def query(self, question):
+        retrieved_docs = self.retrieve(question)
+        response = self.generate_response(question, retrieved_docs)
+        return response
+
+# Usage
+documents = [
+    "Machine learning is a subset of AI...",
+    "Deep learning uses neural networks...",
+    "Natural language processing deals with text..."
+]
+
+rag_system = CustomRAG(documents)
+answer = rag_system.query("What is machine learning?")
+print(answer)</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="impl-example">
+                    <h3>Advanced RAG with Reranking</h3>
+                    <div class="code-example">
+                      <pre><code>from sentence_transformers import CrossEncoder
+import torch
+
+class AdvancedRAG(CustomRAG):
+    def __init__(self, documents, embedding_model="all-MiniLM-L6-v2"):
+        super().__init__(documents, embedding_model)
+        self.reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+    
+    def retrieve_and_rerank(self, query, initial_k=10, final_k=3):
+        # Initial retrieval
+        query_embedding = self.embedding_model.encode([query])
+        similarities = np.dot(query_embedding, self.embeddings.T)[0]
+        
+        # Get initial candidates
+        top_indices = np.argsort(similarities)[-initial_k:][::-1]
+        candidates = [(self.documents[i], i) for i in top_indices]
+        
+        # Rerank with cross-encoder
+        pairs = [(query, doc) for doc, _ in candidates]
+        rerank_scores = self.reranker.predict(pairs)
+        
+        # Sort by rerank scores
+        reranked = sorted(
+            zip(candidates, rerank_scores), 
+            key=lambda x: x[1], 
+            reverse=True
+        )
+        
+        # Return top-k after reranking
+        final_docs = [doc for (doc, _), _ in reranked[:final_k]]
+        return final_docs
+    
+    def query(self, question):
+        retrieved_docs = self.retrieve_and_rerank(question)
+        response = self.generate_response(question, retrieved_docs)
+        return response</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Evaluation Section -->
+              <section id="evaluation" class="content-section">
+                <h2 class="section-title">Evaluation Metrics</h2>
+
+                <div class="evaluation-categories">
+                  <div class="eval-category">
+                    <h3>Retrieval Quality</h3>
+                    <div class="metrics-list">
+                      <div class="metric-item">
+                        <h4>Precision@K</h4>
+                        <p>Fraction of retrieved documents that are relevant</p>
+                        <div class="formula">
+                          Precision@K = (Relevant Retrieved) / K
+                        </div>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Recall@K</h4>
+                        <p>Fraction of relevant documents that are retrieved</p>
+                        <div class="formula">
+                          Recall@K = (Relevant Retrieved) / (Total Relevant)
+                        </div>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Mean Reciprocal Rank (MRR)</h4>
+                        <p>
+                          Average of reciprocal ranks of first relevant results
+                        </p>
+                        <div class="formula">MRR = (1/|Q|) × Σ(1/rank_i)</div>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Normalized DCG (NDCG)</h4>
+                        <p>
+                          Measures ranking quality considering relevance grades
+                        </p>
+                        <div class="formula">NDCG@K = DCG@K / IDCG@K</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eval-category">
+                    <h3>Generation Quality</h3>
+                    <div class="metrics-list">
+                      <div class="metric-item">
+                        <h4>Faithfulness</h4>
+                        <p>
+                          How well the generated answer is supported by
+                          retrieved context
+                        </p>
+                        <ul>
+                          <li>Fact verification against sources</li>
+                          <li>Entailment-based scoring</li>
+                          <li>Human evaluation</li>
+                        </ul>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Answer Relevance</h4>
+                        <p>
+                          How well the answer addresses the original question
+                        </p>
+                        <ul>
+                          <li>Semantic similarity to question</li>
+                          <li>Completeness of answer</li>
+                          <li>Topic alignment</li>
+                        </ul>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Context Utilization</h4>
+                        <p>
+                          How effectively the model uses retrieved information
+                        </p>
+                        <ul>
+                          <li>Information coverage</li>
+                          <li>Source citation accuracy</li>
+                          <li>Context integration quality</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="eval-category">
+                    <h3>End-to-End Metrics</h3>
+                    <div class="metrics-list">
+                      <div class="metric-item">
+                        <h4>RAGAS Score</h4>
+                        <p>Comprehensive RAG evaluation framework</p>
+                        <ul>
+                          <li>Combines multiple metrics</li>
+                          <li>Automated evaluation</li>
+                          <li>No human annotation needed</li>
+                        </ul>
+                      </div>
+
+                      <div class="metric-item">
+                        <h4>Human Evaluation</h4>
+                        <p>Direct assessment by human evaluators</p>
+                        <ul>
+                          <li>Quality ratings (1-5 scale)</li>
+                          <li>Preference comparisons</li>
+                          <li>Task-specific criteria</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="evaluation-framework">
+                  <h3>Evaluation Framework Example</h3>
+                  <div class="code-example">
+                    <pre><code>from ragas import evaluate
+from ragas.metrics import (
+    faithfulness,
+    answer_relevancy,
+    context_precision,
+    context_recall
+)
+
+def evaluate_rag_system(questions, answers, contexts, ground_truths):
+    """Evaluate RAG system using RAGAS metrics"""
+    
+    # Prepare evaluation dataset
+    eval_dataset = {
+        'question': questions,
+        'answer': answers,
+        'contexts': contexts,
+        'ground_truths': ground_truths
+    }
+    
+    # Define metrics to evaluate
+    metrics = [
+        faithfulness,
+        answer_relevancy,
+        context_precision,
+        context_recall
+    ]
+    
+    # Run evaluation
+    result = evaluate(
+        dataset=eval_dataset,
+        metrics=metrics
+    )
+    
+    return result
+
+# Example usage
+questions = ["What is machine learning?"]
+answers = ["Machine learning is a subset of AI that enables systems to learn..."]
+contexts = [["ML is part of AI...", "Algorithms learn from data..."]]
+ground_truths = ["Machine learning is a method of data analysis..."]
+
+scores = evaluate_rag_system(questions, answers, contexts, ground_truths)
+print(f"Faithfulness: {scores['faithfulness']}")
+print(f"Answer Relevancy: {scores['answer_relevancy']}")</code></pre>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices Section -->
+              <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <div class="best-practices-grid">
+                  <div class="practice-category">
+                    <h3>Data Preparation</h3>
+                    <ul>
+                      <li>
+                        <strong>Quality over Quantity:</strong> Ensure
+                        high-quality, relevant documents
+                      </li>
+                      <li>
+                        <strong>Optimal Chunking:</strong> Balance between
+                        context and specificity
+                      </li>
+                      <li>
+                        <strong>Metadata Enrichment:</strong> Add titles, dates,
+                        and source information
+                      </li>
+                      <li>
+                        <strong>Regular Updates:</strong> Keep knowledge base
+                        current
+                      </li>
+                      <li>
+                        <strong>Deduplication:</strong> Remove redundant
+                        information
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Retrieval Optimization</h3>
+                    <ul>
+                      <li>
+                        <strong>Hybrid Approach:</strong> Combine dense and
+                        sparse retrieval
+                      </li>
+                      <li>
+                        <strong>Embedding Quality:</strong> Use
+                        domain-appropriate embedding models
+                      </li>
+                      <li>
+                        <strong>Reranking:</strong> Implement second-stage
+                        reranking
+                      </li>
+                      <li>
+                        <strong>Query Enhancement:</strong> Expand and rewrite
+                        complex queries
+                      </li>
+                      <li>
+                        <strong>Dynamic K:</strong> Adjust retrieval count based
+                        on query complexity
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Generation Enhancement</h3>
+                    <ul>
+                      <li>
+                        <strong>Prompt Engineering:</strong> Design effective
+                        system prompts
+                      </li>
+                      <li>
+                        <strong>Context Management:</strong> Prioritize and
+                        structure retrieved content
+                      </li>
+                      <li>
+                        <strong>Source Citation:</strong> Always provide
+                        references
+                      </li>
+                      <li>
+                        <strong>Fallback Strategy:</strong> Handle cases with
+                        poor retrieval
+                      </li>
+                      <li>
+                        <strong>Response Filtering:</strong> Validate generated
+                        content
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>System Architecture</h3>
+                    <ul>
+                      <li>
+                        <strong>Scalable Storage:</strong> Use appropriate
+                        vector databases
+                      </li>
+                      <li>
+                        <strong>Caching Strategy:</strong> Cache frequent
+                        queries and embeddings
+                      </li>
+                      <li>
+                        <strong>Monitoring:</strong> Track performance and
+                        quality metrics
+                      </li>
+                      <li>
+                        <strong>A/B Testing:</strong> Compare different
+                        configurations
+                      </li>
+                      <li>
+                        <strong>Error Handling:</strong> Graceful degradation
+                        and error recovery
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="common-challenges">
+                  <h3>Common Challenges & Solutions</h3>
+                  <div class="challenge-solution-list">
+                    <div class="challenge-item">
+                      <h4>Challenge: Information Hallucination</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Implement strict source verification</li>
+                          <li>Use confidence scoring</li>
+                          <li>Add "I don't know" responses</li>
+                          <li>Cross-reference multiple sources</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="challenge-item">
+                      <h4>Challenge: Context Length Limitations</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Implement context compression</li>
+                          <li>Use summarization for long documents</li>
+                          <li>Hierarchical retrieval strategies</li>
+                          <li>Multi-turn conversations</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="challenge-item">
+                      <h4>Challenge: Retrieval Quality</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Fine-tune embedding models</li>
+                          <li>Implement query expansion</li>
+                          <li>Use multiple retrieval strategies</li>
+                          <li>Regular evaluation and optimization</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="challenge-item">
+                      <h4>Challenge: Latency Issues</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Implement aggressive caching</li>
+                          <li>Use faster embedding models</li>
+                          <li>Optimize vector search</li>
+                          <li>Parallel processing where possible</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="optimization-tips">
+                  <h3>Performance Optimization Tips</h3>
+                  <div class="tip-grid">
+                    <div class="tip-item">
+                      <h4>Embedding Optimization</h4>
+                      <ul>
+                        <li>Use quantized embeddings for storage</li>
+                        <li>Implement approximate nearest neighbor search</li>
+                        <li>Cache frequently accessed embeddings</li>
+                      </ul>
+                    </div>
+
+                    <div class="tip-item">
+                      <h4>Retrieval Speed</h4>
+                      <ul>
+                        <li>Index optimization and tuning</li>
+                        <li>Parallel search across shards</li>
+                        <li>Early termination strategies</li>
+                      </ul>
+                    </div>
+
+                    <div class="tip-item">
+                      <h4>Generation Efficiency</h4>
+                      <ul>
+                        <li>Streaming responses for better UX</li>
+                        <li>Context compression techniques</li>
+                        <li>Model selection based on requirements</li>
+                      </ul>
+                    </div>
+
+                    <div class="tip-item">
+                      <h4>Cost Optimization</h4>
+                      <ul>
+                        <li>Cache expensive operations</li>
+                        <li>Use smaller models when appropriate</li>
+                        <li>Implement usage monitoring</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

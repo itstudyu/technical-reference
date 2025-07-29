@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Large Language Models (LLMs) - architecture, training, applications, and implementation"
+    />
+    <title>Large Language Models (LLM) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm.html" class="dropdown-link active">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li><a href="rag.html" class="dropdown-link">RAG</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">Large Language Models (LLM)</h1>
+            <p class="page-subtitle">
+              Understanding the architecture, training, and applications of
+              modern large language models
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <div class="container">
+          <div class="content-layout">
+            <!-- Table of Contents -->
+            <aside class="toc-sidebar">
+              <div class="toc-container">
+                <h2 class="toc-title">Contents</h2>
+                <nav class="toc">
+                  <ul class="toc-list">
+                    <li><a href="#overview" class="toc-link">Overview</a></li>
+                    <li>
+                      <a href="#architecture" class="toc-link">Architecture</a>
+                    </li>
+                    <li>
+                      <a href="#training" class="toc-link">Training Process</a>
+                    </li>
+                    <li>
+                      <a href="#models" class="toc-link">Popular Models</a>
+                    </li>
+                    <li>
+                      <a href="#applications" class="toc-link">Applications</a>
+                    </li>
+                    <li>
+                      <a href="#challenges" class="toc-link">Challenges</a>
+                    </li>
+                    <li>
+                      <a href="#implementation" class="toc-link"
+                        >Implementation</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#best-practices" class="toc-link"
+                        >Best Practices</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+              <!-- Overview Section -->
+              <section id="overview" class="content-section">
+                <h2 class="section-title">What are Large Language Models?</h2>
+                <p class="section-intro">
+                  Large Language Models (LLMs) are artificial intelligence
+                  systems trained on vast amounts of text data to understand and
+                  generate human-like language. They use deep learning
+                  architectures, primarily transformers, to process and generate
+                  text at scale.
+                </p>
+
+                <div class="definition-box">
+                  <h3>Key Characteristics</h3>
+                  <ul>
+                    <li>
+                      <strong>Scale:</strong> Trained on billions to trillions
+                      of parameters
+                    </li>
+                    <li>
+                      <strong>Generative:</strong> Can produce coherent,
+                      contextually relevant text
+                    </li>
+                    <li>
+                      <strong>Few-shot Learning:</strong> Can adapt to new tasks
+                      with minimal examples
+                    </li>
+                    <li>
+                      <strong>Multimodal:</strong> Advanced models can process
+                      text, images, and other data types
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <!-- Architecture Section -->
+              <section id="architecture" class="content-section">
+                <h2 class="section-title">Architecture</h2>
+
+                <div class="architecture-grid">
+                  <div class="architecture-item">
+                    <h3>Transformer Architecture</h3>
+                    <p>
+                      Most modern LLMs are based on the transformer
+                      architecture, which uses self-attention mechanisms to
+                      process sequences of tokens efficiently.
+                    </p>
+                    <ul>
+                      <li>Self-attention layers</li>
+                      <li>Feed-forward networks</li>
+                      <li>Layer normalization</li>
+                      <li>Residual connections</li>
+                    </ul>
+                  </div>
+
+                  <div class="architecture-item">
+                    <h3>Attention Mechanism</h3>
+                    <p>
+                      The attention mechanism allows the model to focus on
+                      relevant parts of the input when generating each token.
+                    </p>
+                    <ul>
+                      <li>Multi-head attention</li>
+                      <li>Query, Key, Value matrices</li>
+                      <li>Positional encoding</li>
+                      <li>Causal masking (for autoregressive models)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="code-example">
+                  <h4>Simplified Attention Formula</h4>
+                  <pre><code>Attention(Q, K, V) = softmax(QK^T / √d_k)V
+
+Where:
+- Q: Query matrix
+- K: Key matrix  
+- V: Value matrix
+- d_k: Dimension of key vectors</code></pre>
+                </div>
+              </section>
+
+              <!-- Training Process Section -->
+              <section id="training" class="content-section">
+                <h2 class="section-title">Training Process</h2>
+
+                <div class="training-stages">
+                  <div class="stage-item">
+                    <div class="stage-number">1</div>
+                    <div class="stage-content">
+                      <h3>Pre-training</h3>
+                      <p>
+                        Models are trained on massive text corpora using
+                        unsupervised learning objectives like next-token
+                        prediction.
+                      </p>
+                      <ul>
+                        <li>Billions of parameters</li>
+                        <li>Terabytes of text data</li>
+                        <li>Months of training time</li>
+                        <li>Massive computational resources</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="stage-item">
+                    <div class="stage-number">2</div>
+                    <div class="stage-content">
+                      <h3>Fine-tuning</h3>
+                      <p>
+                        Pre-trained models are adapted for specific tasks or to
+                        follow instructions better.
+                      </p>
+                      <ul>
+                        <li>Task-specific datasets</li>
+                        <li>Supervised fine-tuning</li>
+                        <li>Parameter-efficient methods</li>
+                        <li>Domain adaptation</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="stage-item">
+                    <div class="stage-number">3</div>
+                    <div class="stage-content">
+                      <h3>Alignment</h3>
+                      <p>
+                        Models are aligned with human preferences using
+                        techniques like RLHF (Reinforcement Learning from Human
+                        Feedback).
+                      </p>
+                      <ul>
+                        <li>Human preference data</li>
+                        <li>Reward modeling</li>
+                        <li>Policy optimization</li>
+                        <li>Safety filtering</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Popular Models Section -->
+              <section id="models" class="content-section">
+                <h2 class="section-title">Popular LLM Models</h2>
+
+                <div class="models-grid">
+                  <div class="model-card">
+                    <h3>GPT Series</h3>
+                    <p><strong>Developer:</strong> OpenAI</p>
+                    <p>
+                      Autoregressive language models trained on diverse internet
+                      text. GPT-4 and ChatGPT have become widely adopted.
+                    </p>
+                    <div class="model-specs">
+                      <span class="spec">175B+ parameters</span>
+                      <span class="spec">Multimodal</span>
+                      <span class="spec">Commercial</span>
+                    </div>
+                  </div>
+
+                  <div class="model-card">
+                    <h3>Claude</h3>
+                    <p><strong>Developer:</strong> Anthropic</p>
+                    <p>
+                      Constitutional AI approach with emphasis on helpfulness,
+                      harmlessness, and honesty.
+                    </p>
+                    <div class="model-specs">
+                      <span class="spec">100B+ parameters</span>
+                      <span class="spec">Long context</span>
+                      <span class="spec">Commercial</span>
+                    </div>
+                  </div>
+
+                  <div class="model-card">
+                    <h3>LLaMA</h3>
+                    <p><strong>Developer:</strong> Meta</p>
+                    <p>
+                      Open-source foundation models available in multiple sizes
+                      for research and commercial use.
+                    </p>
+                    <div class="model-specs">
+                      <span class="spec">7B-70B parameters</span>
+                      <span class="spec">Open source</span>
+                      <span class="spec">Efficient</span>
+                    </div>
+                  </div>
+
+                  <div class="model-card">
+                    <h3>Gemini</h3>
+                    <p><strong>Developer:</strong> Google</p>
+                    <p>
+                      Multimodal AI model designed to understand and generate
+                      text, code, audio, image, and video.
+                    </p>
+                    <div class="model-specs">
+                      <span class="spec">Multimodal</span>
+                      <span class="spec">Multiple sizes</span>
+                      <span class="spec">Commercial</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Applications Section -->
+              <section id="applications" class="content-section">
+                <h2 class="section-title">Applications</h2>
+
+                <div class="applications-grid">
+                  <div class="application-category">
+                    <h3>Content Generation</h3>
+                    <ul>
+                      <li>Creative writing and storytelling</li>
+                      <li>Technical documentation</li>
+                      <li>Marketing copy and content</li>
+                      <li>Code generation and programming</li>
+                    </ul>
+                  </div>
+
+                  <div class="application-category">
+                    <h3>Analysis & Processing</h3>
+                    <ul>
+                      <li>Text summarization</li>
+                      <li>Sentiment analysis</li>
+                      <li>Information extraction</li>
+                      <li>Document classification</li>
+                    </ul>
+                  </div>
+
+                  <div class="application-category">
+                    <h3>Interactive Systems</h3>
+                    <ul>
+                      <li>Chatbots and virtual assistants</li>
+                      <li>Customer support automation</li>
+                      <li>Educational tutoring systems</li>
+                      <li>Conversational AI interfaces</li>
+                    </ul>
+                  </div>
+
+                  <div class="application-category">
+                    <h3>Specialized Tasks</h3>
+                    <ul>
+                      <li>Language translation</li>
+                      <li>Code review and debugging</li>
+                      <li>Research assistance</li>
+                      <li>Data analysis and insights</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Challenges Section -->
+              <section id="challenges" class="content-section">
+                <h2 class="section-title">Challenges & Limitations</h2>
+
+                <div class="challenges-list">
+                  <div class="challenge-item">
+                    <h3>Computational Requirements</h3>
+                    <p>
+                      Training and running LLMs requires significant
+                      computational resources, making them expensive to develop
+                      and deploy.
+                    </p>
+                  </div>
+
+                  <div class="challenge-item">
+                    <h3>Hallucination</h3>
+                    <p>
+                      Models can generate plausible-sounding but factually
+                      incorrect information, requiring careful verification.
+                    </p>
+                  </div>
+
+                  <div class="challenge-item">
+                    <h3>Bias and Fairness</h3>
+                    <p>
+                      Models can perpetuate biases present in training data,
+                      leading to unfair or discriminatory outputs.
+                    </p>
+                  </div>
+
+                  <div class="challenge-item">
+                    <h3>Context Limitations</h3>
+                    <p>
+                      Most models have limited context windows, affecting their
+                      ability to process very long documents.
+                    </p>
+                  </div>
+
+                  <div class="challenge-item">
+                    <h3>Interpretability</h3>
+                    <p>
+                      Understanding how models make decisions remains
+                      challenging, affecting trust and debugging.
+                    </p>
+                  </div>
+
+                  <div class="challenge-item">
+                    <h3>Data Privacy</h3>
+                    <p>
+                      Models may inadvertently memorize and reproduce sensitive
+                      information from training data.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Implementation Section -->
+              <section id="implementation" class="content-section">
+                <h2 class="section-title">Implementation Examples</h2>
+
+                <div class="implementation-tabs">
+                  <div class="tab-content">
+                    <h3>Using OpenAI API</h3>
+                    <div class="code-example">
+                      <pre><code>import openai
+
+# Initialize the client
+client = openai.OpenAI(api_key="your-api-key")
+
+# Generate text
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain quantum computing simply."}
+    ],
+    max_tokens=150,
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="tab-content">
+                    <h3>Using Hugging Face Transformers</h3>
+                    <div class="code-example">
+                      <pre><code>from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# Load model and tokenizer
+model_name = "microsoft/DialoGPT-medium"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# Generate response
+input_text = "Hello, how are you?"
+input_ids = tokenizer.encode(input_text, return_tensors="pt")
+
+# Generate
+output = model.generate(
+    input_ids,
+    max_length=50,
+    num_return_sequences=1,
+    temperature=0.8,
+    do_sample=True
+)
+
+response = tokenizer.decode(output[0], skip_special_tokens=True)
+print(response)</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices Section -->
+              <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <div class="best-practices-grid">
+                  <div class="practice-category">
+                    <h3>Prompt Engineering</h3>
+                    <ul>
+                      <li>Be specific and clear in instructions</li>
+                      <li>Provide examples for complex tasks</li>
+                      <li>Use system messages to set context</li>
+                      <li>Iterate and refine prompts based on results</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Model Selection</h3>
+                    <ul>
+                      <li>Choose model size based on task complexity</li>
+                      <li>Consider latency and cost requirements</li>
+                      <li>Evaluate model capabilities for your domain</li>
+                      <li>Test multiple models for comparison</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Safety & Ethics</h3>
+                    <ul>
+                      <li>Implement content filtering and moderation</li>
+                      <li>Monitor outputs for bias and harmful content</li>
+                      <li>Respect data privacy and user consent</li>
+                      <li>Provide transparency about AI usage</li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>Performance Optimization</h3>
+                    <ul>
+                      <li>Use caching for repeated queries</li>
+                      <li>Implement efficient batching strategies</li>
+                      <li>Monitor and optimize token usage</li>
+                      <li>Consider model quantization for deployment</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
