@@ -56,8 +56,40 @@
                     >
                   </li>
                   <li>
-                    <a href="load-balancer.html" class="dropdown-link"
-                      >Load Balancer & NGINX</a
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
                     >
                   </li>
                 </ul>
@@ -87,6 +119,7 @@
                   <li>
                     <a href="rag-simple.html" class="dropdown-link">RAG</a>
                   </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
                 </ul>
               </li>
             </ul>
@@ -125,6 +158,17 @@
       <section class="quick-access">
         <div class="container">
           <h2 class="section-title">Quick Access</h2>
+          <!-- Networking Section -->
+          <h3
+            style="
+              color: #2563eb;
+              font-size: 1.5rem;
+              margin: 3rem 0 1.5rem 0;
+              text-align: center;
+            "
+          >
+            🌐 Networking & Infrastructure
+          </h3>
           <div class="cards-grid">
             <article class="card">
               <div class="card-icon">
@@ -142,8 +186,8 @@
               </div>
               <h3 class="card-title">Proxy</h3>
               <p class="card-description">
-                Learn about forward proxies, their use cases, and implementation
-                patterns
+                Learn how proxies work and when to use them for privacy and
+                security
               </p>
               <a href="proxy.html" class="card-link">Read More</a>
             </article>
@@ -166,10 +210,139 @@
               </div>
               <h3 class="card-title">Reverse Proxy</h3>
               <p class="card-description">
-                Understand reverse proxies, load balancing, and server-side
-                proxy configurations
+                Understand reverse proxies and server-side proxy configurations
               </p>
               <a href="reverse-proxy.html" class="card-link">Read More</a>
+            </article>
+
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14,2 14,8 20,8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10,9 9,9 8,9" />
+                </svg>
+              </div>
+              <h3 class="card-title">API Gateway</h3>
+              <p class="card-description">
+                Central hub for managing and securing API traffic in
+                microservices
+              </p>
+              <a href="api-gateway.html" class="card-link">Read More</a>
+            </article>
+
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">Load Balancer</h3>
+              <p class="card-description">
+                Distribute traffic across servers for better performance and
+                reliability
+              </p>
+              <a href="load-balancer-simple.html" class="card-link"
+                >Read More</a
+              >
+            </article>
+
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+              </div>
+              <h3 class="card-title">NGINX</h3>
+              <p class="card-description">
+                Complete guide to NGINX web server configuration and
+                optimization
+              </p>
+              <a href="nginx.html" class="card-link">Read More</a>
+            </article>
+          </div>
+
+          <!-- Web Fundamentals Section -->
+          <h3
+            style="
+              color: #10b981;
+              font-size: 1.5rem;
+              margin: 3rem 0 1.5rem 0;
+              text-align: center;
+            "
+          >
+            🌐 Web Fundamentals
+          </h3>
+          <div class="cards-grid">
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                  />
+                  <path
+                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                  />
+                </svg>
+              </div>
+              <h3 class="card-title">HTTP/HTTPS</h3>
+              <p class="card-description">
+                Understand the protocols that power the web and secure
+                communication
+              </p>
+              <a href="http-https.html" class="card-link">Read More</a>
+            </article>
+
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M4 7v10c0 2.21 3.13 4 7 4s7-1.79 7-4V7" />
+                  <ellipse cx="11" cy="7" rx="7" ry="4" />
+                </svg>
+              </div>
+              <h3 class="card-title">Backend & Frontend</h3>
+              <p class="card-description">
+                Learn how backend and frontend work together in modern
+                applications
+              </p>
+              <a href="backend-frontend.html" class="card-link">Read More</a>
             </article>
 
             <article class="card">
@@ -184,14 +357,46 @@
                   <path d="M9 12l2 2 4-4" />
                   <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" />
                   <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3" />
-                  <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3" />
-                  <path d="M12 21c0-1-1-3-3-3s-3 2-3 3 1 3 3 3 3-2 3-3" />
+                </svg>
+              </div>
+              <h3 class="card-title">Encryption</h3>
+              <p class="card-description">
+                Essential guide to encryption, decryption, and data security
+              </p>
+              <a href="encryption.html" class="card-link">Read More</a>
+            </article>
+          </div>
+
+          <!-- AI/ML Section -->
+          <h3
+            style="
+              color: #8b5cf6;
+              font-size: 1.5rem;
+              margin: 3rem 0 1.5rem 0;
+              text-align: center;
+            "
+          >
+            🤖 AI & Machine Learning
+          </h3>
+          <div class="cards-grid">
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
                 </svg>
               </div>
               <h3 class="card-title">Large Language Models</h3>
               <p class="card-description">
-                Simple guide to understanding how Large Language Models work and
-                how to use them
+                Simple guide to understanding how LLMs work with practical
+                examples
               </p>
               <a href="llm-simple.html" class="card-link">Read More</a>
             </article>
@@ -211,13 +416,11 @@
                   <polyline points="14,2 14,8 20,8" />
                   <line x1="16" y1="13" x2="8" y2="13" />
                   <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10,9 9,9 8,9" />
                 </svg>
               </div>
               <h3 class="card-title">Fine Tuning</h3>
               <p class="card-description">
-                Learn how to customize AI models for your specific needs with
-                simple examples
+                Learn how to customize AI models for your specific needs
               </p>
               <a href="fine-tuning-simple.html" class="card-link">Read More</a>
             </article>
@@ -234,15 +437,34 @@
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                   <polyline points="7,10 12,15 17,10" />
                   <line x1="12" y1="15" x2="12" y2="3" />
-                  <path d="M8 3h8" />
                 </svg>
               </div>
-              <h3 class="card-title">RAG (Retrieval-Augmented Generation)</h3>
+              <h3 class="card-title">RAG</h3>
               <p class="card-description">
-                Discover how to give AI access to your own knowledge base for
-                better answers
+                Give AI access to your knowledge base for better answers
               </p>
               <a href="rag-simple.html" class="card-link">Read More</a>
+            </article>
+
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M8 2l8 5-8 5V2z" />
+                  <path d="M16 17l5-5-5-5" />
+                </svg>
+              </div>
+              <h3 class="card-title">MCP</h3>
+              <p class="card-description">
+                Model Context Protocol - connecting AI to external tools and
+                data
+              </p>
+              <a href="mcp.html" class="card-link">Read More</a>
             </article>
           </div>
         </div>

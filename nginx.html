@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete NGINX guide - configuration, load balancing, reverse proxy, and web server setup"
+    />
+    <title>NGINX Guide | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Enhanced styles for NGINX page */
+      .visual-card {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 1.5rem 0;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .config-box {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        margin: 1rem 0;
+        overflow-x: auto;
+        border-left: 4px solid #2563eb;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .feature-box {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .feature-box:hover {
+        transform: translateY(-5px);
+        border-color: #2563eb;
+      }
+
+      .step-card {
+        background: #fff;
+        border-left: 4px solid #2563eb;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li>
+                    <a href="nginx.html" class="dropdown-link active">NGINX</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="visual-card">
+            <h1
+              style="font-size: 2.5rem; margin-bottom: 1rem; text-align: center"
+            >
+              🚀 NGINX
+            </h1>
+            <p style="font-size: 1.2rem; text-align: center; opacity: 0.9">
+              The powerful web server that handles millions of websites
+              worldwide
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div
+        class="container"
+        style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem"
+      >
+        <!-- What is NGINX? -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🤔 What is NGINX?
+          </h2>
+
+          <p style="font-size: 1.1rem; margin-bottom: 2rem">
+            NGINX (pronounced "engine-x") is a high-performance web server that
+            can also work as a reverse proxy, load balancer, and HTTP cache.
+            It's used by Netflix, GitHub, WordPress.com, and millions of other
+            websites.
+          </p>
+
+          <div class="feature-grid">
+            <div class="feature-box">
+              <h3 style="color: #2563eb">🌐 Web Server</h3>
+              <p>Serves websites and files to users visiting your site</p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">🔄 Reverse Proxy</h3>
+              <p>Forwards requests to backend servers and returns responses</p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">⚖️ Load Balancer</h3>
+              <p>Distributes traffic across multiple servers</p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">⚡ HTTP Cache</h3>
+              <p>Stores frequently requested content for faster delivery</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Installation -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            📦 Quick Installation
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Ubuntu/Debian</h3>
+            <div class="config-box">
+              sudo apt update<br />
+              sudo apt install nginx<br />
+              sudo systemctl start nginx<br />
+              sudo systemctl enable nginx
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">CentOS/RHEL</h3>
+            <div class="config-box">
+              sudo yum install epel-release<br />
+              sudo yum install nginx<br />
+              sudo systemctl start nginx<br />
+              sudo systemctl enable nginx
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">macOS</h3>
+            <div class="config-box">
+              brew install nginx<br />
+              brew services start nginx
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Docker</h3>
+            <div class="config-box">
+              docker run -d -p 80:80 --name my-nginx nginx<br />
+              # Access at http://localhost
+            </div>
+          </div>
+        </section>
+
+        <!-- Basic Configuration -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            ⚙️ Basic Configuration
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Simple Website Server</h3>
+            <p>Basic configuration to serve a static website:</p>
+            <div class="config-box">
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com
+              www.example.com;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;root /var/www/html;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;index index.html index.htm;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try_files $uri
+              $uri/ =404;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Reverse Proxy Configuration</h3>
+            <p>Forward requests to a backend application:</p>
+            <div class="config-box">
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name api.example.com;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass
+              http://localhost:3000;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              Host $host;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              X-Real-IP $remote_addr;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              X-Forwarded-For $proxy_add_x_forwarded_for;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Load Balancer Configuration</h3>
+            <p>Distribute requests across multiple servers:</p>
+            <div class="config-box">
+              upstream backend {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server 192.168.1.10:80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server 192.168.1.11:80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server 192.168.1.12:80;<br />
+              }<br />
+              <br />
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass
+              http://backend;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              Host $host;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              X-Real-IP $remote_addr;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- SSL/HTTPS Configuration -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔒 SSL/HTTPS Setup
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">HTTPS with SSL Certificate</h3>
+            <div class="config-box">
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 443 ssl http2;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;ssl_certificate
+              /path/to/certificate.crt;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;ssl_certificate_key
+              /path/to/private.key;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;# Security settings<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;ssl_protocols TLSv1.2 TLSv1.3;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;ssl_ciphers HIGH:!aNULL:!MD5;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;ssl_prefer_server_ciphers on;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root
+              /var/www/html;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index
+              index.html;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }<br />
+              <br />
+              # Redirect HTTP to HTTPS<br />
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;return 301
+              https://$server_name$request_uri;<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Free SSL with Let's Encrypt</h3>
+            <div class="config-box">
+              # Install Certbot<br />
+              sudo apt install certbot python3-certbot-nginx<br />
+              <br />
+              # Get certificate<br />
+              sudo certbot --nginx -d example.com -d www.example.com<br />
+              <br />
+              # Auto-renewal (runs automatically)<br />
+              sudo crontab -e<br />
+              0 12 * * * /usr/bin/certbot renew --quiet
+            </div>
+          </div>
+        </section>
+
+        <!-- Performance Optimization -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🚀 Performance Optimization
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Gzip Compression</h3>
+            <p>Compress files to reduce bandwidth usage:</p>
+            <div class="config-box">
+              http {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;gzip on;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;gzip_types text/plain text/css
+              application/json application/javascript text/xml application/xml
+              text/javascript;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;gzip_min_length 1000;<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Caching</h3>
+            <p>Cache static files for better performance:</p>
+            <div class="config-box">
+              location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;expires 1y;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;add_header Cache-Control "public,
+              immutable";<br />
+              }<br />
+              <br />
+              location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;add_header Cache-Control "no-cache";<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Rate Limiting</h3>
+            <p>Protect against abuse and DDoS:</p>
+            <div class="config-box">
+              http {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;limit_req_zone $binary_remote_addr
+              zone=api:10m rate=10r/s;<br />
+              }<br />
+              <br />
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location /api/ {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit_req zone=api
+              burst=20 nodelay;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass
+              http://backend;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- Common Use Cases -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            💼 Common Use Cases
+          </h2>
+
+          <div class="feature-grid">
+            <div class="feature-box">
+              <h3 style="color: #2563eb">🌐 Static Website Hosting</h3>
+              <p>Serve HTML, CSS, JS files with excellent performance</p>
+              <p>
+                <strong>Perfect for:</strong> Blogs, portfolios, documentation
+                sites
+              </p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">🔄 API Gateway</h3>
+              <p>Route API requests, handle authentication, rate limiting</p>
+              <p><strong>Perfect for:</strong> Microservices architectures</p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">📱 Single Page Applications</h3>
+              <p>Serve React, Vue, Angular apps with proper routing</p>
+              <p><strong>Perfect for:</strong> Modern web applications</p>
+            </div>
+
+            <div class="feature-box">
+              <h3 style="color: #2563eb">🏗️ Microservices Proxy</h3>
+              <p>Route requests to different services based on paths</p>
+              <p><strong>Perfect for:</strong> Complex backend architectures</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Real Configuration Examples -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔧 Real-World Configuration Examples
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">React App with API Backend</h3>
+            <div class="config-box">
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name myapp.com;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;# Serve React app<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root
+              /var/www/react-app/build;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try_files $uri
+              $uri/ /index.html;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;# Proxy API requests<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location /api/ {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_pass
+              http://localhost:3001;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              Host $host;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy_set_header
+              X-Real-IP $remote_addr;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">WordPress with PHP-FPM</h3>
+            <div class="config-box">
+              server {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;server_name wordpress.com;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;root /var/www/wordpress;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;index index.php index.html;<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location / {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try_files $uri
+              $uri/ /index.php?$args;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;location ~ \.php$ {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_pass
+              unix:/var/run/php/php7.4-fpm.sock;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_index
+              index.php;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include
+              fastcgi_params;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_param
+              SCRIPT_FILENAME $document_root$fastcgi_script_name;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- Testing and Troubleshooting -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔍 Testing & Troubleshooting
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Useful Commands</h3>
+            <div class="config-box">
+              # Test configuration<br />
+              sudo nginx -t<br />
+              <br />
+              # Reload configuration<br />
+              sudo nginx -s reload<br />
+              <br />
+              # Check status<br />
+              sudo systemctl status nginx<br />
+              <br />
+              # View error logs<br />
+              sudo tail -f /var/log/nginx/error.log<br />
+              <br />
+              # View access logs<br />
+              sudo tail -f /var/log/nginx/access.log
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #2563eb">Common Issues & Solutions</h3>
+            <div style="display: grid; gap: 1rem; margin-top: 1rem">
+              <div
+                style="
+                  background: #fef2f2;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #ef4444;
+                "
+              >
+                <strong>Issue:</strong> "Permission denied" errors<br />
+                <strong>Solution:</strong> Check file permissions and SELinux
+                settings
+              </div>
+              <div
+                style="
+                  background: #fef2f2;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #ef4444;
+                "
+              >
+                <strong>Issue:</strong> "Connection refused" to backend<br />
+                <strong>Solution:</strong> Verify backend service is running and
+                accessible
+              </div>
+              <div
+                style="
+                  background: #fef2f2;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #ef4444;
+                "
+              >
+                <strong>Issue:</strong> SSL certificate errors<br />
+                <strong>Solution:</strong> Check certificate paths and
+                permissions
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Next Steps -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🎯 Next Steps
+          </h2>
+
+          <div class="visual-card">
+            <h3 style="margin-bottom: 1rem">Ready to dive deeper?</h3>
+            <div style="display: grid; gap: 1rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>📚 Learn more about:</strong>
+                <a
+                  href="load-balancer-simple.html"
+                  style="color: white; text-decoration: underline"
+                  >Load Balancing concepts</a
+                >
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>🔒 Secure your setup:</strong>
+                <a
+                  href="encryption.html"
+                  style="color: white; text-decoration: underline"
+                  >Encryption & Security</a
+                >
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>🌐 Understand the basics:</strong>
+                <a
+                  href="http-https.html"
+                  style="color: white; text-decoration: underline"
+                  >HTTP/HTTPS fundamentals</a
+                >
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>🏗️ Build better apps:</strong>
+                <a
+                  href="backend-frontend.html"
+                  style="color: white; text-decoration: underline"
+                  >Backend/Frontend architecture</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
