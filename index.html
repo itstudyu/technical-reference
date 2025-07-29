@@ -5,213 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Personal Reference Hub - Search and learn about any topic with visual explanations"
+      content="Technical Reference Documentation - Your comprehensive guide to web technologies"
     />
-    <title>Personal Reference Hub</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Technical Reference | Home</title>
+    <link rel="stylesheet" href="styles/main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
   </head>
   <body>
-    <!-- Skip Navigation Link -->
+    <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Header -->
     <header class="header">
       <div class="container">
-        <h1 class="logo">
-          <span class="logo-icon">🧠</span>
-          Personal Reference Hub
-        </h1>
-        <div class="search-container">
-          <label for="search-input" class="visually-hidden"
-            >Search topics</label
-          >
-          <input
-            type="search"
-            id="search-input"
-            class="search-input"
-            placeholder="Search topics (e.g., proxy, LLM, databases...)"
-            autocomplete="off"
-            aria-describedby="search-help"
-          />
-          <button
-            type="button"
-            class="search-clear"
-            aria-label="Clear search"
-            title="Clear search"
-          >
-            <span class="icon">✕</span>
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link active">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
-        </div>
-        <div id="search-help" class="search-help">
-          Type to search through your personal knowledge base
         </div>
       </div>
     </header>
 
     <!-- Main Content -->
     <main id="main-content" class="main">
-      <div class="container">
-        <!-- Action Bar -->
-        <div class="action-bar">
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="add-topic-btn"
-            aria-label="Add new topic"
-          >
-            <span class="icon">+</span>
-            Add New Topic
-          </button>
-          <div class="topic-count">
-            <span id="topic-count">0</span> topics in your knowledge base
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="hero-title">Technical Reference Documentation</h1>
+            <p class="hero-subtitle">
+              Your comprehensive guide to modern web technologies, networking
+              concepts, and development best practices
+            </p>
+            <div class="hero-actions">
+              <a href="proxy.html" class="btn btn-primary">Explore Proxy</a>
+              <a href="reverse-proxy.html" class="btn btn-secondary"
+                >Reverse Proxy</a
+              >
+            </div>
           </div>
         </div>
+      </section>
 
-        <!-- Search Results Info -->
-        <div class="search-info" id="search-info" aria-live="polite">
-          <!-- Search results will be shown here -->
-        </div>
+      <!-- Quick Access Cards -->
+      <section class="quick-access">
+        <div class="container">
+          <h2 class="section-title">Quick Access</h2>
+          <div class="cards-grid">
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <h3 class="card-title">Proxy</h3>
+              <p class="card-description">
+                Learn about forward proxies, their use cases, and implementation
+                patterns
+              </p>
+              <a href="proxy.html" class="card-link">Read More</a>
+            </article>
 
-        <!-- Topics Grid -->
-        <div
-          class="topics-grid"
-          id="topics-grid"
-          role="region"
-          aria-label="Topics collection"
-        >
-          <!-- Topic cards will be dynamically inserted here -->
+            <article class="card">
+              <div class="card-icon">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                  />
+                  <polyline points="3.27,6.96 12,12.01 20.73,6.96" />
+                  <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+              </div>
+              <h3 class="card-title">Reverse Proxy</h3>
+              <p class="card-description">
+                Understand reverse proxies, load balancing, and server-side
+                proxy configurations
+              </p>
+              <a href="reverse-proxy.html" class="card-link">Read More</a>
+            </article>
+          </div>
         </div>
-
-        <!-- Empty State -->
-        <div class="empty-state" id="empty-state">
-          <div class="empty-state-icon">📚</div>
-          <h2>Welcome to Your Personal Reference Hub</h2>
-          <p>
-            Start building your knowledge base by adding your first topic. You
-            can include explanations, diagrams, and images to create
-            comprehensive references.
-          </p>
-          <button
-            type="button"
-            class="btn btn-primary"
-            onclick="document.getElementById('add-topic-btn').click()"
-          >
-            Add Your First Topic
-          </button>
-        </div>
-      </div>
+      </section>
     </main>
 
-    <!-- Add Topic Modal -->
-    <div
-      class="modal"
-      id="add-topic-modal"
-      role="dialog"
-      aria-labelledby="modal-title"
-      aria-hidden="true"
-    >
-      <div class="modal-overlay" aria-hidden="true"></div>
-      <div class="modal-content">
-        <header class="modal-header">
-          <h2 id="modal-title">Add New Topic</h2>
-          <button type="button" class="modal-close" aria-label="Close modal">
-            <span class="icon">✕</span>
-          </button>
-        </header>
-
-        <form class="modal-body" id="add-topic-form">
-          <div class="form-group">
-            <label for="topic-title" class="form-label">Topic Title *</label>
-            <input
-              type="text"
-              id="topic-title"
-              class="form-input"
-              required
-              placeholder="e.g., Proxy Servers, Large Language Models"
-              maxlength="100"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="topic-description" class="form-label"
-              >Simple Explanation *</label
-            >
-            <textarea
-              id="topic-description"
-              class="form-textarea"
-              required
-              placeholder="Explain this topic in simple, clear terms..."
-              rows="4"
-              maxlength="1000"
-            ></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="topic-diagram" class="form-label"
-              >Mermaid Diagram Code</label
-            >
-            <textarea
-              id="topic-diagram"
-              class="form-textarea code-input"
-              placeholder="graph TD&#10;    A[Start] --> B[Process]&#10;    B --> C[End]"
-              rows="6"
-            ></textarea>
-            <small class="form-help"
-              >Use Mermaid syntax to create diagrams. Leave empty if not
-              needed.</small
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="topic-image" class="form-label">Image URL</label>
-            <input
-              type="url"
-              id="topic-image"
-              class="form-input"
-              placeholder="https://example.com/image.jpg"
-            />
-            <small class="form-help">Optional: Add a relevant image URL</small>
-          </div>
-
-          <div class="form-group">
-            <label for="topic-tags" class="form-label">Tags</label>
-            <input
-              type="text"
-              id="topic-tags"
-              class="form-input"
-              placeholder="networking, security, web (comma-separated)"
-            />
-            <small class="form-help"
-              >Add tags to help organize and search your topics</small
-            >
-          </div>
-        </form>
-
-        <footer class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="cancel-topic">
-            Cancel
-          </button>
-          <button type="submit" form="add-topic-form" class="btn btn-primary">
-            <span class="icon">💾</span>
-            Save Topic
-          </button>
-        </footer>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
       </div>
-    </div>
+    </footer>
 
-    <!-- Loading Indicator -->
-    <div class="loading" id="loading" aria-hidden="true">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">Processing...</div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

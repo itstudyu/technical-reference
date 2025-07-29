@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to reverse proxy servers - load balancing, SSL termination, caching, and configuration"
+    />
+    <title>Reverse Proxy | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link active"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="breadcrumb">
+            <nav aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" aria-current="page">Reverse Proxy</a></li>
+              </ol>
+            </nav>
+          </div>
+          <h1 class="page-title">Reverse Proxy</h1>
+          <p class="page-subtitle">
+            Server-side proxies for load balancing, SSL termination, and
+            performance optimization
+          </p>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <nav class="toc-nav">
+              <ul class="toc-list">
+                <li>
+                  <a href="#what-is-reverse-proxy" class="toc-link"
+                    >What is a Reverse Proxy?</a
+                  >
+                </li>
+                <li>
+                  <a href="#vs-forward-proxy" class="toc-link"
+                    >vs Forward Proxy</a
+                  >
+                </li>
+                <li>
+                  <a href="#how-it-works" class="toc-link">How It Works</a>
+                </li>
+                <li><a href="#benefits" class="toc-link">Benefits</a></li>
+                <li><a href="#use-cases" class="toc-link">Use Cases</a></li>
+                <li>
+                  <a href="#popular-solutions" class="toc-link"
+                    >Popular Solutions</a
+                  >
+                </li>
+                <li>
+                  <a href="#configuration" class="toc-link"
+                    >Configuration Examples</a
+                  >
+                </li>
+                <li>
+                  <a href="#best-practices" class="toc-link">Best Practices</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- What is a Reverse Proxy -->
+            <section id="what-is-reverse-proxy" class="content-section">
+              <h2>What is a Reverse Proxy?</h2>
+              <p>
+                A reverse proxy is a server that sits between clients and
+                backend servers, forwarding client requests to the appropriate
+                backend server and then returning the server's response back to
+                the client. Unlike a forward proxy, which sits between clients
+                and the internet, a reverse proxy sits between the internet and
+                servers.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key Concept</h3>
+                <p>
+                  The client doesn't know it's communicating with a reverse
+                  proxy. From the client's perspective, the reverse proxy IS the
+                  server.
+                </p>
+              </div>
+            </section>
+
+            <!-- vs Forward Proxy -->
+            <section id="vs-forward-proxy" class="content-section">
+              <h2>Reverse Proxy vs Forward Proxy</h2>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Forward Proxy</div>
+                  <div class="comparison-col">Reverse Proxy</div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    Sits between clients and internet
+                  </div>
+                  <div class="comparison-cell">
+                    Sits between internet and servers
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    Hides client identity from server
+                  </div>
+                  <div class="comparison-cell">
+                    Hides server details from client
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    Client knows about the proxy
+                  </div>
+                  <div class="comparison-cell">
+                    Client doesn't know about the proxy
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    Used for privacy, content filtering
+                  </div>
+                  <div class="comparison-cell">
+                    Used for load balancing, SSL termination
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- How It Works -->
+            <section id="how-it-works" class="content-section">
+              <h2>How Reverse Proxy Works</h2>
+              <p>The reverse proxy workflow:</p>
+
+              <ol class="numbered-list">
+                <li>
+                  <strong>Client Request:</strong> Client sends request to what
+                  it thinks is the web server
+                </li>
+                <li>
+                  <strong>Proxy Receives:</strong> Reverse proxy receives the
+                  request
+                </li>
+                <li>
+                  <strong>Route Decision:</strong> Proxy decides which backend
+                  server should handle the request
+                </li>
+                <li>
+                  <strong>Forward Request:</strong> Proxy forwards request to
+                  chosen backend server
+                </li>
+                <li>
+                  <strong>Server Response:</strong> Backend server processes
+                  request and responds
+                </li>
+                <li>
+                  <strong>Return Response:</strong> Proxy forwards response back
+                  to client
+                </li>
+              </ol>
+
+              <div class="diagram">
+                <div class="diagram-container reverse-proxy">
+                  <div class="diagram-item client">
+                    <span>Client</span>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item reverse-proxy">
+                    <span>Reverse Proxy</span>
+                  </div>
+                  <div class="diagram-arrows">
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-arrow">→</div>
+                  </div>
+                  <div class="diagram-servers">
+                    <div class="diagram-item server">Server 1</div>
+                    <div class="diagram-item server">Server 2</div>
+                    <div class="diagram-item server">Server 3</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Benefits -->
+            <section id="benefits" class="content-section">
+              <h2>Benefits of Reverse Proxy</h2>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Performance</h3>
+                  <p>
+                    Caching, compression, and SSL termination improve response
+                    times
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔄</div>
+                  <h3>Load Balancing</h3>
+                  <p>Distribute requests across multiple backend servers</p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">🛡️</div>
+                  <h3>Security</h3>
+                  <p>
+                    Hide backend infrastructure and provide additional security
+                    layer
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">📈</div>
+                  <h3>Scalability</h3>
+                  <p>
+                    Easy to add or remove backend servers without client changes
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔒</div>
+                  <h3>SSL Management</h3>
+                  <p>Centralized SSL certificate management and termination</p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">📊</div>
+                  <h3>Monitoring</h3>
+                  <p>Centralized logging and monitoring of all requests</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Use Cases -->
+            <section id="use-cases" class="content-section">
+              <h2>Common Use Cases</h2>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>Load Balancing</h3>
+                  <p>
+                    Distribute incoming requests across multiple backend servers
+                    to prevent overload and ensure high availability.
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Example:</strong> E-commerce site with multiple web
+                    servers handling product catalog requests.
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>SSL Termination</h3>
+                  <p>
+                    Handle SSL encryption/decryption at the proxy level,
+                    reducing CPU load on backend servers.
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Example:</strong> API gateway handling HTTPS for
+                    multiple microservices.
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Caching</h3>
+                  <p>
+                    Cache frequently requested content to reduce backend load
+                    and improve response times.
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Example:</strong> News website caching article pages
+                    and images.
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>API Gateway</h3>
+                  <p>
+                    Single entry point for multiple microservices, handling
+                    routing, authentication, and rate limiting.
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Example:</strong> Mobile app accessing user,
+                    payment, and inventory services.
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Popular Solutions -->
+            <section id="popular-solutions" class="content-section">
+              <h2>Popular Reverse Proxy Solutions</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Nginx</h3>
+                  <p>
+                    High-performance web server and reverse proxy with excellent
+                    caching capabilities.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">High Performance</span>
+                    <span class="feature-tag">Caching</span>
+                    <span class="feature-tag">Load Balancing</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Apache HTTP Server</h3>
+                  <p>
+                    Mature web server with mod_proxy module for reverse proxy
+                    functionality.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Mature</span>
+                    <span class="feature-tag">Flexible</span>
+                    <span class="feature-tag">Module-based</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>HAProxy</h3>
+                  <p>
+                    Dedicated load balancer and proxy server with advanced
+                    health checking.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Load Balancing</span>
+                    <span class="feature-tag">Health Checks</span>
+                    <span class="feature-tag">High Availability</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Traefik</h3>
+                  <p>
+                    Modern reverse proxy with automatic service discovery and
+                    Let's Encrypt integration.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Auto Discovery</span>
+                    <span class="feature-tag">Docker</span>
+                    <span class="feature-tag">Let's Encrypt</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Configuration Examples -->
+            <section id="configuration" class="content-section">
+              <h2>Configuration Examples</h2>
+
+              <div class="config-examples">
+                <div class="code-block">
+                  <h3>Nginx Configuration</h3>
+                  <pre><code>upstream backend {
+    server 192.168.1.10:8080;
+    server 192.168.1.11:8080;
+    server 192.168.1.12:8080;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+    
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                  <h3>Apache Configuration</h3>
+                  <pre><code>&lt;VirtualHost *:80&gt;
+    ServerName example.com
+    
+    ProxyPreserveHost On
+    ProxyPass / http://192.168.1.10:8080/
+    ProxyPassReverse / http://192.168.1.10:8080/
+    
+    # Load balancing
+    ProxyPass /app/ balancer://mycluster/
+    ProxyPassReverse /app/ balancer://mycluster/
+    
+    &lt;Proxy balancer://mycluster&gt;
+        BalancerMember http://192.168.1.10:8080
+        BalancerMember http://192.168.1.11:8080
+    &lt;/Proxy&gt;
+&lt;/VirtualHost&gt;</code></pre>
+                </div>
+
+                <div class="code-block">
+                  <h3>HAProxy Configuration</h3>
+                  <pre><code>global
+    daemon
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend web_frontend
+    bind *:80
+    default_backend web_servers
+
+backend web_servers
+    balance roundrobin
+    server web1 192.168.1.10:8080 check
+    server web2 192.168.1.11:8080 check
+    server web3 192.168.1.12:8080 check</code></pre>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🎯 Health Checks</h3>
+                  <p>
+                    Implement proper health checks to automatically remove
+                    unhealthy backend servers from rotation.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔄 Session Persistence</h3>
+                  <p>
+                    Use sticky sessions or shared session storage when your
+                    application requires session affinity.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>⚡ Caching Strategy</h3>
+                  <p>
+                    Implement intelligent caching with proper cache headers and
+                    invalidation strategies.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🛡️ Security Headers</h3>
+                  <p>
+                    Add security headers like HSTS, CSP, and X-Frame-Options at
+                    the proxy level.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📊 Monitoring</h3>
+                  <p>
+                    Monitor proxy performance, backend health, and error rates
+                    continuously.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔒 SSL Best Practices</h3>
+                  <p>
+                    Use strong SSL configurations, implement HSTS, and keep
+                    certificates up to date.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Important Considerations</h3>
+                <ul>
+                  <li>
+                    Reverse proxy becomes a single point of failure - implement
+                    redundancy
+                  </li>
+                  <li>Monitor proxy performance to avoid bottlenecks</li>
+                  <li>Keep proxy software updated for security patches</li>
+                  <li>
+                    Plan for capacity - proxy can become the limiting factor
+                  </li>
+                  <li>Test failover scenarios regularly</li>
+                </ul>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

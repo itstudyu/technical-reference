@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to proxy servers - types, use cases, configuration, and best practices"
+    />
+    <title>Proxy Servers | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="proxy.html" class="dropdown-link active">Proxy</a>
+                  </li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="breadcrumb">
+            <nav aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" aria-current="page">Proxy</a></li>
+              </ol>
+            </nav>
+          </div>
+          <h1 class="page-title">Proxy Servers</h1>
+          <p class="page-subtitle">
+            Understanding forward proxies and their role in network architecture
+          </p>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <nav class="toc-nav">
+              <ul class="toc-list">
+                <li>
+                  <a href="#what-is-proxy" class="toc-link">What is a Proxy?</a>
+                </li>
+                <li>
+                  <a href="#how-it-works" class="toc-link">How It Works</a>
+                </li>
+                <li><a href="#types" class="toc-link">Types of Proxies</a></li>
+                <li><a href="#use-cases" class="toc-link">Use Cases</a></li>
+                <li>
+                  <a href="#configuration" class="toc-link">Configuration</a>
+                </li>
+                <li>
+                  <a href="#security" class="toc-link"
+                    >Security Considerations</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- What is a Proxy -->
+            <section id="what-is-proxy" class="content-section">
+              <h2>What is a Proxy Server?</h2>
+              <p>
+                A proxy server acts as an intermediary between a client
+                (typically a web browser) and a server. When you make a request
+                through a proxy, it forwards your request to the destination
+                server, receives the response, and then sends it back to you.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key Concept</h3>
+                <p>
+                  Think of a proxy as a middleman who makes requests on your
+                  behalf. The destination server sees the proxy's IP address,
+                  not yours.
+                </p>
+              </div>
+            </section>
+
+            <!-- How It Works -->
+            <section id="how-it-works" class="content-section">
+              <h2>How Proxy Servers Work</h2>
+              <p>The proxy server workflow follows these steps:</p>
+
+              <ol class="numbered-list">
+                <li>
+                  <strong>Client Request:</strong> Your device sends a request
+                  to the proxy server
+                </li>
+                <li>
+                  <strong>Proxy Processing:</strong> The proxy evaluates and
+                  potentially modifies the request
+                </li>
+                <li>
+                  <strong>Forward Request:</strong> The proxy sends the request
+                  to the destination server
+                </li>
+                <li>
+                  <strong>Server Response:</strong> The destination server
+                  responds to the proxy
+                </li>
+                <li>
+                  <strong>Return Response:</strong> The proxy forwards the
+                  response back to your device
+                </li>
+              </ol>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <span>Client</span>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <span>Proxy Server</span>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item server">
+                    <span>Target Server</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Types of Proxies -->
+            <section id="types" class="content-section">
+              <h2>Types of Proxy Servers</h2>
+
+              <div class="cards-grid">
+                <div class="info-card">
+                  <h3>HTTP Proxy</h3>
+                  <p>
+                    Handles HTTP traffic, commonly used for web browsing. Can
+                    cache web pages and filter content.
+                  </p>
+                </div>
+
+                <div class="info-card">
+                  <h3>HTTPS Proxy</h3>
+                  <p>
+                    Handles encrypted HTTPS traffic. Must support SSL/TLS
+                    tunneling for secure connections.
+                  </p>
+                </div>
+
+                <div class="info-card">
+                  <h3>SOCKS Proxy</h3>
+                  <p>
+                    Protocol-agnostic proxy that can handle any type of traffic,
+                    including HTTP, FTP, and P2P.
+                  </p>
+                </div>
+
+                <div class="info-card">
+                  <h3>Transparent Proxy</h3>
+                  <p>
+                    Intercepts traffic without requiring client configuration.
+                    Often used in corporate networks.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Use Cases -->
+            <section id="use-cases" class="content-section">
+              <h2>Common Use Cases</h2>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>🔒 Privacy Protection</h3>
+                  <p>
+                    Hide your IP address and location from websites you visit
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🌍 Geographic Restrictions</h3>
+                  <p>Access content that may be blocked in your region</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>⚡ Caching</h3>
+                  <p>
+                    Improve performance by caching frequently requested content
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🛡️ Content Filtering</h3>
+                  <p>Block malicious websites and unwanted content</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>📊 Monitoring</h3>
+                  <p>
+                    Monitor and log network traffic for security and compliance
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>⚖️ Load Distribution</h3>
+                  <p>Distribute requests across multiple servers</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Configuration -->
+            <section id="configuration" class="content-section">
+              <h2>Basic Configuration</h2>
+              <p>
+                Here's a simple example of configuring a proxy in different
+                environments:
+              </p>
+
+              <div class="code-block">
+                <h3>Browser Configuration</h3>
+                <pre><code># Manual proxy configuration
+HTTP Proxy: 192.168.1.100:8080
+HTTPS Proxy: 192.168.1.100:8080
+SOCKS Proxy: 192.168.1.100:1080</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Command Line (curl)</h3>
+                <pre><code># Using HTTP proxy
+curl --proxy http://192.168.1.100:8080 https://example.com
+
+# Using SOCKS proxy
+curl --socks5 192.168.1.100:1080 https://example.com</code></pre>
+              </div>
+            </section>
+
+            <!-- Security -->
+            <section id="security" class="content-section">
+              <h2>Security Considerations</h2>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Important Security Notes</h3>
+                <ul>
+                  <li>Proxy servers can see all your unencrypted traffic</li>
+                  <li>Choose reputable proxy providers</li>
+                  <li>Use HTTPS whenever possible</li>
+                  <li>Be cautious with free proxy services</li>
+                  <li>Consider using VPNs for better security</li>
+                </ul>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
