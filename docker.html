@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Docker and Containerization - deployment workflows, orchestration, and best practices"
+    />
+    <title>Docker & Containerization | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link active"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link">CDN</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#devops">DevOps & Deployment</a>
+                </li>
+                <li>Docker & Containerization</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Docker & Containerization</h1>
+            <p class="page-subtitle">
+              Complete guide to containerization, Docker workflows,
+              orchestration, and deployment best practices
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li><a href="#concepts" class="toc-link">Core Concepts</a></li>
+                <li><a href="#dockerfile" class="toc-link">Dockerfile</a></li>
+                <li>
+                  <a href="#deployment-flow" class="toc-link"
+                    >Deployment Flow</a
+                  >
+                </li>
+                <li>
+                  <a href="#orchestration" class="toc-link">Orchestration</a>
+                </li>
+                <li>
+                  <a href="#best-practices" class="toc-link">Best Practices</a>
+                </li>
+                <li>
+                  <a href="#examples" class="toc-link">Real-World Examples</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Overview</h2>
+              <p>
+                Docker is a containerization platform that packages applications
+                and their dependencies into lightweight, portable containers.
+                Containers provide consistent environments across development,
+                testing, and production stages.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key Benefits of Containerization</h3>
+                <ul>
+                  <li>
+                    <strong>Portability:</strong> Run anywhere Docker is
+                    supported
+                  </li>
+                  <li>
+                    <strong>Consistency:</strong> Same environment across all
+                    stages
+                  </li>
+                  <li>
+                    <strong>Isolation:</strong> Applications run in separate
+                    containers
+                  </li>
+                  <li>
+                    <strong>Efficiency:</strong> Lightweight compared to virtual
+                    machines
+                  </li>
+                  <li><strong>Scalability:</strong> Easy horizontal scaling</li>
+                </ul>
+              </div>
+
+              <div class="diagram">
+                <h3>Containers vs Virtual Machines</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Virtual Machines" VM_HOST[Host OS]
+                  VM_HYP[Hypervisor] VM_OS1[Guest OS 1] VM_OS2[Guest OS 2]
+                  VM_APP1[App 1] VM_APP2[App 2] VM_HOST --> VM_HYP VM_HYP -->
+                  VM_OS1 VM_HYP --> VM_OS2 VM_OS1 --> VM_APP1 VM_OS2 --> VM_APP2
+                  end subgraph "Containers" C_HOST[Host OS] C_ENGINE[Container
+                  Engine] C_CONT1[Container 1] C_CONT2[Container 2] C_APP1[App
+                  1] C_APP2[App 2] C_HOST --> C_ENGINE C_ENGINE --> C_CONT1
+                  C_ENGINE --> C_CONT2 C_CONT1 --> C_APP1 C_CONT2 --> C_APP2 end
+                </div>
+              </div>
+            </section>
+
+            <!-- Core Concepts -->
+            <section id="concepts" class="content-section">
+              <h2>Core Concepts</h2>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🐳 Container</h3>
+                  <p>
+                    A running instance of an image that includes the application
+                    and its dependencies.
+                  </p>
+                  <div class="use-case-example">
+                    Lightweight, isolated runtime environment
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📦 Image</h3>
+                  <p>
+                    A read-only template used to create containers, containing
+                    application code and dependencies.
+                  </p>
+                  <div class="use-case-example">
+                    Immutable blueprint for containers
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📝 Dockerfile</h3>
+                  <p>
+                    A text file with instructions to build a Docker image
+                    automatically.
+                  </p>
+                  <div class="use-case-example">
+                    Infrastructure as code for images
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🏪 Registry</h3>
+                  <p>
+                    A storage and distribution system for Docker images (Docker
+                    Hub, ECR, etc.).
+                  </p>
+                  <div class="use-case-example">
+                    Centralized image repository
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🔗 Volume</h3>
+                  <p>
+                    Persistent data storage that survives container restarts and
+                    removals.
+                  </p>
+                  <div class="use-case-example">
+                    Data persistence and sharing
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🌐 Network</h3>
+                  <p>
+                    Communication channels between containers and external
+                    systems.
+                  </p>
+                  <div class="use-case-example">
+                    Container networking and connectivity
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram">
+                <h3>Docker Architecture</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Docker Client" CLI[Docker CLI] API[Docker
+                  API] end subgraph "Docker Host" DAEMON[Docker Daemon] subgraph
+                  "Images" IMG1[Image 1] IMG2[Image 2] end subgraph "Containers"
+                  CONT1[Container 1] CONT2[Container 2] end subgraph "Volumes"
+                  VOL1[Volume 1] VOL2[Volume 2] end end subgraph "Registry"
+                  REGISTRY[Docker Registry] end CLI --> DAEMON API --> DAEMON
+                  DAEMON --> IMG1 DAEMON --> IMG2 DAEMON --> CONT1 DAEMON -->
+                  CONT2 DAEMON --> VOL1 DAEMON --> VOL2 DAEMON <--> REGISTRY
+                </div>
+              </div>
+            </section>
+
+            <!-- Dockerfile -->
+            <section id="dockerfile" class="content-section">
+              <h2>Dockerfile</h2>
+              <p>
+                A Dockerfile contains a series of instructions that Docker uses
+                to build an image. Each instruction creates a layer in the
+                image, making builds efficient and cacheable.
+              </p>
+
+              <div class="code-block">
+                <h3>Multi-Stage Dockerfile Example (Node.js)</h3>
+                <pre><code># Build stage
+FROM node:18-alpine AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy source code
+COPY . .
+
+# Build application
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine AS production
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# Set working directory
+WORKDIR /app
+
+# Copy built application from builder stage
+COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+
+# Switch to non-root user
+USER nextjs
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/health || exit 1
+
+# Start application
+CMD ["npm", "start"]</code></pre>
+              </div>
+
+              <div class="diagram">
+                <h3>Docker Build Process</h3>
+                <div class="mermaid">
+                  graph LR A[Dockerfile] --> B[Docker Build] B --> C[Layer 1:
+                  Base Image] C --> D[Layer 2: Dependencies] D --> E[Layer 3:
+                  App Code] E --> F[Layer 4: Configuration] F --> G[Final Image]
+                  subgraph "Build Context" H[Source Code] I[Config Files]
+                  J[Dependencies] end H --> B I --> B J --> B
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Single-Stage Build</h3>
+                  <p>
+                    Simple builds where development and production environments
+                    are the same.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Simple</span>
+                    <span class="feature-tag">Larger Size</span>
+                    <span class="feature-tag">Dev Tools</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Multi-Stage Build</h3>
+                  <p>
+                    Optimized builds that reduce final image size by excluding
+                    build dependencies.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Optimized</span>
+                    <span class="feature-tag">Smaller Size</span>
+                    <span class="feature-tag">Secure</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Distroless Images</h3>
+                  <p>
+                    Ultra-minimal base images containing only runtime
+                    dependencies.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Minimal</span>
+                    <span class="feature-tag">Secure</span>
+                    <span class="feature-tag">Fast</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Deployment Flow -->
+            <section id="deployment-flow" class="content-section">
+              <h2>Deployment Flow</h2>
+
+              <div class="diagram">
+                <h3>CI/CD Pipeline with Docker</h3>
+                <div class="mermaid">
+                  graph TD A[Developer Push] --> B[Git Repository] B --> C[CI/CD
+                  Pipeline Triggered] C --> D[Build Stage] D --> E[Run Tests] E
+                  --> F[Build Docker Image] F --> G[Security Scan] G --> H{Tests
+                  Pass?} H -->|No| I[Pipeline Fails] H -->|Yes| J[Push to
+                  Registry] J --> K[Deploy to Staging] K --> L[Integration
+                  Tests] L --> M{Ready for Production?} M -->|No| N[Manual
+                  Review] M -->|Yes| O[Deploy to Production] O --> P[Blue-Green
+                  Deployment] P --> Q[Health Checks] Q --> R[Switch Traffic]
+                  subgraph "Monitoring" S[Logs] T[Metrics] U[Alerts] end R --> S
+                  R --> T R --> U
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>GitHub Actions Deployment Pipeline</h3>
+                <pre><code>name: Docker CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test
+      
+      - name: Run linting
+        run: npm run lint
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Log in to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment"
+          # Add deployment steps here (kubectl, docker-compose, etc.)
+</code></pre>
+              </div>
+
+              <div class="step-flow">
+                <div class="step-item">
+                  <div class="step-number">1</div>
+                  <div>
+                    <h3>Code Commit</h3>
+                    <p>
+                      Developer pushes code changes to the repository,
+                      triggering the CI/CD pipeline.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">2</div>
+                  <div>
+                    <h3>Build & Test</h3>
+                    <p>
+                      Automated tests run, code is linted, and Docker image is
+                      built with proper tagging.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">3</div>
+                  <div>
+                    <h3>Security Scan</h3>
+                    <p>
+                      Image is scanned for vulnerabilities and security issues
+                      before deployment.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">4</div>
+                  <div>
+                    <h3>Registry Push</h3>
+                    <p>
+                      Successfully built and tested image is pushed to the
+                      container registry.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">5</div>
+                  <div>
+                    <h3>Deploy & Monitor</h3>
+                    <p>
+                      Image is deployed to staging/production with health checks
+                      and monitoring.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Orchestration -->
+            <section id="orchestration" class="content-section">
+              <h2>Container Orchestration</h2>
+              <p>
+                Container orchestration manages the lifecycle of containers in
+                large, dynamic environments. It handles deployment, scaling,
+                networking, and availability of containerized applications.
+              </p>
+
+              <div class="diagram">
+                <h3>Kubernetes Architecture</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Control Plane" API[API Server] ETCD[etcd]
+                  SCHED[Scheduler] CM[Controller Manager] end subgraph "Node 1"
+                  KUBELET1[Kubelet] PROXY1[Kube Proxy] subgraph "Pods" POD1[Pod
+                  1] POD2[Pod 2] end end subgraph "Node 2" KUBELET2[Kubelet]
+                  PROXY2[Kube Proxy] subgraph "Pods " POD3[Pod 3] POD4[Pod 4]
+                  end end API --> KUBELET1 API --> KUBELET2 KUBELET1 --> POD1
+                  KUBELET1 --> POD2 KUBELET2 --> POD3 KUBELET2 --> POD4
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Docker Compose</h3>
+                  <p>
+                    Multi-container orchestration for development and simple
+                    production setups.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Simple</span>
+                    <span class="feature-tag">Development</span>
+                    <span class="feature-tag">YAML Config</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Kubernetes</h3>
+                  <p>
+                    Production-grade orchestration with advanced features and
+                    ecosystem.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Production</span>
+                    <span class="feature-tag">Scalable</span>
+                    <span class="feature-tag">Complex</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Docker Swarm</h3>
+                  <p>
+                    Native Docker clustering with simpler setup than Kubernetes.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Native</span>
+                    <span class="feature-tag">Simpler</span>
+                    <span class="feature-tag">Docker-first</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Docker Compose Example</h3>
+                <pre><code>version: '3.8'
+
+services:
+  # Web application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:pass@db:5432/myapp
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=myapp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - web
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Kubernetes Deployment Example</h3>
+                <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: myregistry/web-app:v1.0.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: url
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-service
+spec:
+  selector:
+    app: web-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - myapp.example.com
+    secretName: web-app-tls
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-app-service
+            port:
+              number: 80</code></pre>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🏗️ Optimize Image Size</h3>
+                  <p>
+                    Use multi-stage builds, minimal base images, and
+                    .dockerignore to reduce image size and attack surface.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔒 Security First</h3>
+                  <p>
+                    Run containers as non-root users, scan for vulnerabilities,
+                    and keep base images updated.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📊 Resource Management</h3>
+                  <p>
+                    Set memory and CPU limits to prevent resource exhaustion and
+                    ensure predictable performance.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🏷️ Proper Tagging</h3>
+                  <p>
+                    Use semantic versioning for image tags, avoid 'latest' in
+                    production, implement immutable tags.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>💾 Data Persistence</h3>
+                  <p>
+                    Use volumes for persistent data, separate data from
+                    application containers, implement backup strategies.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔍 Monitoring & Logging</h3>
+                  <p>
+                    Implement comprehensive logging, monitoring, and health
+                    checks for production containers.
+                  </p>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Dockerfile Best Practices</h3>
+                <pre><code># ✅ Use specific version tags
+FROM node:18.17.0-alpine
+
+# ✅ Install security updates
+RUN apk update && apk upgrade && apk add --no-cache dumb-init
+
+# ✅ Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# ✅ Set working directory
+WORKDIR /app
+
+# ✅ Copy dependency files first (better caching)
+COPY package*.json ./
+
+# ✅ Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# ✅ Copy application code
+COPY --chown=nextjs:nodejs . .
+
+# ✅ Switch to non-root user
+USER nextjs
+
+# ✅ Expose port (documentation)
+EXPOSE 3000
+
+# ✅ Use dumb-init for proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+
+# ✅ Use CMD for default command
+CMD ["node", "server.js"]
+
+# ❌ Avoid these practices:
+# FROM node:latest                 # Use specific versions
+# RUN apt-get update               # Update packages
+# COPY . .                         # Copy files early
+# USER root                        # Run as root
+# RUN chmod 777 /app              # Overly permissive permissions</code></pre>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Security Issues</h3>
+                <ul>
+                  <li>Running containers as root user</li>
+                  <li>Using outdated base images with vulnerabilities</li>
+                  <li>Exposing unnecessary ports or services</li>
+                  <li>Including secrets in image layers</li>
+                  <li>Not scanning images for vulnerabilities</li>
+                  <li>Using 'latest' tags in production</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Real-World Examples -->
+            <section id="examples" class="content-section">
+              <h2>Real-World Examples</h2>
+
+              <div class="diagram">
+                <h3>Microservices Architecture</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Load Balancer" LB[NGINX/Traefik] end
+                  subgraph "API Gateway" GW[Kong/Zuul] end subgraph
+                  "Microservices" USER[User Service] ORDER[Order Service]
+                  PAY[Payment Service] NOTIFY[Notification Service] end subgraph
+                  "Databases" USERDB[(User DB)] ORDERDB[(Order DB)]
+                  PAYDB[(Payment DB)] end subgraph "Message Queue"
+                  QUEUE[Redis/RabbitMQ] end subgraph "Monitoring"
+                  PROM[Prometheus] GRAF[Grafana] LOG[ELK Stack] end LB --> GW GW
+                  --> USER GW --> ORDER GW --> PAY USER --> USERDB ORDER -->
+                  ORDERDB PAY --> PAYDB ORDER --> QUEUE PAY --> QUEUE QUEUE -->
+                  NOTIFY USER --> PROM ORDER --> PROM PAY --> PROM NOTIFY -->
+                  PROM PROM --> GRAF USER --> LOG ORDER --> LOG PAY --> LOG
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Production Docker Compose Stack</h3>
+                <pre><code>version: '3.8'
+
+x-app-defaults: &app-defaults
+  networks:
+    - app-network
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  # Reverse Proxy
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.email=admin@example.com
+      - --certificatesresolvers.letsencrypt.acme.storage=/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-data:/acme.json
+    <<: *app-defaults
+
+  # Frontend
+  frontend:
+    image: myregistry/frontend:${FRONTEND_VERSION:-latest}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`example.com`)
+      - traefik.http.routers.frontend.tls.certresolver=letsencrypt
+    <<: *app-defaults
+
+  # API Gateway
+  api-gateway:
+    image: myregistry/api-gateway:${API_VERSION:-latest}
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - RATE_LIMIT=1000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`api.example.com`)
+      - traefik.http.routers.api.tls.certresolver=letsencrypt
+    depends_on:
+      - redis
+    <<: *app-defaults
+
+  # User Service
+  user-service:
+    image: myregistry/user-service:${USER_VERSION:-latest}
+    environment:
+      - DATABASE_URL=postgresql://user:${DB_PASSWORD}@postgres:5432/users
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    deploy:
+      replicas: 2
+    <<: *app-defaults
+
+  # Order Service
+  order-service:
+    image: myregistry/order-service:${ORDER_VERSION:-latest}
+    environment:
+      - DATABASE_URL=postgresql://user:${DB_PASSWORD}@postgres:5432/orders
+      - RABBITMQ_URL=amqp://user:${RABBITMQ_PASSWORD}@rabbitmq:5672
+    depends_on:
+      - postgres
+      - rabbitmq
+    deploy:
+      replicas: 3
+    <<: *app-defaults
+
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_MULTIPLE_DATABASES=users,orders,payments
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    <<: *app-defaults
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    <<: *app-defaults
+
+  # Message Queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    <<: *app-defaults
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.enable-lifecycle
+    <<: *app-defaults
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    volumes:
+      - grafana-data:/var/lib/grafana
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`monitoring.example.com`)
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+    <<: *app-defaults
+
+volumes:
+  traefik-data:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  app-network:
+    driver: overlay
+    external: true</code></pre>
+              </div>
+
+              <div class="highlight-box info">
+                <h3>💡 Deployment Strategies</h3>
+                <ul>
+                  <li>
+                    <strong>Blue-Green:</strong> Deploy to parallel environment,
+                    switch traffic when ready
+                  </li>
+                  <li>
+                    <strong>Rolling Updates:</strong> Gradually replace old
+                    containers with new ones
+                  </li>
+                  <li>
+                    <strong>Canary Deployment:</strong> Route small percentage
+                    of traffic to new version
+                  </li>
+                  <li>
+                    <strong>A/B Testing:</strong> Split traffic between versions
+                    for feature testing
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html>

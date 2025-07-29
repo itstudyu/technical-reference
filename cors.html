@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to CORS (Cross-Origin Resource Sharing) - security policies, preflight requests, and implementation examples"
+    />
+    <title>CORS | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link active"
+                      >CORS</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link"
+                      >CDN</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#web-fundamentals">Web Fundamentals</a>
+                </li>
+                <li>CORS</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">CORS (Cross-Origin Resource Sharing)</h1>
+            <p class="page-subtitle">
+              Security mechanism that allows controlled access to resources across different origins, with preflight requests and implementation examples
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li><a href="#same-origin-policy" class="toc-link">Same-Origin Policy</a></li>
+                <li><a href="#how-cors-works" class="toc-link">How CORS Works</a></li>
+                <li><a href="#preflight-requests" class="toc-link">Preflight Requests</a></li>
+                <li><a href="#headers" class="toc-link">CORS Headers</a></li>
+                <li><a href="#implementation" class="toc-link">Implementation</a></li>
+                <li><a href="#security" class="toc-link">Security Considerations</a></li>
+                <li><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Overview</h2>
+              <p>
+                Cross-Origin Resource Sharing (CORS) is a security feature implemented by web browsers 
+                that allows servers to specify which origins are permitted to access their resources. 
+                It extends the same-origin policy to enable controlled cross-origin access.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>What is an Origin?</h3>
+                <p>An origin is defined by the combination of:</p>
+                <ul>
+                  <li><strong>Protocol:</strong> http:// vs https://</li>
+                  <li><strong>Domain:</strong> example.com vs api.example.com</li>
+                  <li><strong>Port:</strong> :80 vs :3000 vs :443</li>
+                </ul>
+                <p>Any difference in these three components creates a different origin.</p>
+              </div>
+
+              <div class="diagram">
+                <h3>Origin Examples</h3>
+                <div class="mermaid">
+                graph TB
+                    subgraph "Same Origin"
+                        A1[https://example.com/page1]
+                        A2[https://example.com/page2]
+                        A3[https://example.com/api/data]
+                    end
+                    
+                    subgraph "Different Origins"
+                        B1[http://example.com]
+                        B2[https://api.example.com]
+                        B3[https://example.com:8080]
+                        B4[https://other.com]
+                    end
+                    
+                    A1 -.->|✅ Same Origin| A2
+                    A1 -.->|✅ Same Origin| A3
+                    A1 -.->|❌ Different Protocol| B1
+                    A1 -.->|❌ Different Subdomain| B2
+                    A1 -.->|❌ Different Port| B3
+                    A1 -.->|❌ Different Domain| B4
+                </div>
+              </div>
+            </section>
+
+            <!-- Same-Origin Policy -->
+            <section id="same-origin-policy" class="content-section">
+              <h2>Same-Origin Policy</h2>
+              <p>
+                The same-origin policy is a fundamental security concept that restricts how documents 
+                or scripts from one origin can interact with resources from another origin. Without 
+                CORS, browsers block cross-origin requests by default.
+              </p>
+
+              <div class="diagram">
+                <h3>Same-Origin Policy Enforcement</h3>
+                <div class="mermaid">
+                  sequenceDiagram
+                    participant B as Browser
+                    participant S1 as Site A<br/>(https://site-a.com)
+                    participant S2 as Site B<br/>(https://site-b.com)
+                    
+                    Note over B,S2: Without CORS
+                    B->>S1: Load page from Site A
+                    S1->>B: Return HTML with JS
+                    B->>B: Execute JavaScript
+                    B->>S2: XMLHttpRequest to Site B
+                    S2->>B: Return data
+                    B->>B: ❌ BLOCKED by Same-Origin Policy
+                    
+                    Note over B,S2: With CORS
+                    B->>S1: Load page from Site A  
+                    S1->>B: Return HTML with JS
+                    B->>B: Execute JavaScript
+                    B->>S2: XMLHttpRequest to Site B
+                    S2->>B: Return data with CORS headers
+                    B->>B: ✅ ALLOWED by CORS headers
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🛡️ Security Benefits</h3>
+                  <p>Prevents malicious websites from accessing sensitive data from other sites without permission.</p>
+                  <div class="use-case-example">
+                    Protects against CSRF and data theft attacks
+                  </div>
+                </div>
+                
+                <div class="use-case-card">
+                  <h3>🚫 Restrictions</h3>
+                  <p>Blocks legitimate cross-origin requests needed for modern web applications.</p>
+                  <div class="use-case-example">
+                    API calls, CDN resources, third-party services
+                  </div>
+                </div>
+                
+                <div class="use-case-card">
+                  <h3>⚖️ CORS Solution</h3>
+                  <p>Provides controlled relaxation of same-origin policy through server-specified rules.</p>
+                  <div class="use-case-example">
+                    Allows safe cross-origin access when configured properly
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Same-Origin Policy Examples</h3>
+                <pre><code>// Current page: https://example.com/app
+
+// ✅ Same-origin requests (ALLOWED)
+fetch('/api/data')                    // Same origin
+fetch('https://example.com/api/user') // Same origin
+fetch('/static/image.jpg')            // Same origin
+
+// ❌ Cross-origin requests (BLOCKED without CORS)
+fetch('https://api.example.com/data')      // Different subdomain
+fetch('http://example.com/data')           // Different protocol  
+fetch('https://example.com:8080/data')     // Different port
+fetch('https://external-api.com/data')     // Different domain
+
+// Some elements bypass same-origin policy:
+// ✅ Always allowed (no CORS needed)
+// <img src="https://cdn.example.com/image.jpg">
+// <script src="https://cdn.example.com/script.js">
+// <link href="https://fonts.googleapis.com/css">
+// <iframe src="https://youtube.com/embed/video"></code></pre>
+              </div>
+            </section>
+
+            <!-- How CORS Works -->
+            <section id="how-cors-works" class="content-section">
+              <h2>How CORS Works</h2>
+              
+              <div class="diagram">
+                <h3>Simple CORS Request Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram
+                    participant B as Browser
+                    participant C as Client App<br/>(https://app.com)
+                    participant S as API Server<br/>(https://api.com)
+                    
+                    B->>C: Load application
+                    C->>B: JavaScript makes request
+                    
+                    Note over B,S: Simple Request (GET, POST, HEAD)
+                    B->>S: GET /api/data<br/>Origin: https://app.com
+                    S->>S: Check if origin is allowed
+                    S->>B: Response with CORS headers<br/>Access-Control-Allow-Origin: https://app.com
+                    B->>B: Check CORS headers
+                    B->>C: ✅ Allow response to JavaScript
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Simple Requests</h3>
+                  <p>Basic HTTP methods (GET, POST, HEAD) with standard headers that don't trigger preflight.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">No Preflight</span>
+                    <span class="feature-tag">Standard Headers</span>
+                    <span class="feature-tag">Fast</span>
+                  </div>
+                </div>
+                
+                <div class="solution-card">
+                  <h3>Preflight Requests</h3>
+                  <p>Complex requests that require an OPTIONS request before the actual request.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">OPTIONS Request</span>
+                    <span class="feature-tag">Custom Headers</span>
+                    <span class="feature-tag">Extra Round-trip</span>
+                  </div>
+                </div>
+                
+                <div class="solution-card">
+                  <h3>Credentialed Requests</h3>
+                  <p>Requests that include cookies, authorization headers, or client certificates.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">With Credentials</span>
+                    <span class="feature-tag">Strict Rules</span>
+                    <span class="feature-tag">Security Critical</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Request Type</div>
+                  <div class="comparison-col">Methods</div>
+                  <div class="comparison-col">Headers</div>
+                  <div class="comparison-col">Preflight Required</div>
+                </div>
+                
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Simple</strong></div>
+                  <div class="comparison-cell">GET, POST, HEAD</div>
+                  <div class="comparison-cell">Standard headers only</div>
+                  <div class="comparison-cell">No</div>
+                </div>
+                
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Preflight</strong></div>
+                  <div class="comparison-cell">PUT, DELETE, PATCH</div>
+                  <div class="comparison-cell">Custom headers</div>
+                  <div class="comparison-cell">Yes</div>
+                </div>
+                
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Credentialed</strong></div>
+                  <div class="comparison-cell">Any method</div>
+                  <div class="comparison-cell">Authorization, Cookies</div>
+                  <div class="comparison-cell">Depends on method</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Preflight Requests -->
+            <section id="preflight-requests" class="content-section">
+              <h2>Preflight Requests</h2>
+              <p>
+                Preflight requests are sent automatically by browsers for "complex" requests to check 
+                if the server allows the cross-origin request before sending the actual request.
+              </p>
+
+              <div class="diagram">
+                <h3>Preflight Request Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram
+                    participant B as Browser
+                    participant S as Server
+                    
+                    Note over B,S: 1. Preflight Request
+                    B->>S: OPTIONS /api/data<br/>Origin: https://app.com<br/>Access-Control-Request-Method: PUT<br/>Access-Control-Request-Headers: Authorization, Content-Type
+                    
+                    S->>S: Validate preflight request
+                    
+                    alt Preflight Allowed
+                        S->>B: 200 OK<br/>Access-Control-Allow-Origin: https://app.com<br/>Access-Control-Allow-Methods: PUT, GET, POST<br/>Access-Control-Allow-Headers: Authorization, Content-Type<br/>Access-Control-Max-Age: 86400
+                        
+                        Note over B,S: 2. Actual Request
+                        B->>S: PUT /api/data<br/>Origin: https://app.com<br/>Authorization: Bearer token<br/>Content-Type: application/json
+                        S->>B: 200 OK<br/>Access-Control-Allow-Origin: https://app.com
+                        
+                    else Preflight Denied
+                        S->>B: 403 Forbidden or CORS headers missing
+                        B->>B: ❌ Block actual request
+                    end
+                </div>
+              </div>
+
+              <div class="highlight-box info">
+                <h3>When Preflight is Required</h3>
+                <p>A preflight request is sent when the request:</p>
+                <ul>
+                  <li>Uses methods other than GET, HEAD, or POST</li>
+                  <li>Includes custom headers (like Authorization)</li>
+                  <li>Has Content-Type other than application/x-www-form-urlencoded, multipart/form-data, or text/plain</li>
+                  <li>Includes credentials and custom headers</li>
+                </ul>
+              </div>
+
+              <div class="code-block">
+                <h3>Preflight Request Examples</h3>
+                <pre><code>// This request triggers a preflight because of custom headers
+fetch('https://api.example.com/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',  // ⚠️ Triggers preflight
+    'Authorization': 'Bearer token123'   // ⚠️ Triggers preflight
+  },
+  body: JSON.stringify({ name: 'John' })
+});
+
+// Preflight OPTIONS request sent automatically:
+// OPTIONS /users HTTP/1.1
+// Host: api.example.com
+// Origin: https://app.example.com
+// Access-Control-Request-Method: POST
+// Access-Control-Request-Headers: authorization,content-type
+
+// Server must respond with:
+// Access-Control-Allow-Origin: https://app.example.com
+// Access-Control-Allow-Methods: POST, GET, OPTIONS
+// Access-Control-Allow-Headers: authorization,content-type
+// Access-Control-Max-Age: 86400
+
+// This request does NOT trigger preflight (simple request)
+fetch('https://api.example.com/data', {
+  method: 'GET',  // ✅ Simple method
+  headers: {
+    'Accept': 'application/json'  // ✅ Standard header
+  }
+});</code></pre>
+              </div>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🚀 Optimize Preflight Performance</h3>
+                  <p>Set Access-Control-Max-Age to cache preflight responses and reduce redundant OPTIONS requests.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>🎯 Minimize Preflight Triggers</h3>
+                  <p>Use simple requests when possible to avoid preflight overhead for performance-critical operations.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>⚡ Handle OPTIONS Efficiently</h3>
+                  <p>Implement lightweight OPTIONS handlers that don't perform expensive operations or database queries.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- CORS Headers -->
+            <section id="headers" class="content-section">
+              <h2>CORS Headers</h2>
+              
+              <div class="code-block">
+                <h3>Response Headers (Server → Browser)</h3>
+                <pre><code># Essential CORS response headers
+
+# Allow specific origin
+Access-Control-Allow-Origin: https://app.example.com
+
+# Allow all origins (⚠️ Use carefully)
+Access-Control-Allow-Origin: *
+
+# Allow credentials (cookies, auth headers)
+Access-Control-Allow-Credentials: true
+
+# Specify allowed HTTP methods
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+
+# Specify allowed request headers
+Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With
+
+# Expose additional response headers to client
+Access-Control-Expose-Headers: X-Total-Count, X-Page-Number
+
+# Cache preflight response (seconds)
+Access-Control-Max-Age: 86400
+
+# Handle preflight for all endpoints
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Request Headers (Browser → Server)</h3>
+                <pre><code># Automatic headers sent by browser
+
+# Origin of the requesting page
+Origin: https://app.example.com
+
+# Preflight request headers
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization, content-type
+
+# Standard request headers
+User-Agent: Mozilla/5.0...
+Accept: application/json
+Content-Type: application/json</code></pre>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Allow-Origin</h3>
+                  <p>Specifies which origins are allowed to access the resource.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Required</span>
+                    <span class="feature-tag">Security Critical</span>
+                    <span class="feature-tag">Single Value</span>
+                  </div>
+                </div>
+                
+                <div class="solution-card">
+                  <h3>Allow-Methods</h3>
+                  <p>Lists HTTP methods allowed for cross-origin requests.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Preflight</span>
+                    <span class="feature-tag">Comma-separated</span>
+                    <span class="feature-tag">Method Control</span>
+                  </div>
+                </div>
+                
+                <div class="solution-card">
+                  <h3>Allow-Headers</h3>
+                  <p>Specifies which headers can be used in actual requests.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Custom Headers</span>
+                    <span class="feature-tag">Case Insensitive</span>
+                    <span class="feature-tag">Whitelist</span>
+                  </div>
+                </div>
+                
+                <div class="solution-card">
+                  <h3>Allow-Credentials</h3>
+                  <p>Indicates whether credentials can be included in requests.</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Boolean</span>
+                    <span class="feature-tag">High Security</span>
+                    <span class="feature-tag">No Wildcards</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Security Considerations for Headers</h3>
+                <ul>
+                  <li><strong>Never use * with credentials:</strong> Cannot combine Access-Control-Allow-Origin: * with Access-Control-Allow-Credentials: true</li>
+                  <li><strong>Be specific with origins:</strong> List exact domains instead of using wildcards in production</li>
+                  <li><strong>Limit exposed headers:</strong> Only expose necessary response headers to the client</li>
+                  <li><strong>Validate Origin header:</strong> Check Origin against a whitelist on the server side</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Implementation -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation</h2>
+              
+              <div class="code-block">
+                <h3>Express.js/Node.js Implementation</h3>
+                <pre><code>const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Method 1: Using cors middleware (recommended)
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://app.example.com',
+      'https://admin.example.com',
+      'http://localhost:3000' // Development
+    ];
+    
+    // Allow requests with no origin (mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['X-Total-Count'],
+  maxAge: 86400 // Cache preflight for 24 hours
+};
+
+app.use(cors(corsOptions));
+
+// Method 2: Manual CORS implementation
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowedOrigins = ['https://app.example.com', 'https://admin.example.com'];
+  
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
+});
+
+// API routes
+app.get('/api/users', (req, res) => {
+  res.json({ users: ['Alice', 'Bob'] });
+});
+
+app.post('/api/users', (req, res) => {
+  // Create user logic
+  res.json({ success: true, id: 123 });
+});
+
+// Environment-specific CORS
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({
+    origin: true, // Allow all origins in development
+    credentials: true
+  }));
+} else {
+  app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || [],
+    credentials: true
+  }));
+}</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Django/Python Implementation</h3>
+                <pre><code># settings.py
+INSTALLED_APPS = [
+    'corsheaders',
+    # ... other apps
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # ... other middleware
+]
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "https://app.example.com",
+    "https://admin.example.com",
+]
+
+# Allow credentials (cookies, auth headers)
+CORS_ALLOW_CREDENTIALS = True
+
+# Allowed headers
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Exposed headers
+CORS_EXPOSE_HEADERS = [
+    'X-Total-Count',
+    'X-Page-Number',
+]
+
+# Cache preflight requests
+CORS_PREFLIGHT_MAX_AGE = 86400
+
+# Development settings
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
+
+# Custom CORS view (manual implementation)
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+import json
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CORSView(View):
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        
+        # Get origin from request
+        origin = request.META.get('HTTP_ORIGIN')
+        allowed_origins = ['https://app.example.com']
+        
+        if origin in allowed_origins:
+            response['Access-Control-Allow-Origin'] = origin
+            response['Access-Control-Allow-Credentials'] = 'true'
+            response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response
+    
+    def options(self, request, *args, **kwargs):
+        """Handle preflight requests"""
+        return HttpResponse(status=200)
+    
+    def get(self, request, *args, **kwargs):
+        return HttpResponse(json.dumps({'data': 'Hello CORS'}), 
+                          content_type='application/json')</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Nginx Configuration</h3>
+                <pre><code># nginx.conf
+server {
+    listen 80;
+    server_name api.example.com;
+    
+    # Add CORS headers for all requests
+    add_header Access-Control-Allow-Origin $cors_origin always;
+    add_header Access-Control-Allow-Credentials true always;
+    add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+    add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization" always;
+    add_header Access-Control-Expose-Headers "Content-Length,Content-Range" always;
+    add_header Access-Control-Max-Age 86400 always;
+    
+    # Handle preflight requests
+    location / {
+        if ($request_method = 'OPTIONS') {
+            return 204;
+        }
+        
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+# Advanced CORS with origin validation
+map $http_origin $cors_origin {
+    default "";
+    "https://app.example.com" $http_origin;
+    "https://admin.example.com" $http_origin;
+    "http://localhost:3000" $http_origin;
+}
+
+# Only add CORS headers if origin is allowed
+server {
+    listen 80;
+    server_name api.example.com;
+    
+    location / {
+        # Check if origin is allowed
+        if ($cors_origin != "") {
+            add_header Access-Control-Allow-Origin $cors_origin always;
+            add_header Access-Control-Allow-Credentials true always;
+            add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+            add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+        }
+        
+        if ($request_method = 'OPTIONS') {
+            return 204;
+        }
+        
+        proxy_pass http://backend;
+    }
+}</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Frontend JavaScript Implementation</h3>
+                <pre><code>// CORS-aware API client
+class APIClient {
+  constructor(baseURL, options = {}) {
+    this.baseURL = baseURL;
+    this.defaultOptions = {
+      credentials: 'include', // Include cookies
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    };
+  }
+
+  async request(endpoint, options = {}) {
+    const url = `${this.baseURL}${endpoint}`;
+    const config = {
+      ...this.defaultOptions,
+      ...options,
+      headers: {
+        ...this.defaultOptions.headers,
+        ...options.headers
+      }
+    };
+
+    try {
+      const response = await fetch(url, config);
+      
+      // Check if request was blocked by CORS
+      if (response.type === 'opaque') {
+        throw new Error('CORS error: Request blocked by browser');
+      }
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      if (error.name === 'TypeError' && error.message.includes('CORS')) {
+        console.error('CORS Error:', error.message);
+        throw new Error('Cross-origin request blocked. Check server CORS configuration.');
+      }
+      throw error;
+    }
+  }
+
+  // GET request
+  async get(endpoint, params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const url = query ? `${endpoint}?${query}` : endpoint;
+    return this.request(url, { method: 'GET' });
+  }
+
+  // POST request
+  async post(endpoint, data) {
+    return this.request(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+
+  // PUT request
+  async put(endpoint, data) {
+    return this.request(endpoint, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  }
+
+  // DELETE request
+  async delete(endpoint) {
+    return this.request(endpoint, { method: 'DELETE' });
+  }
+
+  // Upload file with progress
+  async upload(endpoint, file, onProgress = null) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      // Include credentials for CORS
+      xhr.withCredentials = true;
+      
+      xhr.upload.addEventListener('progress', (e) => {
+        if (onProgress && e.lengthComputable) {
+          onProgress((e.loaded / e.total) * 100);
+        }
+      });
+      
+      xhr.addEventListener('load', () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(JSON.parse(xhr.responseText));
+        } else {
+          reject(new Error(`Upload failed: ${xhr.statusText}`));
+        }
+      });
+      
+      xhr.addEventListener('error', () => {
+        reject(new Error('Upload failed: Network error or CORS issue'));
+      });
+      
+      xhr.open('POST', `${this.baseURL}${endpoint}`);
+      xhr.send(formData);
+    });
+  }
+}
+
+// Usage
+const api = new APIClient('https://api.example.com', {
+  headers: {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  }
+});
+
+// Make requests
+async function loadUserData() {
+  try {
+    const users = await api.get('/users');
+    const newUser = await api.post('/users', { name: 'John', email: 'john@example.com' });
+    console.log('Users:', users);
+    console.log('Created:', newUser);
+  } catch (error) {
+    console.error('API Error:', error.message);
+  }
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- Security Considerations -->
+            <section id="security" class="content-section">
+              <h2>Security Considerations</h2>
+              
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🎯 Specific Origins</h3>
+                  <p>Never use Access-Control-Allow-Origin: * in production. Always specify exact domains.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>🔐 Credentials Handling</h3>
+                  <p>Be extremely careful with Access-Control-Allow-Credentials: true. Cannot combine with wildcard origins.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>📋 Whitelist Approach</h3>
+                  <p>Use a whitelist of allowed origins, methods, and headers. Deny by default.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>🕒 Cache Control</h3>
+                  <p>Set appropriate Access-Control-Max-Age to balance performance and security.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>🔍 Validate Origins</h3>
+                  <p>Always validate the Origin header on the server side against your whitelist.</p>
+                </div>
+                
+                <div class="practice-item">
+                  <h3>📊 Monitor Requests</h3>
+                  <p>Log and monitor cross-origin requests to detect potential security issues.</p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Security Mistakes</h3>
+                <ul>
+                  <li><strong>Wildcard with credentials:</strong> Using * origin with credentials enabled</li>
+                  <li><strong>Overly permissive:</strong> Allowing all methods and headers unnecessarily</li>
+                  <li><strong>Not validating origins:</strong> Trusting the Origin header without server-side validation</li>
+                  <li><strong>Reflecting origins:</strong> Automatically reflecting the Origin header without validation</li>
+                  <li><strong>Long max-age:</strong> Setting excessive cache times for preflight responses</li>
+                  <li><strong>Missing security headers:</strong> Not implementing additional security headers alongside CORS</li>
+                </ul>
+              </div>
+
+              <div class="code-block">
+                <h3>Secure CORS Configuration</h3>
+                <pre><code>// Secure CORS implementation with validation
+class SecureCORS {
+  constructor() {
+    this.allowedOrigins = new Set([
+      'https://app.example.com',
+      'https://admin.example.com'
+    ]);
+    
+    // Development origins
+    if (process.env.NODE_ENV === 'development') {
+      this.allowedOrigins.add('http://localhost:3000');
+      this.allowedOrigins.add('http://localhost:3001');
+    }
+    
+    this.allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'];
+    this.allowedHeaders = ['Content-Type', 'Authorization', 'X-Requested-With'];
+    this.maxAge = 3600; // 1 hour
+  }
+
+  // Validate origin against whitelist
+  isOriginAllowed(origin) {
+    if (!origin) return false; // Reject requests without origin
+    return this.allowedOrigins.has(origin);
+  }
+
+  // Validate method
+  isMethodAllowed(method) {
+    return this.allowedMethods.includes(method.toUpperCase());
+  }
+
+  // Validate headers
+  areHeadersAllowed(headers) {
+    if (!headers) return true;
+    
+    const requestedHeaders = headers
+      .toLowerCase()
+      .split(',')
+      .map(h => h.trim());
+    
+    return requestedHeaders.every(header => 
+      this.allowedHeaders.map(h => h.toLowerCase()).includes(header)
+    );
+  }
+
+  // Apply CORS headers
+  applyCORSHeaders(req, res) {
+    const origin = req.headers.origin;
+    const method = req.headers['access-control-request-method'];
+    const headers = req.headers['access-control-request-headers'];
+
+    // Validate origin
+    if (!this.isOriginAllowed(origin)) {
+      return false; // Block request
+    }
+
+    // Set allowed origin (never use wildcard with credentials)
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+      // Validate requested method
+      if (method && !this.isMethodAllowed(method)) {
+        return false;
+      }
+      
+      // Validate requested headers
+      if (!this.areHeadersAllowed(headers)) {
+        return false;
+      }
+      
+      res.setHeader('Access-Control-Allow-Methods', this.allowedMethods.join(', '));
+      res.setHeader('Access-Control-Allow-Headers', this.allowedHeaders.join(', '));
+      res.setHeader('Access-Control-Max-Age', this.maxAge.toString());
+    }
+    
+    // Additional security headers
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    
+    return true; // Allow request
+  }
+
+  // Express middleware
+  middleware() {
+    return (req, res, next) => {
+      const allowed = this.applyCORSHeaders(req, res);
+      
+      if (!allowed) {
+        return res.status(403).json({ 
+          error: 'CORS policy violation',
+          message: 'Origin not allowed'
+        });
+      }
+      
+      if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+      }
+      
+      next();
+    };
+  }
+
+  // Log CORS requests for monitoring
+  logRequest(req, allowed) {
+    console.log({
+      timestamp: new Date().toISOString(),
+      origin: req.headers.origin,
+      method: req.method,
+      path: req.path,
+      userAgent: req.headers['user-agent'],
+      allowed: allowed
+    });
+  }
+}
+
+// Usage
+const secureCORS = new SecureCORS();
+app.use(secureCORS.middleware());</code></pre>
+              </div>
+            </section>
+
+            <!-- Troubleshooting -->
+            <section id="troubleshooting" class="content-section">
+              <h2>Troubleshooting</h2>
+              
+              <div class="diagram">
+                <h3>CORS Error Diagnosis Flow</h3>
+                <div class="mermaid">
+                  flowchart TD
+                    A[CORS Error Occurs] --> B{Is Origin header present?}
+                    B -->|No| C[Add Origin to request]
+                    B -->|Yes| D{Is Access-Control-Allow-Origin present?}
+                    
+                    D -->|No| E[Server not sending CORS headers]
+                    D -->|Yes| F{Does origin match exactly?}
+                    
+                    F -->|No| G[Origin not whitelisted]
+                    F -->|Yes| H{Using credentials?}
+                    
+                    H -->|Yes| I{Allow-Credentials: true?}
+                    H -->|No| J[Check method and headers]
+                    
+                    I -->|No| K[Enable credentials on server]
+                    I -->|Yes| L{Using wildcard origin?}
+                    
+                    L -->|Yes| M[Cannot use * with credentials]
+                    L -->|No| J
+                    
+                    J --> N{Preflight required?}
+                    N -->|Yes| O{OPTIONS request successful?}
+                    N -->|No| P[Simple request - should work]
+                    
+                    O -->|No| Q[Fix preflight response]
+                    O -->|Yes| R[Check actual request headers]
+                    
+                    E --> S[Configure server CORS]
+                    G --> T[Add origin to whitelist]
+                    K --> U[Set Allow-Credentials: true]
+                    M --> V[Use specific origin, not *]
+                    Q --> W[Fix Allow-Methods/Headers]
+                    R --> X[Verify header case and format]
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🚫 No 'Access-Control-Allow-Origin' header</h3>
+                  <p>Server is not configured for CORS or the origin is not whitelisted.</p>
+                  <div class="use-case-example">
+                    Solution: Configure CORS on server, add origin to whitelist
+                  </div>
+                </div>
+                
+                <div class="use-case-card">
+                  <h3>🔐 Credentials issue</h3>
+                  <p>Using credentials with wildcard origin or missing Allow-Credentials header.</p>
+                  <div class="use-case-example">
+                    Solution: Set specific origin, enable credentials on server
+                  </div>
+                </div>
+                
+                <div class="use-case-card">
+                  <h3>✈️ Preflight failure</h3>
+                  <p>OPTIONS request failed or missing required preflight headers.</p>
+                  <div class="use-case-example">
+                    Solution: Fix OPTIONS handler, add missing Allow-Methods/Headers
+                  </div>
+                </div>
+                
+                <div class="use-case-card">
+                  <h3>📝 Method not allowed</h3>
+                  <p>HTTP method not included in Access-Control-Allow-Methods.</p>
+                  <div class="use-case-example">
+                    Solution: Add method to server's allowed methods list
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>CORS Debugging Tools</h3>
+                <pre><code>// Browser debugging tools
+console.log('Making CORS request...');
+
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer token'
+  },
+  credentials: 'include',
+  body: JSON.stringify({ test: 'data' })
+})
+.then(response => {
+  console.log('Response headers:', [...response.headers.entries()]);
+  console.log('Response status:', response.status);
+  return response.json();
+})
+.catch(error => {
+  console.error('CORS Error Details:', {
+    name: error.name,
+    message: error.message,
+    stack: error.stack
+  });
+  
+  // Check if it's a CORS error
+  if (error.name === 'TypeError' && error.message.includes('CORS')) {
+    console.log('🚨 CORS Error Detected!');
+    console.log('Check server CORS configuration');
+  }
+});
+
+// Server-side debugging (Express.js)
+app.use((req, res, next) => {
+  console.log('CORS Debug Info:', {
+    method: req.method,
+    origin: req.headers.origin,
+    headers: req.headers,
+    url: req.url,
+    userAgent: req.headers['user-agent']
+  });
+  next();
+});
+
+// Test CORS configuration
+function testCORSConfiguration() {
+  const origins = ['https://app.example.com', 'https://evil.com'];
+  const methods = ['GET', 'POST', 'PUT', 'DELETE'];
+  
+  origins.forEach(origin => {
+    methods.forEach(method => {
+      fetch('https://api.example.com/test', {
+        method: 'OPTIONS',
+        headers: {
+          'Origin': origin,
+          'Access-Control-Request-Method': method,
+          'Access-Control-Request-Headers': 'content-type,authorization'
+        }
+      })
+      .then(response => {
+        console.log(`${origin} ${method}:`, {
+          status: response.status,
+          allowOrigin: response.headers.get('Access-Control-Allow-Origin'),
+          allowMethods: response.headers.get('Access-Control-Allow-Methods'),
+          allowHeaders: response.headers.get('Access-Control-Allow-Headers')
+        });
+      })
+      .catch(error => {
+        console.error(`${origin} ${method}: Failed`, error.message);
+      });
+    });
+  });
+}
+
+// Run CORS test
+// testCORSConfiguration();</code></pre>
+              </div>
+
+              <div class="highlight-box info">
+                <h3>💡 Quick CORS Fixes</h3>
+                <ul>
+                  <li><strong>Development:</strong> Use a CORS proxy or disable browser security for testing</li>
+                  <li><strong>Same-origin:</strong> Serve API and frontend from the same domain/port</li>
+                  <li><strong>Server proxy:</strong> Proxy API requests through your frontend server</li>
+                  <li><strong>JSONP:</strong> Use JSONP for simple GET requests (legacy browsers)</li>
+                  <li><strong>Browser extension:</strong> Use CORS extension for development (not production)</li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({ 
+        startOnLoad: true,
+        theme: 'default',
+        securityLevel: 'loose'
+      });
+    </script>
+  </body>
+</html> 

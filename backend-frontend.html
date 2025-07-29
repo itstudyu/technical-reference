@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Backend vs Frontend development - technologies, roles, communication, and modern architecture patterns"
+    />
+    <title>Backend & Frontend | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link active"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#web-fundamentals">Web Fundamentals</a></li>
+                <li>Backend & Frontend</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Backend & Frontend</h1>
+            <p class="page-subtitle">
+              Understanding the two sides of web development - how frontend and backend work together to create applications
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <ul class="toc-list">
+              <li><a href="#overview" class="toc-link">Overview</a></li>
+              <li><a href="#frontend" class="toc-link">Frontend Development</a></li>
+              <li><a href="#backend" class="toc-link">Backend Development</a></li>
+              <li><a href="#communication" class="toc-link">Communication</a></li>
+              <li><a href="#architecture" class="toc-link">Architecture Patterns</a></li>
+              <li><a href="#technologies" class="toc-link">Technology Stacks</a></li>
+              <li><a href="#implementation" class="toc-link">Implementation</a></li>
+              <li><a href="#best-practices" class="toc-link">Best Practices</a></li>
+            </ul>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Frontend vs Backend Overview</h2>
+              
+              <div class="highlight-box info">
+                <h3>🏪 Think of a Restaurant</h3>
+                <p>
+                  <strong>Frontend</strong> is like the dining room - what customers see and interact with: 
+                  the menu, tables, ambiance, and waiters.<br>
+                  <strong>Backend</strong> is like the kitchen - where the actual work happens: 
+                  cooking, inventory management, food preparation, and storage.
+                </p>
+              </div>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>User</strong>
+                    <p>Web Browser</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-item proxy">
+                    <strong>Frontend</strong>
+                    <p>User Interface</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-item server">
+                    <strong>Backend</strong>
+                    <p>Server & Database</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Frontend (Client-Side)</div>
+                  <div class="comparison-col">Backend (Server-Side)</div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>What users see and interact with</strong><br>
+                    User interface, design, user experience
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>What happens behind the scenes</strong><br>
+                    Data processing, business logic, database operations
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Runs in:</strong> User's browser
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Runs on:</strong> Server/cloud infrastructure
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Languages:</strong> HTML, CSS, JavaScript
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Languages:</strong> Python, Java, Node.js, PHP, etc.
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Focus:</strong> User experience, responsiveness, accessibility
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Focus:</strong> Performance, security, scalability, data integrity
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Frontend Section -->
+            <section id="frontend" class="content-section">
+              <h2>Frontend Development</h2>
+
+              <p>
+                Frontend development focuses on everything users see and interact with directly. 
+                It's about creating intuitive, responsive, and visually appealing user interfaces 
+                that provide great user experiences across different devices and browsers.
+              </p>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🎨 Core Technologies</h3>
+                  <ul>
+                    <li><strong>HTML:</strong> Structure and content</li>
+                    <li><strong>CSS:</strong> Styling and layout</li>
+                    <li><strong>JavaScript:</strong> Interactivity and behavior</li>
+                    <li><strong>DOM:</strong> Document manipulation</li>
+                    <li><strong>Web APIs:</strong> Browser functionality</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>⚛️ Popular Frameworks</h3>
+                  <ul>
+                    <li><strong>React:</strong> Component-based library by Facebook</li>
+                    <li><strong>Vue.js:</strong> Progressive framework, easy to learn</li>
+                    <li><strong>Angular:</strong> Full framework by Google</li>
+                    <li><strong>Svelte:</strong> Compile-time optimized framework</li>
+                    <li><strong>Next.js:</strong> React-based full-stack framework</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🛠️ Development Tools</h3>
+                  <ul>
+                    <li><strong>Build Tools:</strong> Webpack, Vite, Parcel</li>
+                    <li><strong>Package Managers:</strong> npm, yarn, pnpm</li>
+                    <li><strong>CSS Preprocessors:</strong> Sass, Less, Stylus</li>
+                    <li><strong>Testing:</strong> Jest, Cypress, Testing Library</li>
+                    <li><strong>Version Control:</strong> Git, GitHub, GitLab</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">👁️</div>
+                  <h3>Visual Design</h3>
+                  <p>Creating beautiful, intuitive user interfaces</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">📱</div>
+                  <h3>Responsiveness</h3>
+                  <p>Ensuring apps work on all devices and screen sizes</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Performance</h3>
+                  <p>Optimizing load times and user interactions</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">♿</div>
+                  <h3>Accessibility</h3>
+                  <p>Making apps usable by everyone, including people with disabilities</p>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Frontend Developer Responsibilities</h3>
+                <ul>
+                  <li>Implement user interface designs</li>
+                  <li>Ensure cross-browser compatibility</li>
+                  <li>Optimize for performance and SEO</li>
+                  <li>Implement responsive design</li>
+                  <li>Handle user interactions and form validation</li>
+                  <li>Integrate with backend APIs</li>
+                  <li>Maintain code quality and testing</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Backend Section -->
+            <section id="backend" class="content-section">
+              <h2>Backend Development</h2>
+
+              <p>
+                Backend development focuses on server-side logic, databases, APIs, and infrastructure. 
+                It handles data processing, business logic, security, and ensures the application 
+                can scale to serve many users efficiently and securely.
+              </p>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🔧 Core Components</h3>
+                  <ul>
+                    <li><strong>Server:</strong> Handles HTTP requests and responses</li>
+                    <li><strong>Database:</strong> Stores and retrieves data</li>
+                    <li><strong>APIs:</strong> Communication interface</li>
+                    <li><strong>Business Logic:</strong> Application rules and processes</li>
+                    <li><strong>Authentication:</strong> User security and permissions</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>💻 Popular Technologies</h3>
+                  <ul>
+                    <li><strong>Node.js:</strong> JavaScript runtime for servers</li>
+                    <li><strong>Python:</strong> Django, Flask, FastAPI</li>
+                    <li><strong>Java:</strong> Spring Boot, Spring Framework</li>
+                    <li><strong>C#:</strong> .NET Core, ASP.NET</li>
+                    <li><strong>Go:</strong> Gin, Echo, fiber</li>
+                    <li><strong>PHP:</strong> Laravel, Symfony, CodeIgniter</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🗄️ Database Systems</h3>
+                  <ul>
+                    <li><strong>Relational:</strong> PostgreSQL, MySQL, SQL Server</li>
+                    <li><strong>NoSQL:</strong> MongoDB, DynamoDB, Cassandra</li>
+                    <li><strong>In-Memory:</strong> Redis, Memcached</li>
+                    <li><strong>Graph:</strong> Neo4j, Amazon Neptune</li>
+                    <li><strong>Search:</strong> Elasticsearch, Solr</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔒</div>
+                  <h3>Security</h3>
+                  <p>Protecting data and implementing secure access controls</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">📊</div>
+                  <h3>Data Management</h3>
+                  <p>Storing, retrieving, and processing data efficiently</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Scalability</h3>
+                  <p>Handling increased load and growing user bases</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔄</div>
+                  <h3>Integration</h3>
+                  <p>Connecting with third-party services and APIs</p>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Backend Developer Responsibilities</h3>
+                <ul>
+                  <li>Design and implement server-side logic</li>
+                  <li>Create and maintain databases</li>
+                  <li>Develop APIs for frontend communication</li>
+                  <li>Implement security measures and authentication</li>
+                  <li>Optimize performance and scalability</li>
+                  <li>Handle server deployment and maintenance</li>
+                  <li>Monitor system health and debugging</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Communication Section -->
+            <section id="communication" class="content-section">
+              <h2>Frontend-Backend Communication</h2>
+
+              <p>
+                Frontend and backend communicate primarily through APIs (Application Programming Interfaces), 
+                most commonly using HTTP requests and responses. This enables separation of concerns 
+                and allows different teams to work independently.
+              </p>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>Frontend</strong>
+                    <p>Makes API Requests</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <strong>HTTP/HTTPS</strong>
+                    <p>REST, GraphQL, WebSocket</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item server">
+                    <strong>Backend</strong>
+                    <p>Processes & Responds</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🔄 REST APIs</h3>
+                  <p>Most common communication pattern</p>
+                  <ul>
+                    <li>Uses standard HTTP methods (GET, POST, PUT, DELETE)</li>
+                    <li>Stateless communication</li>
+                    <li>JSON data format</li>
+                    <li>Resource-based URLs</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>GET /api/users/123
+POST /api/users
+PUT /api/users/123
+DELETE /api/users/123</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📊 GraphQL</h3>
+                  <p>Query language for APIs</p>
+                  <ul>
+                    <li>Single endpoint for all operations</li>
+                    <li>Client specifies exactly what data to fetch</li>
+                    <li>Strongly typed schema</li>
+                    <li>Real-time subscriptions</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>query {
+  user(id: 123) {
+    name
+    email
+    posts {
+      title
+    }
+  }
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>⚡ WebSockets</h3>
+                  <p>Real-time bidirectional communication</p>
+                  <ul>
+                    <li>Persistent connection</li>
+                    <li>Low latency</li>
+                    <li>Server can push data to client</li>
+                    <li>Perfect for chat, live updates</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>// Client
+const socket = new WebSocket('ws://localhost:8080');
+socket.onmessage = (event) => {
+  console.log('Received:', event.data);
+};</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="process-flow">
+                <div class="process-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>User Action</h3>
+                    <p>User clicks button, submits form, or triggers an event</p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>Frontend Request</h3>
+                    <p>JavaScript makes HTTP request to backend API</p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>Backend Processing</h3>
+                    <p>Server processes request, queries database, applies business logic</p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Backend Response</h3>
+                    <p>Server sends JSON response with data or error information</p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h3>Frontend Update</h3>
+                    <p>JavaScript processes response and updates user interface</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Architecture Patterns Section -->
+            <section id="architecture" class="content-section">
+              <h2>Modern Architecture Patterns</h2>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>🏢 Traditional Monolithic Architecture</h3>
+                  <p><strong>Structure:</strong> Single deployable unit containing both frontend and backend</p>
+                  <div class="use-case-example">
+                    <strong>Characteristics:</strong><br>
+                    • Single codebase and deployment<br>
+                    • Shared database<br>
+                    • Server-side rendering<br>
+                    • Tightly coupled components
+                  </div>
+                  <p><strong>Best for:</strong> Small to medium applications, rapid prototyping, simple requirements</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🔄 Single Page Application (SPA)</h3>
+                  <p><strong>Structure:</strong> Separate frontend and backend with API communication</p>
+                  <div class="use-case-example">
+                    <strong>Characteristics:</strong><br>
+                    • Frontend runs entirely in browser<br>
+                    • Backend provides API endpoints<br>
+                    • Client-side routing<br>
+                    • Dynamic content loading
+                  </div>
+                  <p><strong>Best for:</strong> Interactive applications, dashboard-style apps, mobile-like web experiences</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🧩 Microservices Architecture</h3>
+                  <p><strong>Structure:</strong> Multiple small, independent services</p>
+                  <div class="use-case-example">
+                    <strong>Characteristics:</strong><br>
+                    • Services communicate via APIs<br>
+                    • Independent deployment and scaling<br>
+                    • Technology diversity<br>
+                    • Distributed data management
+                  </div>
+                  <p><strong>Best for:</strong> Large applications, multiple teams, scalability requirements</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🏗️ Jamstack Architecture</h3>
+                  <p><strong>Structure:</strong> JavaScript, APIs, and Markup served from CDN</p>
+                  <div class="use-case-example">
+                    <strong>Characteristics:</strong><br>
+                    • Pre-built markup and assets<br>
+                    • Serverless functions for APIs<br>
+                    • CDN distribution<br>
+                    • Git-based workflow
+                  </div>
+                  <p><strong>Best for:</strong> Content-heavy sites, blogs, e-commerce, high-performance needs</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>⚡ Server-Side Rendering (SSR) / Universal Apps</h3>
+                  <p><strong>Structure:</strong> Frontend code runs on both server and client</p>
+                  <div class="use-case-example">
+                    <strong>Characteristics:</strong><br>
+                    • Initial HTML rendered on server<br>
+                    • Hydration on client-side<br>
+                    • Better SEO and performance<br>
+                    • Shared code between server and client
+                  </div>
+                  <p><strong>Best for:</strong> SEO-critical applications, content websites, progressive web apps</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Technology Stacks Section -->
+            <section id="technologies" class="content-section">
+              <h2>Popular Technology Stacks</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>MEAN Stack</h3>
+                  <p>JavaScript end-to-end development</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">MongoDB</span>
+                    <span class="feature-tag">Express.js</span>
+                    <span class="feature-tag">Angular</span>
+                    <span class="feature-tag">Node.js</span>
+                  </div>
+                  <p><strong>Best for:</strong> Rapid development, JSON-heavy apps, real-time applications</p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>MERN Stack</h3>
+                  <p>React-based JavaScript stack</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">MongoDB</span>
+                    <span class="feature-tag">Express.js</span>
+                    <span class="feature-tag">React</span>
+                    <span class="feature-tag">Node.js</span>
+                  </div>
+                  <p><strong>Best for:</strong> SPAs, social media apps, e-commerce platforms</p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>LAMP Stack</h3>
+                  <p>Traditional open-source web stack</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Linux</span>
+                    <span class="feature-tag">Apache</span>
+                    <span class="feature-tag">MySQL</span>
+                    <span class="feature-tag">PHP</span>
+                  </div>
+                  <p><strong>Best for:</strong> Content management systems, traditional websites, WordPress</p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Django + React</h3>
+                  <p>Python backend with React frontend</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Django</span>
+                    <span class="feature-tag">PostgreSQL</span>
+                    <span class="feature-tag">React</span>
+                    <span class="feature-tag">Redux</span>
+                  </div>
+                  <p><strong>Best for:</strong> Data-heavy applications, scientific apps, enterprise software</p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Next.js Full-Stack</h3>
+                  <p>React with integrated backend capabilities</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Next.js</span>
+                    <span class="feature-tag">Vercel</span>
+                    <span class="feature-tag">Prisma</span>
+                    <span class="feature-tag">TypeScript</span>
+                  </div>
+                  <p><strong>Best for:</strong> Modern web apps, e-commerce, content sites with dynamic features</p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Serverless Stack</h3>
+                  <p>Cloud-native architecture</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">AWS Lambda</span>
+                    <span class="feature-tag">API Gateway</span>
+                    <span class="feature-tag">DynamoDB</span>
+                    <span class="feature-tag">React/Vue</span>
+                  </div>
+                  <p><strong>Best for:</strong> Scalable apps, variable workloads, cost optimization</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Implementation Section -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation Examples</h2>
+
+              <div class="implementation-tabs">
+                <div class="tab-content">
+                  <h3>🎯 Simple Todo App - Full Stack</h3>
+                  <div class="code-example">
+                    <h4>Backend (Node.js + Express)</h4>
+                    <pre><code>// server.js
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// In-memory storage (use database in production)
+let todos = [
+    { id: 1, title: 'Learn JavaScript', completed: false },
+    { id: 2, title: 'Build a web app', completed: false }
+];
+let nextId = 3;
+
+// Get all todos
+app.get('/api/todos', (req, res) => {
+    res.json(todos);
+});
+
+// Create new todo
+app.post('/api/todos', (req, res) => {
+    const { title } = req.body;
+    
+    if (!title) {
+        return res.status(400).json({ error: 'Title is required' });
+    }
+    
+    const newTodo = {
+        id: nextId++,
+        title,
+        completed: false
+    };
+    
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+});
+
+// Update todo
+app.put('/api/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const { title, completed } = req.body;
+    
+    const todo = todos.find(t => t.id === id);
+    if (!todo) {
+        return res.status(404).json({ error: 'Todo not found' });
+    }
+    
+    if (title !== undefined) todo.title = title;
+    if (completed !== undefined) todo.completed = completed;
+    
+    res.json(todo);
+});
+
+// Delete todo
+app.delete('/api/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = todos.findIndex(t => t.id === id);
+    
+    if (index === -1) {
+        return res.status(404).json({ error: 'Todo not found' });
+    }
+    
+    todos.splice(index, 1);
+    res.status(204).send();
+});
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});</code></pre>
+                  </div>
+                  
+                  <div class="code-example">
+                    <h4>Frontend (React)</h4>
+                    <pre><code>// App.js
+import React, { useState, useEffect } from 'react';
+import './App.css';
+
+const API_BASE = 'http://localhost:3001/api';
+
+function App() {
+    const [todos, setTodos] = useState([]);
+    const [newTodo, setNewTodo] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    // Fetch todos on component mount
+    useEffect(() => {
+        fetchTodos();
+    }, []);
+
+    const fetchTodos = async () => {
+        try {
+            const response = await fetch(`${API_BASE}/todos`);
+            const data = await response.json();
+            setTodos(data);
+        } catch (error) {
+            console.error('Error fetching todos:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const addTodo = async (e) => {
+        e.preventDefault();
+        if (!newTodo.trim()) return;
+
+        try {
+            const response = await fetch(`${API_BASE}/todos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title: newTodo.trim() }),
+            });
+
+            if (response.ok) {
+                const todo = await response.json();
+                setTodos([...todos, todo]);
+                setNewTodo('');
+            }
+        } catch (error) {
+            console.error('Error adding todo:', error);
+        }
+    };
+
+    const toggleTodo = async (id, completed) => {
+        try {
+            const response = await fetch(`${API_BASE}/todos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ completed }),
+            });
+
+            if (response.ok) {
+                const updatedTodo = await response.json();
+                setTodos(todos.map(todo => 
+                    todo.id === id ? updatedTodo : todo
+                ));
+            }
+        } catch (error) {
+            console.error('Error updating todo:', error);
+        }
+    };
+
+    const deleteTodo = async (id) => {
+        try {
+            const response = await fetch(`${API_BASE}/todos/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setTodos(todos.filter(todo => todo.id !== id));
+            }
+        } catch (error) {
+            console.error('Error deleting todo:', error);
+        }
+    };
+
+    if (loading) {
+        return <div className="loading">Loading todos...</div>;
+    }
+
+    return (
+        <div className="app">
+            <h1>Todo App</h1>
+            
+            <form onSubmit={addTodo} className="add-todo-form">
+                <input
+                    type="text"
+                    value={newTodo}
+                    onChange={(e) => setNewTodo(e.target.value)}
+                    placeholder="Add a new todo..."
+                    className="todo-input"
+                />
+                <button type="submit" className="add-button">
+                    Add Todo
+                </button>
+            </form>
+
+            <div className="todos-list">
+                {todos.length === 0 ? (
+                    <p className="no-todos">No todos yet. Add one above!</p>
+                ) : (
+                    todos.map(todo => (
+                        <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+                            <input
+                                type="checkbox"
+                                checked={todo.completed}
+                                onChange={(e) => toggleTodo(todo.id, e.target.checked)}
+                                className="todo-checkbox"
+                            />
+                            <span className="todo-title">{todo.title}</span>
+                            <button
+                                onClick={() => deleteTodo(todo.id)}
+                                className="delete-button"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            <div className="stats">
+                <p>
+                    Total: {todos.length} | 
+                    Completed: {todos.filter(t => t.completed).length} | 
+                    Remaining: {todos.filter(t => !t.completed).length}
+                </p>
+            </div>
+        </div>
+    );
+}
+
+export default App;</code></pre>
+                  </div>
+                  
+                  <div class="code-example">
+                    <h4>CSS Styling</h4>
+                    <pre><code>/* App.css */
+.app {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.add-todo-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.todo-input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.todo-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.add-button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+
+.no-todos {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: #fff;
+}
+
+.todo-item.completed {
+    background-color: #f8f9fa;
+    opacity: 0.7;
+}
+
+.todo-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.todo-title {
+    flex: 1;
+    font-size: 16px;
+}
+
+.todo-item.completed .todo-title {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.delete-button {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.stats {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🔒 User Authentication Example</h3>
+                  <div class="code-example">
+                    <h4>Backend Authentication (Node.js + JWT)</h4>
+                    <pre><code>// auth.js
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const express = require('express');
+const router = express.Router();
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+
+// Mock user database (use real database in production)
+const users = [
+    {
+        id: 1,
+        email: 'user@example.com',
+        password: '$2b$10$...' // pre-hashed password
+    }
+];
+
+// Register new user
+router.post('/register', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password required' });
+        }
+
+        // Check if user already exists
+        const existingUser = users.find(u => u.email === email);
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
+
+        // Hash password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Create new user
+        const newUser = {
+            id: users.length + 1,
+            email,
+            password: hashedPassword
+        };
+        users.push(newUser);
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: newUser.id, email: newUser.email },
+            JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        res.status(201).json({
+            message: 'User created successfully',
+            token,
+            user: { id: newUser.id, email: newUser.email }
+        });
+
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Login user
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password required' });
+        }
+
+        // Find user
+        const user = users.find(u => u.email === email);
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        // Verify password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: user.id, email: user.email },
+            JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        res.json({
+            message: 'Login successful',
+            token,
+            user: { id: user.id, email: user.email }
+        });
+
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+        return res.status(401).json({ error: 'Access token required' });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+        req.user = decoded;
+        next();
+    });
+};
+
+// Protected route example
+router.get('/profile', authenticateToken, (req, res) => {
+    const user = users.find(u => u.id === req.user.userId);
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+        id: user.id,
+        email: user.email
+    });
+});
+
+module.exports = { router, authenticateToken };</code></pre>
+                  </div>
+                  
+                  <div class="code-example">
+                    <h4>Frontend Authentication (React)</h4>
+                    <pre><code>// AuthContext.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const AuthContext = createContext();
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (token) {
+            // Verify token and get user info
+            fetchProfile();
+        } else {
+            setLoading(false);
+        }
+    }, [token]);
+
+    const fetchProfile = async () => {
+        try {
+            const response = await fetch('/api/auth/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+                setUser(userData);
+            } else {
+                // Token is invalid
+                logout();
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+            logout();
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const login = async (email, password) => {
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setToken(data.token);
+                setUser(data.user);
+                localStorage.setItem('token', data.token);
+                return { success: true };
+            } else {
+                return { success: false, error: data.error };
+            }
+        } catch (error) {
+            return { success: false, error: 'Network error' };
+        }
+    };
+
+    const register = async (email, password) => {
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setToken(data.token);
+                setUser(data.user);
+                localStorage.setItem('token', data.token);
+                return { success: true };
+            } else {
+                return { success: false, error: data.error };
+            }
+        } catch (error) {
+            return { success: false, error: 'Network error' };
+        }
+    };
+
+    const logout = () => {
+        setToken(null);
+        setUser(null);
+        localStorage.removeItem('token');
+    };
+
+    const value = {
+        user,
+        token,
+        login,
+        register,
+        logout,
+        loading
+    };
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+// LoginForm.js
+import React, { useState } from 'react';
+import { useAuth } from './AuthContext';
+
+const LoginForm = () => {
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { login } = useAuth();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        const result = await login(formData.email, formData.password);
+        
+        if (!result.success) {
+            setError(result.error);
+        }
+        
+        setLoading(false);
+    };
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="login-form">
+            <h2>Login</h2>
+            
+            {error && <div className="error-message">{error}</div>}
+            
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+            />
+            
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+            />
+            
+            <button type="submit" disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'}
+            </button>
+        </form>
+    );
+};
+
+export default LoginForm;</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices Section -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h4>🔗 API Design</h4>
+                  <p>
+                    Design consistent, RESTful APIs with proper HTTP status codes, 
+                    clear error messages, and comprehensive documentation. Version your APIs 
+                    and implement proper CORS handling.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔒 Security First</h4>
+                  <p>
+                    Implement authentication and authorization properly. Validate all inputs, 
+                    use HTTPS, sanitize data, and follow OWASP security guidelines. 
+                    Never trust client-side validation alone.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>⚡ Performance Optimization</h4>
+                  <p>
+                    Optimize both frontend (code splitting, lazy loading, caching) 
+                    and backend (database indexing, caching, efficient queries). 
+                    Monitor performance and implement pagination for large datasets.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🧪 Testing Strategy</h4>
+                  <p>
+                    Implement comprehensive testing: unit tests for business logic, 
+                    integration tests for APIs, and end-to-end tests for user workflows. 
+                    Use continuous integration for automated testing.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>📱 Responsive Design</h4>
+                  <p>
+                    Design mobile-first, ensure accessibility (WCAG guidelines), 
+                    and test across different browsers and devices. Implement proper 
+                    loading states and error handling in the UI.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔄 DevOps Integration</h4>
+                  <p>
+                    Set up proper deployment pipelines, environment management, 
+                    monitoring, and logging. Use containerization and infrastructure 
+                    as code for consistent deployments.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Pitfalls to Avoid</h3>
+                <ul>
+                  <li><strong>Tight Coupling:</strong> Avoid making frontend and backend too dependent on each other</li>
+                  <li><strong>Over-fetching:</strong> Don't load unnecessary data - implement pagination and filtering</li>
+                  <li><strong>Poor Error Handling:</strong> Always handle errors gracefully on both sides</li>
+                  <li><strong>Security Vulnerabilities:</strong> Never expose sensitive data or API keys in frontend code</li>
+                  <li><strong>Performance Issues:</strong> Monitor and optimize both client and server performance</li>
+                  <li><strong>Inconsistent State:</strong> Implement proper state management and data synchronization</li>
+                </ul>
+              </div>
+
+              <div class="info-card">
+                <h3>🚀 Full-Stack Developer Skills</h3>
+                <div class="comparison-grid">
+                  <div class="comparison-item">
+                    <h4>Frontend Skills</h4>
+                    <ul>
+                      <li>HTML, CSS, JavaScript</li>
+                      <li>React/Vue/Angular</li>
+                      <li>Responsive design</li>
+                      <li>Build tools (Webpack, Vite)</li>
+                      <li>Testing (Jest, Cypress)</li>
+                      <li>Performance optimization</li>
+                    </ul>
+                  </div>
+                  <div class="comparison-item">
+                    <h4>Backend Skills</h4>
+                    <ul>
+                      <li>Server-side language (Node.js, Python, Java)</li>
+                      <li>Database design and optimization</li>
+                      <li>API design and development</li>
+                      <li>Security and authentication</li>
+                      <li>Cloud services and deployment</li>
+                      <li>System architecture</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html> 

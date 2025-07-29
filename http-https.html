@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to HTTP and HTTPS protocols - understanding web communication, security, and implementation"
+    />
+    <title>HTTP & HTTPS | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link active"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#web-fundamentals">Web Fundamentals</a>
+                </li>
+                <li>HTTP & HTTPS</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">HTTP & HTTPS</h1>
+            <p class="page-subtitle">
+              Understanding the protocols that power the web - from basic
+              communication to secure connections
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <ul class="toc-list">
+              <li><a href="#overview" class="toc-link">What is HTTP?</a></li>
+              <li>
+                <a href="#https-introduction" class="toc-link"
+                  >HTTPS Introduction</a
+                >
+              </li>
+              <li>
+                <a href="#how-http-works" class="toc-link">How HTTP Works</a>
+              </li>
+              <li><a href="#http-methods" class="toc-link">HTTP Methods</a></li>
+              <li><a href="#status-codes" class="toc-link">Status Codes</a></li>
+              <li><a href="#headers" class="toc-link">Headers</a></li>
+              <li>
+                <a href="#https-security" class="toc-link">HTTPS Security</a>
+              </li>
+              <li>
+                <a href="#implementation" class="toc-link">Implementation</a>
+              </li>
+              <li>
+                <a href="#best-practices" class="toc-link">Best Practices</a>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- HTTP Communication Flow -->
+            <section id="overview" class="content-section">
+              <h2>HTTP Communication Flow</h2>
+
+              <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #6b7280">
+                HTTP (HyperText Transfer Protocol) is the foundation of web
+                communication. Here's exactly how a browser communicates with a
+                web server:
+              </p>
+
+              <!-- Step-by-Step HTTP Flow -->
+              <div class="step-flow" style="margin: 2rem 0">
+                <div class="step-item">
+                  <div class="step-number">1</div>
+                  <div>
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                      DNS Resolution
+                    </h3>
+                    <p style="margin-bottom: 1rem">
+                      Browser looks up the IP address for the domain name
+                    </p>
+                    <div class="code-example">example.com → 93.184.216.34</div>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">2</div>
+                  <div>
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                      TCP Connection
+                    </h3>
+                    <p style="margin-bottom: 1rem">
+                      Browser establishes a TCP connection to the server
+                    </p>
+                    <div class="code-example">
+                      TCP Handshake: SYN → SYN-ACK → ACK
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">3</div>
+                  <div>
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                      HTTP Request
+                    </h3>
+                    <p style="margin-bottom: 1rem">
+                      Browser sends HTTP request to the server
+                    </p>
+                    <div class="code-example">
+                      GET /index.html HTTP/1.1<br />
+                      Host: example.com<br />
+                      User-Agent: Mozilla/5.0...
+                    </div>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">4</div>
+                  <div>
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                      Server Processing
+                    </h3>
+                    <p style="margin-bottom: 1rem">
+                      Server processes the request and prepares response
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">5</div>
+                  <div>
+                    <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                      HTTP Response
+                    </h3>
+                    <p style="margin-bottom: 1rem">
+                      Server sends HTTP response back to browser
+                    </p>
+                    <div class="code-example">
+                      HTTP/1.1 200 OK<br />
+                      Content-Type: text/html<br />
+                      Content-Length: 1234<br />
+                      <br />
+                      &lt;html&gt;...&lt;/html&gt;
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- HTTP vs HTTPS Comparison -->
+              <div style="margin: 3rem 0">
+                <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+                  🔒 HTTP vs HTTPS
+                </h3>
+
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 2rem;
+                    margin: 2rem 0;
+                  "
+                >
+                  <!-- HTTP Column -->
+                  <div
+                    style="
+                      background: #fef2f2;
+                      padding: 2rem;
+                      border-radius: 12px;
+                      border-left: 4px solid #ef4444;
+                    "
+                  >
+                    <h4
+                      style="
+                        color: #dc2626;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                      "
+                    >
+                      🔓 HTTP (Insecure)
+                    </h4>
+                    <ul
+                      style="margin: 0; padding-left: 1.2rem; line-height: 1.8"
+                    >
+                      <li><strong>Port:</strong> 80</li>
+                      <li><strong>Security:</strong> No encryption</li>
+                      <li><strong>Data:</strong> Sent in plain text</li>
+                      <li>
+                        <strong>Vulnerable to:</strong> Eavesdropping, tampering
+                      </li>
+                      <li><strong>URL:</strong> http://example.com</li>
+                      <li><strong>Use case:</strong> Development only</li>
+                    </ul>
+                  </div>
+
+                  <!-- HTTPS Column -->
+                  <div
+                    style="
+                      background: #ecfdf5;
+                      padding: 2rem;
+                      border-radius: 12px;
+                      border-left: 4px solid #10b981;
+                    "
+                  >
+                    <h4
+                      style="
+                        color: #059669;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                      "
+                    >
+                      🔒 HTTPS (Secure)
+                    </h4>
+                    <ul
+                      style="margin: 0; padding-left: 1.2rem; line-height: 1.8"
+                    >
+                      <li><strong>Port:</strong> 443</li>
+                      <li><strong>Security:</strong> SSL/TLS encryption</li>
+                      <li><strong>Data:</strong> Encrypted</li>
+                      <li>
+                        <strong>Protected from:</strong> Eavesdropping,
+                        tampering
+                      </li>
+                      <li><strong>URL:</strong> https://example.com</li>
+                      <li>
+                        <strong>Use case:</strong> All production websites
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TLS Handshake Process -->
+              <div style="margin: 3rem 0">
+                <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+                  🤝 HTTPS TLS Handshake Process
+                </h3>
+
+                <div class="step-flow">
+                  <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div>
+                      <h4 style="color: #2563eb; margin: 0">Client Hello</h4>
+                      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                        Browser sends supported TLS versions and cipher suites
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div>
+                      <h4 style="color: #2563eb; margin: 0">Server Hello</h4>
+                      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                        Server chooses TLS version and cipher suite
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div>
+                      <h4 style="color: #2563eb; margin: 0">Certificate</h4>
+                      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                        Server sends SSL certificate for verification
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div>
+                      <h4 style="color: #2563eb; margin: 0">Key Exchange</h4>
+                      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                        Client and server exchange keys for encryption
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="step-item">
+                    <div class="step-number">5</div>
+                    <div>
+                      <h4 style="color: #10b981; margin: 0">
+                        🔒 Secure Connection
+                      </h4>
+                      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                        Encrypted communication begins
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- HTTP Methods Section -->
+            <section id="http-methods" class="content-section">
+              <h2>HTTP Methods</h2>
+
+              <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #6b7280">
+                HTTP methods define the type of action to be performed on a
+                resource:
+              </p>
+
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                  gap: 1.5rem;
+                  margin: 2rem 0;
+                "
+              >
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">GET</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Retrieve data from server
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    GET /users HTTP/1.1<br />
+                    Host: api.example.com
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">POST</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Submit data to server
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    POST /users HTTP/1.1<br />
+                    Content-Type: application/json<br />
+                    <br />
+                    {"name": "John", "email": "john@example.com"}
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">PUT</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Update entire resource
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    PUT /users/123 HTTP/1.1<br />
+                    Content-Type: application/json<br />
+                    <br />
+                    {"name": "Jane", "email": "jane@example.com"}
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">PATCH</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Update part of resource
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    PATCH /users/123 HTTP/1.1<br />
+                    Content-Type: application/json<br />
+                    <br />
+                    {"email": "newemail@example.com"}
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">DELETE</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Remove resource
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    DELETE /users/123 HTTP/1.1<br />
+                    Host: api.example.com
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #2563eb; margin-bottom: 1rem">HEAD</h3>
+                  <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                    Get headers only (no body)
+                  </p>
+                  <div class="code-example" style="font-size: 0.8rem">
+                    HEAD /users HTTP/1.1<br />
+                    Host: api.example.com
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Status Codes Section -->
+            <section id="status-codes" class="content-section">
+              <h2>HTTP Status Codes</h2>
+
+              <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #6b7280">
+                Status codes tell you what happened with your request:
+              </p>
+
+              <div style="display: grid; gap: 1.5rem; margin: 2rem 0">
+                <!-- 2xx Success -->
+                <div
+                  style="
+                    background: #ecfdf5;
+                    border: 1px solid #a7f3d0;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #059669; margin-bottom: 1rem">
+                    2xx - Success
+                  </h3>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(250px, 1fr)
+                      );
+                      gap: 1rem;
+                    "
+                  >
+                    <div>
+                      <strong>200 OK</strong><br />
+                      <small>Request successful</small>
+                    </div>
+                    <div>
+                      <strong>201 Created</strong><br />
+                      <small>Resource created successfully</small>
+                    </div>
+                    <div>
+                      <strong>204 No Content</strong><br />
+                      <small>Success, but no content to return</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3xx Redirection -->
+                <div
+                  style="
+                    background: #fef3c7;
+                    border: 1px solid #fcd34d;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #d97706; margin-bottom: 1rem">
+                    3xx - Redirection
+                  </h3>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(250px, 1fr)
+                      );
+                      gap: 1rem;
+                    "
+                  >
+                    <div>
+                      <strong>301 Moved Permanently</strong><br />
+                      <small>Resource permanently moved</small>
+                    </div>
+                    <div>
+                      <strong>302 Found</strong><br />
+                      <small>Resource temporarily moved</small>
+                    </div>
+                    <div>
+                      <strong>304 Not Modified</strong><br />
+                      <small>Use cached version</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4xx Client Error -->
+                <div
+                  style="
+                    background: #fef2f2;
+                    border: 1px solid #fca5a5;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #dc2626; margin-bottom: 1rem">
+                    4xx - Client Error
+                  </h3>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(250px, 1fr)
+                      );
+                      gap: 1rem;
+                    "
+                  >
+                    <div>
+                      <strong>400 Bad Request</strong><br />
+                      <small>Invalid request syntax</small>
+                    </div>
+                    <div>
+                      <strong>401 Unauthorized</strong><br />
+                      <small>Authentication required</small>
+                    </div>
+                    <div>
+                      <strong>403 Forbidden</strong><br />
+                      <small>Access denied</small>
+                    </div>
+                    <div>
+                      <strong>404 Not Found</strong><br />
+                      <small>Resource not found</small>
+                    </div>
+                    <div>
+                      <strong>429 Too Many Requests</strong><br />
+                      <small>Rate limit exceeded</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 5xx Server Error -->
+                <div
+                  style="
+                    background: #f3f4f6;
+                    border: 1px solid #d1d5db;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                  "
+                >
+                  <h3 style="color: #6b7280; margin-bottom: 1rem">
+                    5xx - Server Error
+                  </h3>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(250px, 1fr)
+                      );
+                      gap: 1rem;
+                    "
+                  >
+                    <div>
+                      <strong>500 Internal Server Error</strong><br />
+                      <small>Server encountered an error</small>
+                    </div>
+                    <div>
+                      <strong>502 Bad Gateway</strong><br />
+                      <small>Upstream server error</small>
+                    </div>
+                    <div>
+                      <strong>503 Service Unavailable</strong><br />
+                      <small>Server temporarily unavailable</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">HTTP</div>
+                  <div class="comparison-col">HTTPS</div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Security:</strong> No encryption - data sent in
+                    plain text
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Security:</strong> SSL/TLS encryption protects all
+                    data
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Port:</strong> Default port 80
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Port:</strong> Default port 443
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>URL:</strong> http://example.com
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>URL:</strong> https://example.com
+                  </div>
+                </div>
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Use Case:</strong> Internal networks, development
+                  </div>
+                  <div class="comparison-cell">
+                    <strong>Use Case:</strong> All public websites, sensitive
+                    data
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- HTTPS Introduction Section -->
+            <section id="https-introduction" class="content-section">
+              <h2>HTTPS: Secure HTTP</h2>
+
+              <p>
+                HTTPS (HTTP Secure) is HTTP wrapped in a security layer provided
+                by SSL/TLS encryption. It ensures that all communication between
+                your browser and the website is encrypted and secure, protecting
+                against eavesdropping and tampering.
+              </p>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔒</div>
+                  <h3>Data Encryption</h3>
+                  <p>
+                    All data transmitted is encrypted and unreadable to
+                    attackers
+                  </p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">✅</div>
+                  <h3>Authentication</h3>
+                  <p>
+                    Verifies the identity of the website you're communicating
+                    with
+                  </p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🛡️</div>
+                  <h3>Data Integrity</h3>
+                  <p>Ensures data hasn't been modified during transmission</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🚀</div>
+                  <h3>SEO Benefits</h3>
+                  <p>Search engines prefer HTTPS sites in rankings</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- How HTTP Works Section -->
+            <section id="how-http-works" class="content-section">
+              <h2>How HTTP Works</h2>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>Client (Browser)</strong>
+                    <p>Sends HTTP Request</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item server">
+                    <strong>Web Server</strong>
+                    <p>Processes Request</p>
+                  </div>
+                  <div class="diagram-arrow">←</div>
+                  <div class="diagram-item client">
+                    <strong>Client (Browser)</strong>
+                    <p>Receives HTTP Response</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="process-flow">
+                <div class="process-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>DNS Resolution</h3>
+                    <p>Browser looks up the IP address for the domain name</p>
+                    <div class="code-example">
+                      <pre><code>example.com → 93.184.216.34</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>TCP Connection</h3>
+                    <p>Browser establishes a TCP connection to the server</p>
+                    <div class="code-example">
+                      <pre><code>TCP Handshake: SYN → SYN-ACK → ACK</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>HTTP Request</h3>
+                    <p>Browser sends HTTP request to the server</p>
+                    <div class="code-example">
+                      <pre><code>GET /index.html HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0...</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Server Processing</h3>
+                    <p>Server processes the request and prepares response</p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h3>HTTP Response</h3>
+                    <p>Server sends HTTP response back to browser</p>
+                    <div class="code-example">
+                      <pre><code>HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 1234
+
+&lt;html&gt;...&lt;/html&gt;</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- HTTP Methods Section -->
+            <section id="http-methods" class="content-section">
+              <h2>HTTP Methods</h2>
+
+              <p>
+                HTTP methods (also called verbs) indicate the desired action to
+                be performed on a resource.
+              </p>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>GET</h3>
+                  <p><strong>Purpose:</strong> Retrieve data from server</p>
+                  <ul>
+                    <li>Idempotent and safe</li>
+                    <li>Data sent in URL parameters</li>
+                    <li>Can be cached</li>
+                    <li>Should not modify server state</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>GET /api/users/123 HTTP/1.1
+Host: api.example.com</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>POST</h3>
+                  <p><strong>Purpose:</strong> Submit data to server</p>
+                  <ul>
+                    <li>Not idempotent</li>
+                    <li>Data sent in request body</li>
+                    <li>Used for creating resources</li>
+                    <li>Can modify server state</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>POST /api/users HTTP/1.1
+Content-Type: application/json
+
+{"name": "John", "email": "john@example.com"}</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>PUT</h3>
+                  <p>
+                    <strong>Purpose:</strong> Update/replace entire resource
+                  </p>
+                  <ul>
+                    <li>Idempotent</li>
+                    <li>Replaces entire resource</li>
+                    <li>Creates resource if it doesn't exist</li>
+                    <li>Data sent in request body</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>PUT /api/users/123 HTTP/1.1
+Content-Type: application/json
+
+{"name": "John Smith", "email": "john.smith@example.com"}</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>PATCH</h3>
+                  <p><strong>Purpose:</strong> Partially update resource</p>
+                  <ul>
+                    <li>May or may not be idempotent</li>
+                    <li>Updates specific fields only</li>
+                    <li>More efficient than PUT</li>
+                    <li>Data sent in request body</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>PATCH /api/users/123 HTTP/1.1
+Content-Type: application/json
+
+{"email": "newemail@example.com"}</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>DELETE</h3>
+                  <p><strong>Purpose:</strong> Remove resource from server</p>
+                  <ul>
+                    <li>Idempotent</li>
+                    <li>Removes specified resource</li>
+                    <li>Usually no request body</li>
+                    <li>May return content about deletion</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>DELETE /api/users/123 HTTP/1.1
+Host: api.example.com</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>HEAD</h3>
+                  <p><strong>Purpose:</strong> Get headers without body</p>
+                  <ul>
+                    <li>Same as GET but no response body</li>
+                    <li>Used to check resource existence</li>
+                    <li>Check if resource modified</li>
+                    <li>Get metadata about resource</li>
+                  </ul>
+                  <div class="code-example">
+                    <pre><code>HEAD /api/users/123 HTTP/1.1
+Host: api.example.com</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Status Codes Section -->
+            <section id="status-codes" class="content-section">
+              <h2>HTTP Status Codes</h2>
+
+              <p>
+                HTTP status codes indicate whether a specific HTTP request has
+                been successfully completed.
+              </p>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>1xx - Informational</h3>
+                  <p>Request received, continuing process</p>
+                  <div class="use-case-example">
+                    <strong>100 Continue:</strong> Server received initial part
+                    of request<br />
+                    <strong>101 Switching Protocols:</strong> Server switching
+                    to different protocol
+                  </div>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>2xx - Success</h3>
+                  <p>
+                    Request was successfully received, understood, and accepted
+                  </p>
+                  <div class="use-case-example">
+                    <strong>200 OK:</strong> Request succeeded<br />
+                    <strong>201 Created:</strong> Request succeeded and new
+                    resource created<br />
+                    <strong>204 No Content:</strong> Request succeeded but no
+                    content to return
+                  </div>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>3xx - Redirection</h3>
+                  <p>Further action needs to be taken to complete request</p>
+                  <div class="use-case-example">
+                    <strong>301 Moved Permanently:</strong> Resource permanently
+                    moved to new URL<br />
+                    <strong>302 Found:</strong> Resource temporarily moved<br />
+                    <strong>304 Not Modified:</strong> Resource not modified
+                    since last request
+                  </div>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>4xx - Client Error</h3>
+                  <p>Request contains bad syntax or cannot be fulfilled</p>
+                  <div class="use-case-example">
+                    <strong>400 Bad Request:</strong> Invalid request syntax<br />
+                    <strong>401 Unauthorized:</strong> Authentication
+                    required<br />
+                    <strong>403 Forbidden:</strong> Access denied<br />
+                    <strong>404 Not Found:</strong> Resource not found<br />
+                    <strong>429 Too Many Requests:</strong> Rate limit exceeded
+                  </div>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>5xx - Server Error</h3>
+                  <p>Server failed to fulfill valid request</p>
+                  <div class="use-case-example">
+                    <strong>500 Internal Server Error:</strong> Generic server
+                    error<br />
+                    <strong>502 Bad Gateway:</strong> Invalid response from
+                    upstream server<br />
+                    <strong>503 Service Unavailable:</strong> Server temporarily
+                    unavailable<br />
+                    <strong>504 Gateway Timeout:</strong> Upstream server
+                    timeout
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Headers Section -->
+            <section id="headers" class="content-section">
+              <h2>HTTP Headers</h2>
+
+              <p>
+                HTTP headers provide additional information about the request or
+                response, including metadata about the content, client
+                capabilities, and server instructions.
+              </p>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>Request Headers</h3>
+                  <p>Sent by client to server</p>
+                  <div class="code-example">
+                    <pre><code>Accept: application/json, text/html
+Accept-Encoding: gzip, deflate
+Authorization: Bearer eyJ0eXAiOiJKV1Q...
+Content-Type: application/json
+User-Agent: Mozilla/5.0 (Windows NT 10.0...)
+Cookie: sessionId=abc123; theme=dark</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Response Headers</h3>
+                  <p>Sent by server to client</p>
+                  <div class="code-example">
+                    <pre><code>Content-Type: text/html; charset=utf-8
+Content-Length: 1234
+Cache-Control: public, max-age=3600
+Set-Cookie: sessionId=xyz789; HttpOnly; Secure
+Server: nginx/1.18.0
+X-Frame-Options: DENY</code></pre>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Security Headers</h3>
+                  <p>Important for web security</p>
+                  <div class="code-example">
+                    <pre><code>Strict-Transport-Security: max-age=31536000
+Content-Security-Policy: default-src 'self'
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- HTTPS Security Section -->
+            <section id="https-security" class="content-section">
+              <h2>HTTPS Security Deep Dive</h2>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>Client</strong>
+                    <p>Browser</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <strong>TLS Handshake</strong>
+                    <p>Certificate Exchange</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item server">
+                    <strong>Server</strong>
+                    <p>Web Server</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="process-flow">
+                <div class="process-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>Client Hello</h3>
+                    <p>
+                      Client sends supported TLS versions, cipher suites, and
+                      random data
+                    </p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>Server Hello</h3>
+                    <p>
+                      Server responds with chosen TLS version, cipher suite, and
+                      certificate
+                    </p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>Certificate Verification</h3>
+                    <p>
+                      Client verifies server certificate with Certificate
+                      Authority (CA)
+                    </p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Key Exchange</h3>
+                    <p>
+                      Client and server establish shared secret keys for
+                      encryption
+                    </p>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h3>Secure Communication</h3>
+                    <p>
+                      All HTTP traffic is now encrypted using the established
+                      keys
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>SSL/TLS Certificate Types</h3>
+                <ul>
+                  <li>
+                    <strong>Domain Validated (DV):</strong> Basic validation of
+                    domain ownership
+                  </li>
+                  <li>
+                    <strong>Organization Validated (OV):</strong> Validates
+                    organization identity
+                  </li>
+                  <li>
+                    <strong>Extended Validation (EV):</strong> Highest level of
+                    validation
+                  </li>
+                  <li>
+                    <strong>Wildcard:</strong> Covers all subdomains
+                    (*.example.com)
+                  </li>
+                  <li>
+                    <strong>Multi-Domain (SAN):</strong> Covers multiple
+                    different domains
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Implementation Section -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation Examples</h2>
+
+              <div class="implementation-tabs">
+                <div class="tab-content">
+                  <h3>🐍 Python HTTP Client</h3>
+                  <div class="code-example">
+                    <pre><code>import requests
+import json
+
+class HTTPClient:
+    def __init__(self, base_url, headers=None):
+        self.base_url = base_url.rstrip('/')
+        self.session = requests.Session()
+        if headers:
+            self.session.headers.update(headers)
+    
+    def get(self, endpoint, params=None):
+        """Make GET request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        response = self.session.get(url, params=params)
+        response.raise_for_status()
+        return response.json() if response.content else None
+    
+    def post(self, endpoint, data=None, json_data=None):
+        """Make POST request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        if json_data:
+            response = self.session.post(url, json=json_data)
+        else:
+            response = self.session.post(url, data=data)
+        response.raise_for_status()
+        return response.json() if response.content else None
+    
+    def put(self, endpoint, data=None, json_data=None):
+        """Make PUT request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        if json_data:
+            response = self.session.put(url, json=json_data)
+        else:
+            response = self.session.put(url, data=data)
+        response.raise_for_status()
+        return response.json() if response.content else None
+    
+    def delete(self, endpoint):
+        """Make DELETE request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        response = self.session.delete(url)
+        response.raise_for_status()
+        return response.json() if response.content else None
+
+# Usage example
+client = HTTPClient(
+    base_url="https://jsonplaceholder.typicode.com",
+    headers={
+        "User-Agent": "MyApp/1.0",
+        "Accept": "application/json"
+    }
+)
+
+# GET request
+users = client.get("/users")
+print(f"Found {len(users)} users")
+
+# POST request
+new_post = client.post("/posts", json_data={
+    "title": "My New Post",
+    "body": "This is the content of my new post",
+    "userId": 1
+})
+print(f"Created post with ID: {new_post['id']}")
+
+# PUT request
+updated_post = client.put(f"/posts/{new_post['id']}", json_data={
+    "title": "Updated Post Title",
+    "body": "Updated content",
+    "userId": 1
+})
+
+# DELETE request
+client.delete(f"/posts/{new_post['id']}")
+print("Post deleted successfully")</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🟨 JavaScript HTTP Client</h3>
+                  <div class="code-example">
+                    <pre><code>class HTTPClient {
+    constructor(baseURL, defaultHeaders = {}) {
+        this.baseURL = baseURL.replace(/\/$/, '');
+        this.defaultHeaders = {
+            'Content-Type': 'application/json',
+            ...defaultHeaders
+        };
+    }
+
+    async request(method, endpoint, options = {}) {
+        const url = `${this.baseURL}/${endpoint.replace(/^\//, '')}`;
+        
+        const config = {
+            method: method.toUpperCase(),
+            headers: {
+                ...this.defaultHeaders,
+                ...options.headers
+            }
+        };
+
+        // Add body for POST, PUT, PATCH requests
+        if (['POST', 'PUT', 'PATCH'].includes(config.method) && options.data) {
+            if (typeof options.data === 'object') {
+                config.body = JSON.stringify(options.data);
+            } else {
+                config.body = options.data;
+            }
+        }
+
+        // Add query parameters
+        if (options.params) {
+            const searchParams = new URLSearchParams(options.params);
+            url += `?${searchParams.toString()}`;
+        }
+
+        try {
+            const response = await fetch(url, config);
+            
+            if (!response.ok) {
+                const error = new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                error.status = response.status;
+                error.response = response;
+                throw error;
+            }
+
+            // Handle different content types
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return await response.json();
+            } else if (contentType && contentType.includes('text/')) {
+                return await response.text();
+            } else {
+                return await response.blob();
+            }
+        } catch (error) {
+            console.error(`Request failed: ${method} ${url}`, error);
+            throw error;
+        }
+    }
+
+    get(endpoint, params = {}) {
+        return this.request('GET', endpoint, { params });
+    }
+
+    post(endpoint, data, headers = {}) {
+        return this.request('POST', endpoint, { data, headers });
+    }
+
+    put(endpoint, data, headers = {}) {
+        return this.request('PUT', endpoint, { data, headers });
+    }
+
+    patch(endpoint, data, headers = {}) {
+        return this.request('PATCH', endpoint, { data, headers });
+    }
+
+    delete(endpoint, headers = {}) {
+        return this.request('DELETE', endpoint, { headers });
+    }
+}
+
+// Usage example
+const api = new HTTPClient('https://jsonplaceholder.typicode.com', {
+    'Authorization': 'Bearer your-token-here',
+    'User-Agent': 'MyApp/1.0'
+});
+
+// Async/await usage
+async function example() {
+    try {
+        // GET request
+        const users = await api.get('/users');
+        console.log(`Found ${users.length} users`);
+
+        // POST request
+        const newPost = await api.post('/posts', {
+            title: 'My New Post',
+            body: 'This is the content',
+            userId: 1
+        });
+        console.log('Created post:', newPost);
+
+        // PUT request
+        const updatedPost = await api.put(`/posts/${newPost.id}`, {
+            title: 'Updated Title',
+            body: 'Updated content',
+            userId: 1
+        });
+
+        // DELETE request
+        await api.delete(`/posts/${newPost.id}`);
+        console.log('Post deleted');
+
+    } catch (error) {
+        console.error('API Error:', error.message);
+        if (error.status === 404) {
+            console.log('Resource not found');
+        } else if (error.status >= 500) {
+            console.log('Server error occurred');
+        }
+    }
+}
+
+// Using Promises
+api.get('/users')
+    .then(users => console.log('Users:', users))
+    .catch(error => console.error('Error:', error));</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🔒 HTTPS Server (Node.js)</h3>
+                  <div class="code-example">
+                    <pre><code>const https = require('https');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+class HTTPSServer {
+    constructor(options = {}) {
+        this.port = options.port || 443;
+        this.httpPort = options.httpPort || 80;
+        this.certPath = options.certPath || './ssl/cert.pem';
+        this.keyPath = options.keyPath || './ssl/key.pem';
+        this.redirectHttp = options.redirectHttp !== false;
+        
+        this.routes = new Map();
+        this.middleware = [];
+    }
+
+    use(middleware) {
+        this.middleware.push(middleware);
+    }
+
+    get(path, handler) {
+        this.addRoute('GET', path, handler);
+    }
+
+    post(path, handler) {
+        this.addRoute('POST', path, handler);
+    }
+
+    put(path, handler) {
+        this.addRoute('PUT', path, handler);
+    }
+
+    delete(path, handler) {
+        this.addRoute('DELETE', path, handler);
+    }
+
+    addRoute(method, path, handler) {
+        const key = `${method}:${path}`;
+        this.routes.set(key, handler);
+    }
+
+    async handleRequest(req, res) {
+        try {
+            // Add security headers
+            this.setSecurityHeaders(res);
+
+            // Apply middleware
+            for (const middleware of this.middleware) {
+                await middleware(req, res);
+            }
+
+            // Parse request body for POST/PUT requests
+            if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+                req.body = await this.parseBody(req);
+            }
+
+            // Find and execute route handler
+            const key = `${req.method}:${req.url.split('?')[0]}`;
+            const handler = this.routes.get(key);
+
+            if (handler) {
+                await handler(req, res);
+            } else {
+                this.sendNotFound(res);
+            }
+        } catch (error) {
+            console.error('Request error:', error);
+            this.sendError(res, error);
+        }
+    }
+
+    setSecurityHeaders(res) {
+        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'DENY');
+        res.setHeader('X-XSS-Protection', '1; mode=block');
+        res.setHeader('Content-Security-Policy', "default-src 'self'");
+        res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    }
+
+    async parseBody(req) {
+        return new Promise((resolve, reject) => {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                try {
+                    const contentType = req.headers['content-type'] || '';
+                    if (contentType.includes('application/json')) {
+                        resolve(JSON.parse(body));
+                    } else {
+                        resolve(body);
+                    }
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    sendJSON(res, data, status = 200) {
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+    }
+
+    sendNotFound(res) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+    }
+
+    sendError(res, error, status = 500) {
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ 
+            error: error.message || 'Internal Server Error' 
+        }));
+    }
+
+    start() {
+        try {
+            // Load SSL certificates
+            const httpsOptions = {
+                key: fs.readFileSync(this.keyPath),
+                cert: fs.readFileSync(this.certPath)
+            };
+
+            // Create HTTPS server
+            const httpsServer = https.createServer(httpsOptions, (req, res) => {
+                this.handleRequest(req, res);
+            });
+
+            httpsServer.listen(this.port, () => {
+                console.log(`HTTPS Server running on port ${this.port}`);
+            });
+
+            // Create HTTP server for redirects (optional)
+            if (this.redirectHttp) {
+                const httpServer = http.createServer((req, res) => {
+                    const host = req.headers.host.split(':')[0];
+                    const httpsUrl = `https://${host}${req.url}`;
+                    
+                    res.writeHead(301, {
+                        'Location': httpsUrl,
+                        'Strict-Transport-Security': 'max-age=31536000'
+                    });
+                    res.end();
+                });
+
+                httpServer.listen(this.httpPort, () => {
+                    console.log(`HTTP Server redirecting on port ${this.httpPort}`);
+                });
+            }
+
+        } catch (error) {
+            console.error('Failed to start server:', error);
+        }
+    }
+}
+
+// Usage example
+const server = new HTTPSServer({
+    port: 443,
+    httpPort: 80,
+    certPath: './ssl/fullchain.pem',
+    keyPath: './ssl/privkey.pem'
+});
+
+// Add middleware
+server.use(async (req, res) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+});
+
+// Add routes
+server.get('/', (req, res) => {
+    server.sendJSON(res, { message: 'Hello HTTPS World!' });
+});
+
+server.get('/api/users', (req, res) => {
+    server.sendJSON(res, [
+        { id: 1, name: 'Alice', email: 'alice@example.com' },
+        { id: 2, name: 'Bob', email: 'bob@example.com' }
+    ]);
+});
+
+server.post('/api/users', (req, res) => {
+    const newUser = { id: Date.now(), ...req.body };
+    server.sendJSON(res, newUser, 201);
+});
+
+// Start the server
+server.start();</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices Section -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h4>🔒 Always Use HTTPS</h4>
+                  <p>
+                    Use HTTPS for all websites, not just those handling
+                    sensitive data. Implement HSTS (HTTP Strict Transport
+                    Security) to force HTTPS connections.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>📊 Proper Status Codes</h4>
+                  <p>
+                    Use appropriate HTTP status codes. Don't return 200 OK for
+                    errors or 500 for client mistakes. Each status code has a
+                    specific meaning.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🏷️ Meaningful Headers</h4>
+                  <p>
+                    Include relevant headers like Content-Type, Cache-Control,
+                    and security headers. Use custom headers sparingly and
+                    follow the X- prefix convention.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>⚡ Performance Optimization</h4>
+                  <p>
+                    Enable compression (gzip/brotli), use caching effectively,
+                    minimize header size, and implement HTTP/2 for better
+                    performance.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🛡️ Security Headers</h4>
+                  <p>
+                    Implement security headers like CSP, HSTS, X-Frame-Options,
+                    and X-Content-Type-Options to protect against common
+                    attacks.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔄 Idempotency</h4>
+                  <p>
+                    Ensure GET, PUT, and DELETE operations are idempotent. The
+                    same request should produce the same result when repeated.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Mistakes to Avoid</h3>
+                <ul>
+                  <li>
+                    <strong>Mixed Content:</strong> Don't load HTTP resources on
+                    HTTPS pages
+                  </li>
+                  <li>
+                    <strong>Sensitive Data in URLs:</strong> Never put passwords
+                    or tokens in GET parameters
+                  </li>
+                  <li>
+                    <strong>Weak Certificates:</strong> Use strong encryption
+                    and keep certificates updated
+                  </li>
+                  <li>
+                    <strong>Ignoring CORS:</strong> Properly configure CORS for
+                    cross-origin requests
+                  </li>
+                  <li>
+                    <strong>Poor Error Handling:</strong> Don't expose internal
+                    server details in errors
+                  </li>
+                  <li>
+                    <strong>Caching Sensitive Data:</strong> Use proper cache
+                    headers for sensitive content
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

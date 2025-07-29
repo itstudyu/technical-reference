@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete Git command reference guide - branches, merging, submodules, advanced workflows, and best practices"
+    />
+    <title>Git Command Reference | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link">CDN</a>
+                  </li>
+                  <li>
+                    <a href="git-guide.html" class="dropdown-link active"
+                      >Git Guide</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#devops">DevOps & Deployment</a>
+                </li>
+                <li>Git Guide</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Git Command Reference</h1>
+            <p class="page-subtitle">
+              Complete guide to Git commands, workflows, submodules, advanced
+              operations, and best practices
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#basics" class="toc-link">Git Basics</a></li>
+                <li><a href="#branching" class="toc-link">Branching</a></li>
+                <li>
+                  <a href="#merging" class="toc-link">Merging & Rebasing</a>
+                </li>
+                <li>
+                  <a href="#remote" class="toc-link">Remote Repositories</a>
+                </li>
+                <li>
+                  <a href="#history" class="toc-link">History & Changes</a>
+                </li>
+                <li><a href="#undoing" class="toc-link">Undoing Changes</a></li>
+                <li><a href="#submodules" class="toc-link">Submodules</a></li>
+                <li>
+                  <a href="#advanced" class="toc-link">Advanced Commands</a>
+                </li>
+                <li><a href="#workflows" class="toc-link">Git Workflows</a></li>
+                <li>
+                  <a href="#best-practices" class="toc-link">Best Practices</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Git Basics -->
+            <section id="basics" class="content-section">
+              <h2>Git Basics</h2>
+
+              <div class="diagram">
+                <h3>Git Repository Structure</h3>
+                <div class="mermaid">
+                  graph TB WD[Working Directory] SA[Staging Area<br />Index]
+                  LR[Local Repository<br />.git] RR[Remote Repository<br />Origin]
+                  WD -->|git add| SA SA -->|git commit| LR LR -->|git push| RR
+                  RR -->|git pull| WD RR -->|git fetch| LR
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Initial Setup</h3>
+                <pre><code># Configure Git (first time setup)
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+git config --global init.defaultBranch main
+
+# Initialize a repository
+git init
+git init --bare  # Create bare repository (for servers)
+
+# Clone a repository
+git clone https://github.com/user/repo.git
+git clone https://github.com/user/repo.git my-folder
+git clone --depth 1 https://github.com/user/repo.git  # Shallow clone
+
+# Check status and configuration
+git status
+git config --list
+git config user.name</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Basic Operations</h3>
+                <pre><code># Adding files
+git add file.txt                    # Add specific file
+git add .                          # Add all files in current directory
+git add -A                         # Add all files (including deleted)
+git add -u                         # Add only modified files
+git add -p                         # Interactive staging (patch mode)
+
+# Committing changes
+git commit -m "Commit message"     # Commit with message
+git commit -am "Message"           # Add and commit modified files
+git commit --amend                 # Amend last commit
+git commit --amend -m "New message" # Amend with new message
+git commit --no-edit --amend       # Amend without changing message
+
+# Viewing changes
+git diff                           # Changes in working directory
+git diff --staged                  # Changes in staging area
+git diff HEAD~1                    # Compare with previous commit
+git diff branch1..branch2          # Compare branches
+git diff --name-only               # Show only file names</code></pre>
+              </div>
+            </section>
+
+            <!-- Branching -->
+            <section id="branching" class="content-section">
+              <h2>Branching</h2>
+
+              <div class="diagram">
+                <h3>Git Branching Model</h3>
+                <div class="mermaid">
+                  gitgraph commit id: "Initial" branch develop commit id:
+                  "Feature prep" branch feature commit id: "Feature work" commit
+                  id: "Feature complete" checkout develop merge feature commit
+                  id: "Integration" checkout main merge develop commit id:
+                  "Release"
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Branch Operations</h3>
+                <pre><code># Creating branches
+git branch feature-branch          # Create new branch
+git checkout -b feature-branch     # Create and switch to branch
+git switch -c feature-branch       # Modern way to create and switch
+
+# Switching branches
+git checkout main                  # Switch to main branch
+git switch main                    # Modern way to switch
+git checkout -                     # Switch to previous branch
+
+# Listing branches
+git branch                         # List local branches
+git branch -r                      # List remote branches
+git branch -a                      # List all branches
+git branch -v                      # List with last commit info
+git branch --merged               # List merged branches
+git branch --no-merged            # List unmerged branches
+
+# Deleting branches
+git branch -d feature-branch       # Delete merged branch
+git branch -D feature-branch       # Force delete branch
+git push origin --delete feature-branch  # Delete remote branch
+
+# Renaming branches
+git branch -m old-name new-name    # Rename branch
+git branch -m new-name             # Rename current branch
+
+# Branch tracking
+git branch -u origin/main          # Set upstream branch
+git branch --set-upstream-to=origin/main main</code></pre>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🌟 Feature Branches</h3>
+                  <p>
+                    Create isolated environments for developing new features
+                    without affecting main codebase.
+                  </p>
+                  <div class="use-case-example">
+                    <code>git checkout -b feature/user-authentication</code>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🐛 Hotfix Branches</h3>
+                  <p>
+                    Quickly fix critical bugs in production by branching from
+                    main.
+                  </p>
+                  <div class="use-case-example">
+                    <code>git checkout -b hotfix/security-patch</code>
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🚀 Release Branches</h3>
+                  <p>
+                    Prepare releases with final testing and bug fixes before
+                    merging to main.
+                  </p>
+                  <div class="use-case-example">
+                    <code>git checkout -b release/v1.2.0</code>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Merging & Rebasing -->
+            <section id="merging" class="content-section">
+              <h2>Merging & Rebasing</h2>
+
+              <div class="code-block">
+                <h3>Merging Strategies</h3>
+                <pre><code># Basic merge
+git merge feature-branch           # Merge feature branch into current
+git merge --no-ff feature-branch   # Force merge commit (no fast-forward)
+git merge --squash feature-branch  # Squash all commits into one
+
+# Merge with conflict resolution
+git merge feature-branch
+# If conflicts occur:
+git status                         # See conflicted files
+# Edit files to resolve conflicts
+git add resolved-file.txt
+git commit                         # Complete the merge
+
+# Abort merge
+git merge --abort                  # Cancel ongoing merge
+
+# Fast-forward vs No-fast-forward
+git merge --ff-only feature        # Only if fast-forward possible
+git merge --no-ff feature          # Always create merge commit</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Rebasing</h3>
+                <pre><code># Basic rebase
+git rebase main                    # Rebase current branch onto main
+git rebase main feature-branch     # Rebase feature onto main
+
+# Interactive rebase
+git rebase -i HEAD~3               # Interactive rebase last 3 commits
+git rebase -i main                 # Interactive rebase onto main
+
+# Interactive rebase actions:
+# pick    = use commit as-is
+# reword  = use commit but edit message
+# edit    = use commit but stop for amending
+# squash  = meld into previous commit
+# fixup   = like squash but discard commit message
+# drop    = remove commit
+
+# Continue/abort rebase
+git rebase --continue              # Continue after resolving conflicts
+git rebase --abort                 # Abort rebase operation
+git rebase --skip                  # Skip current commit
+
+# Rebase onto different branch
+git rebase --onto main develop feature  # Rebase feature commits that are not in develop</code></pre>
+              </div>
+
+              <div class="diagram">
+                <h3>Merge vs Rebase</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Before" A1[A] --> B1[B] B1 --> C1[C - main]
+                  A1 --> D1[D] D1 --> E1[E - feature] end subgraph "After Merge"
+                  A2[A] --> B2[B] B2 --> C2[C] C2 --> M[M - merge] A2 --> D2[D]
+                  D2 --> E2[E] E2 --> M end subgraph "After Rebase" A3[A] -->
+                  B3[B] B3 --> C3[C] C3 --> D3[D'] D3 --> E3[E'] end
+                </div>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Aspect</div>
+                  <div class="comparison-col">Merge</div>
+                  <div class="comparison-col">Rebase</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>History</strong></div>
+                  <div class="comparison-cell">Preserves original history</div>
+                  <div class="comparison-cell">Creates linear history</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Commits</strong></div>
+                  <div class="comparison-cell">Creates merge commit</div>
+                  <div class="comparison-cell">Replays commits</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Collaboration</strong>
+                  </div>
+                  <div class="comparison-cell">Safe for shared branches</div>
+                  <div class="comparison-cell">
+                    Dangerous for shared branches
+                  </div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Use Case</strong></div>
+                  <div class="comparison-cell">Feature integration</div>
+                  <div class="comparison-cell">Clean up local history</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Remote Repositories -->
+            <section id="remote" class="content-section">
+              <h2>Remote Repositories</h2>
+
+              <div class="code-block">
+                <h3>Remote Management</h3>
+                <pre><code># Adding remotes
+git remote add origin https://github.com/user/repo.git
+git remote add upstream https://github.com/original/repo.git
+
+# Listing remotes
+git remote                         # List remote names
+git remote -v                      # List with URLs
+git remote show origin             # Show remote details
+
+# Changing remotes
+git remote set-url origin https://github.com/user/new-repo.git
+git remote rename origin upstream  # Rename remote
+git remote remove upstream         # Remove remote
+
+# Fetching and pulling
+git fetch                          # Fetch all remotes
+git fetch origin                   # Fetch specific remote
+git fetch origin main             # Fetch specific branch
+
+git pull                          # Fetch and merge current branch
+git pull origin main              # Pull specific branch
+git pull --rebase                 # Pull with rebase instead of merge
+git pull --ff-only                # Only pull if fast-forward possible
+
+# Pushing
+git push                          # Push current branch
+git push origin main              # Push to specific remote/branch
+git push -u origin feature        # Push and set upstream
+git push --all                    # Push all branches
+git push --tags                   # Push all tags
+git push --force                  # Force push (dangerous!)
+git push --force-with-lease       # Safer force push</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Tracking Branches</h3>
+                <pre><code># Set up tracking
+git branch --set-upstream-to=origin/main main
+git checkout -b feature origin/feature  # Create tracking branch
+
+# Check tracking information
+git branch -vv                     # Show tracking info for all branches
+git status                         # Shows ahead/behind info
+
+# Prune remote branches
+git remote prune origin            # Remove stale remote-tracking branches
+git fetch -p                       # Fetch with prune</code></pre>
+              </div>
+
+              <div class="diagram">
+                <h3>Remote Repository Workflow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant WD as Working Directory
+                  participant LR as Local Repository participant RR as Remote
+                  Repository Note over WD,RR: Daily Workflow RR->>LR: git fetch
+                  (updates refs) RR->>WD: git pull (fetch + merge) WD->>WD: Make
+                  changes WD->>LR: git add & commit LR->>RR: git push Note over
+                  WD,RR: Collaboration RR->>LR: git fetch origin LR->>WD: git
+                  merge origin/main alt Conflicts WD->>WD: Resolve conflicts
+                  WD->>LR: git commit end LR->>RR: git push
+                </div>
+              </div>
+            </section>
+
+            <!-- History & Changes -->
+            <section id="history" class="content-section">
+              <h2>History & Changes</h2>
+
+              <div class="code-block">
+                <h3>Viewing History</h3>
+                <pre><code># Basic log
+git log                           # Full commit history
+git log --oneline                 # Condensed one-line format
+git log --graph                   # ASCII graph of branches
+git log --all --graph --oneline   # Graph of all branches
+
+# Filtering logs
+git log -n 10                     # Last 10 commits
+git log --since="2023-01-01"      # Commits since date
+git log --until="1 week ago"      # Commits until timeframe
+git log --author="John Doe"       # Commits by author
+git log --grep="bug fix"          # Commits with message containing text
+
+# File-specific history
+git log filename.txt              # History of specific file
+git log -p filename.txt           # History with patches
+git log --follow filename.txt     # Follow file renames
+
+# Advanced log formatting
+git log --pretty=format:"%h %an %ar %s"  # Custom format
+git log --stat                    # Show changed files statistics
+git log --shortstat               # Show insertion/deletion summary
+git log --name-only               # Show only changed file names
+git log --name-status             # Show changed files with status</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Examining Changes</h3>
+                <pre><code># Show specific commit
+git show HEAD                     # Show last commit
+git show commit-hash              # Show specific commit
+git show HEAD~2                   # Show commit 2 steps back
+git show HEAD:filename.txt        # Show file from specific commit
+
+# Compare commits
+git diff HEAD~1..HEAD             # Compare last two commits
+git diff commit1..commit2         # Compare two commits
+git diff main..feature            # Compare branches
+
+# Find when something changed
+git log -S "function_name"        # Find commits that changed content
+git log -G "regex_pattern"        # Find commits matching regex
+git blame filename.txt            # Show who changed each line
+git annotate filename.txt         # Alternative to blame
+
+# Search in history
+git log --all --full-history -- filename.txt  # Full history including deletions
+git rev-list --all | xargs git grep "search_term"  # Search in all commits</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>References and Tags</h3>
+                <pre><code># Working with tags
+git tag                           # List all tags
+git tag v1.0.0                    # Create lightweight tag
+git tag -a v1.0.0 -m "Version 1.0.0"  # Create annotated tag
+git tag -d v1.0.0                 # Delete local tag
+git push origin v1.0.0            # Push tag to remote
+git push origin --tags            # Push all tags
+git push origin :refs/tags/v1.0.0 # Delete remote tag
+
+# References
+git show-ref                      # Show all references
+git symbolic-ref HEAD             # Show current branch reference
+git rev-parse HEAD                # Get commit hash of HEAD
+git rev-parse --short HEAD        # Get short commit hash</code></pre>
+              </div>
+            </section>
+
+            <!-- Undoing Changes -->
+            <section id="undoing" class="content-section">
+              <h2>Undoing Changes</h2>
+
+              <div class="diagram">
+                <h3>Git Reset Types</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Working Directory" W[Modified Files] end
+                  subgraph "Staging Area" S[Staged Files] end subgraph
+                  "Repository" R[Committed Files] end subgraph "Reset Types"
+                  SOFT[--soft<br />Move HEAD only] MIXED[--mixed<br />Move HEAD
+                  + reset staging] HARD[--hard<br />Move HEAD + reset staging +
+                  working] end SOFT --> R MIXED --> R MIXED --> S HARD --> R
+                  HARD --> S HARD --> W
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Reset Commands</h3>
+                <pre><code># Reset types
+git reset --soft HEAD~1           # Undo commit, keep changes staged
+git reset --mixed HEAD~1          # Undo commit and staging (default)
+git reset --hard HEAD~1           # Undo everything (dangerous!)
+
+# Reset specific files
+git reset filename.txt            # Unstage file
+git reset HEAD filename.txt       # Unstage file (explicit)
+git checkout -- filename.txt      # Discard working directory changes
+git restore filename.txt          # Modern way to discard changes
+git restore --staged filename.txt # Modern way to unstage
+
+# Reset to specific commit
+git reset --hard commit-hash      # Reset to specific commit
+git reset --hard origin/main      # Reset to match remote
+
+# Reflog (recovery)
+git reflog                        # Show reference log
+git reset --hard HEAD@{2}         # Reset using reflog reference</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Revert and Clean</h3>
+                <pre><code># Revert commits (safe for shared history)
+git revert HEAD                   # Create commit that undoes last commit
+git revert HEAD~2                 # Revert specific commit
+git revert --no-edit HEAD         # Revert without opening editor
+git revert HEAD~3..HEAD           # Revert range of commits
+
+# Clean untracked files
+git clean -n                      # Dry run - show what would be deleted
+git clean -f                      # Force delete untracked files
+git clean -fd                     # Delete untracked files and directories
+git clean -fX                     # Delete only ignored files
+git clean -fx                     # Delete untracked and ignored files
+
+# Stashing changes
+git stash                         # Stash current changes
+git stash push -m "Work in progress"  # Stash with message
+git stash list                    # List all stashes
+git stash show                    # Show stash contents
+git stash pop                     # Apply and remove last stash
+git stash apply                   # Apply stash without removing
+git stash drop                    # Delete stash
+git stash clear                   # Delete all stashes
+
+# Stash specific files
+git stash push -m "message" -- file1.txt file2.txt
+git stash push --keep-index       # Stash everything except staged files</code></pre>
+              </div>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🔄 Use Reset Carefully</h3>
+                  <p>
+                    Understand the difference between --soft, --mixed, and
+                    --hard. Never use --hard on shared branches.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>↩️ Prefer Revert for Shared History</h3>
+                  <p>
+                    Use git revert instead of reset for commits that have been
+                    pushed to shared repositories.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📦 Leverage Stash for Context Switching</h3>
+                  <p>
+                    Use stash to temporarily save work when switching branches
+                    or pulling updates.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Submodules -->
+            <section id="submodules" class="content-section">
+              <h2>Submodules</h2>
+
+              <div class="highlight-box info">
+                <h3>What are Git Submodules?</h3>
+                <p>
+                  Submodules allow you to include one Git repository as a
+                  subdirectory of another Git repository. This enables you to
+                  keep a Git repository as a subtree of another Git repository
+                  while maintaining separate history for both projects.
+                </p>
+              </div>
+
+              <div class="code-block">
+                <h3>Submodule Operations</h3>
+                <pre><code># Adding submodules
+git submodule add https://github.com/user/library.git lib/library
+git submodule add -b main https://github.com/user/theme.git themes/custom
+
+# Initialize and update submodules
+git submodule init                 # Initialize submodule configuration
+git submodule update               # Update submodules to recorded commits
+git submodule update --init        # Initialize and update in one command
+git submodule update --init --recursive  # Include nested submodules
+
+# Clone repository with submodules
+git clone --recursive https://github.com/user/project.git
+git clone --recurse-submodules https://github.com/user/project.git
+
+# Update submodules to latest commits
+git submodule update --remote     # Update to latest remote commits
+git submodule update --remote --merge  # Merge latest changes
+git submodule update --remote --rebase # Rebase local changes
+
+# Working with submodules
+git submodule status               # Show submodule status
+git submodule summary             # Show summary of changes
+git submodule foreach 'git status' # Run command in each submodule
+git submodule foreach 'git pull origin main'  # Pull latest in all submodules
+
+# Removing submodules
+git submodule deinit lib/library   # Deinitialize submodule
+git rm lib/library                 # Remove submodule from index
+rm -rf .git/modules/lib/library    # Remove submodule git directory</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Submodule Configuration</h3>
+                <pre><code># .gitmodules file example
+[submodule "lib/library"]
+    path = lib/library
+    url = https://github.com/user/library.git
+    branch = main
+
+[submodule "themes/custom"]
+    path = themes/custom
+    url = https://github.com/user/theme.git
+    branch = develop
+
+# Configure submodule behavior
+git config submodule.lib/library.update merge
+git config submodule.lib/library.branch main
+
+# Global submodule settings
+git config --global submodule.recurse true  # Auto-recurse submodules
+git config --global diff.submodule log      # Better submodule diffs</code></pre>
+              </div>
+
+              <div class="diagram">
+                <h3>Submodule Structure</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Main Repository" M[Main Project]
+                  GM[.gitmodules] subgraph "Submodule A" SA[Library Code]
+                  SGA[.git → .git/modules/lib] end subgraph "Submodule B"
+                  SB[Theme Files] SGB[.git → .git/modules/themes] end end
+                  subgraph "Remote Repositories" RA[Library Repository] RB[Theme
+                  Repository] end M --> GM M --> SA M --> SB SA --> RA SB --> RB
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>📚 External Libraries</h3>
+                  <p>
+                    Include external libraries or dependencies as submodules to
+                    maintain version control.
+                  </p>
+                  <div class="use-case-example">
+                    Vendor libraries, shared utilities
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🎨 Shared Resources</h3>
+                  <p>
+                    Share themes, configurations, or assets across multiple
+                    projects.
+                  </p>
+                  <div class="use-case-example">
+                    UI themes, configuration files
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🏗️ Modular Architecture</h3>
+                  <p>
+                    Organize large projects into smaller, manageable components.
+                  </p>
+                  <div class="use-case-example">
+                    Microservices, plugin systems
+                  </div>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Submodule Gotchas</h3>
+                <ul>
+                  <li>
+                    Submodules are pinned to specific commits, not branches
+                  </li>
+                  <li>
+                    Changes inside submodules need to be committed separately
+                  </li>
+                  <li>
+                    Team members must run
+                    <code>git submodule update</code> after pulling
+                  </li>
+                  <li>Removing submodules requires multiple steps</li>
+                  <li>Nested submodules can be complex to manage</li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Advanced Commands -->
+            <section id="advanced" class="content-section">
+              <h2>Advanced Commands</h2>
+
+              <div class="code-block">
+                <h3>Cherry-pick and Bisect</h3>
+                <pre><code># Cherry-pick commits
+git cherry-pick commit-hash       # Apply specific commit to current branch
+git cherry-pick commit1..commit3  # Cherry-pick range of commits
+git cherry-pick --no-commit hash  # Apply changes without committing
+git cherry-pick --continue        # Continue after resolving conflicts
+git cherry-pick --abort           # Abort cherry-pick operation
+
+# Binary search for bugs
+git bisect start                  # Start bisection
+git bisect bad                    # Mark current commit as bad
+git bisect good v1.0              # Mark v1.0 as good
+git bisect reset                  # End bisection session
+
+# Automated bisect
+git bisect run test.sh            # Run script to test each commit</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Working with Patches</h3>
+                <pre><code># Create patches
+git format-patch -1              # Create patch for last commit
+git format-patch HEAD~3          # Create patches for last 3 commits
+git format-patch main..feature   # Create patches for branch difference
+
+# Apply patches
+git apply patch-file.patch       # Apply patch without committing
+git am patch-file.patch          # Apply patch with commit (from format-patch)
+git am --3way patch-file.patch   # Apply with 3-way merge if conflicts
+
+# Diff and patch
+git diff > changes.patch         # Create diff patch
+git apply changes.patch          # Apply diff patch</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Git Hooks and Automation</h3>
+                <pre><code># Common Git hooks (in .git/hooks/)
+# pre-commit - Run before commit
+# post-commit - Run after commit
+# pre-push - Run before push
+# post-receive - Run on server after receive
+
+# Example pre-commit hook (prevent large files)
+#!/bin/sh
+# Check for files larger than 5MB
+find . -size +5M -type f -exec ls -lh {} \; | awk '{ print $9 ": " $5 }'
+if [ $? -eq 0 ]; then
+    echo "Large files found. Commit rejected."
+    exit 1
+fi
+
+# Worktrees (multiple working directories)
+git worktree add ../feature-branch feature-branch
+git worktree list                # List all worktrees
+git worktree remove ../feature-branch  # Remove worktree
+
+# Sparse checkout (partial repository)
+git config core.sparseCheckout true
+echo "src/*" > .git/info/sparse-checkout
+git read-tree -m -u HEAD</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Git Internals and Plumbing</h3>
+                <pre><code># Low-level Git commands
+git hash-object file.txt         # Get hash of file
+git cat-file -t hash             # Show object type
+git cat-file -p hash             # Show object content
+git ls-tree HEAD                 # Show tree object
+git rev-list --objects --all     # List all objects
+
+# Repository maintenance
+git gc                           # Garbage collect unreachable objects
+git fsck                         # File system check
+git count-objects               # Count objects in repository
+git pack-refs                   # Pack references for efficiency</code></pre>
+              </div>
+            </section>
+
+            <!-- Git Workflows -->
+            <section id="workflows" class="content-section">
+              <h2>Git Workflows</h2>
+
+              <div class="diagram">
+                <h3>Git Flow Workflow</h3>
+                <div class="mermaid">
+                  gitgraph commit id: "Initial commit" branch develop checkout
+                  develop commit id: "Development setup" branch feature/login
+                  checkout feature/login commit id: "Add login form" commit id:
+                  "Add validation" checkout develop merge feature/login commit
+                  id: "Integrate login" branch release/1.0 checkout release/1.0
+                  commit id: "Prepare release" commit id: "Fix bugs" checkout
+                  main merge release/1.0 commit id: "Release 1.0" tag: "v1.0.0"
+                  checkout develop merge release/1.0
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Git Flow</h3>
+                  <p>
+                    Structured workflow with specific branch purposes for
+                    releases and features.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Structured</span>
+                    <span class="feature-tag">Release-focused</span>
+                    <span class="feature-tag">Complex</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>GitHub Flow</h3>
+                  <p>
+                    Simple workflow with feature branches and pull requests to
+                    main.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Simple</span>
+                    <span class="feature-tag">Continuous Deploy</span>
+                    <span class="feature-tag">PR-based</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>GitLab Flow</h3>
+                  <p>
+                    Combines feature branches with environment-specific
+                    branches.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Environment-aware</span>
+                    <span class="feature-tag">Issue-driven</span>
+                    <span class="feature-tag">Flexible</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Git Flow Commands</h3>
+                <pre><code># Initialize git flow
+git flow init
+
+# Feature branches
+git flow feature start new-feature    # Start new feature
+git flow feature finish new-feature   # Finish feature (merge to develop)
+git flow feature publish new-feature  # Publish feature to remote
+
+# Release branches
+git flow release start 1.0.0         # Start release branch
+git flow release finish 1.0.0        # Finish release (merge to main and develop)
+
+# Hotfix branches
+git flow hotfix start critical-fix    # Start hotfix from main
+git flow hotfix finish critical-fix   # Finish hotfix (merge to main and develop)</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>GitHub Flow Example</h3>
+                <pre><code># GitHub Flow workflow
+git checkout main
+git pull origin main                  # Get latest main
+git checkout -b feature/new-feature   # Create feature branch
+
+# Work on feature
+git add .
+git commit -m "Add new feature"
+git push -u origin feature/new-feature
+
+# Create Pull Request on GitHub
+# After review and approval:
+git checkout main
+git pull origin main                  # Pull merged changes
+git branch -d feature/new-feature     # Delete local branch
+git push origin --delete feature/new-feature  # Delete remote branch</code></pre>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>📝 Write Good Commit Messages</h3>
+                  <p>
+                    Use imperative mood, keep first line under 50 characters,
+                    explain "why" not "what".
+                  </p>
+                  <div class="code-example">
+                    <code>Fix user authentication timeout issue</code><br />
+                    <code>Add user profile caching to improve performance</code>
+                  </div>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🌿 Branch Naming Conventions</h3>
+                  <p>
+                    Use descriptive, consistent branch names with categories.
+                  </p>
+                  <div class="code-example">
+                    <code>feature/user-authentication</code><br />
+                    <code>bugfix/login-validation</code><br />
+                    <code>hotfix/security-patch</code>
+                  </div>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔄 Small, Focused Commits</h3>
+                  <p>
+                    Make atomic commits that represent single logical changes.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🚫 Never Rewrite Shared History</h3>
+                  <p>
+                    Avoid force pushing to shared branches. Use revert instead
+                    of reset for shared commits.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🧪 Test Before Committing</h3>
+                  <p>
+                    Run tests and ensure code quality before committing changes.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📋 Use .gitignore Effectively</h3>
+                  <p>
+                    Properly configure .gitignore to exclude build artifacts,
+                    dependencies, and sensitive files.
+                  </p>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Git Configuration Best Practices</h3>
+                <pre><code># Recommended global configuration
+git config --global core.autocrlf input    # Handle line endings
+git config --global core.editor vim        # Set preferred editor
+git config --global merge.tool vimdiff     # Set merge tool
+git config --global push.default simple    # Push only current branch
+git config --global pull.rebase true       # Rebase on pull by default
+git config --global rebase.autoStash true  # Auto-stash during rebase
+
+# Useful aliases
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.unstage 'reset HEAD --'
+git config --global alias.last 'log -1 HEAD'
+git config --global alias.visual '!gitk'
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# Security settings
+git config --global user.signingkey YOUR_GPG_KEY_ID
+git config --global commit.gpgsign true    # Sign commits with GPG</code></pre>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Git Mistakes to Avoid</h3>
+                <ul>
+                  <li>
+                    Committing sensitive information (passwords, API keys)
+                  </li>
+                  <li>Making commits too large or unfocused</li>
+                  <li>Not pulling before pushing to shared branches</li>
+                  <li>
+                    Using <code>git push --force</code> on shared branches
+                  </li>
+                  <li>
+                    Not backing up important work before complex operations
+                  </li>
+                  <li>
+                    Ignoring merge conflicts or resolving them incorrectly
+                  </li>
+                  <li>Not using meaningful branch names or commit messages</li>
+                </ul>
+              </div>
+
+              <div class="code-block">
+                <h3>Emergency Git Commands</h3>
+                <pre><code># Oh no! I committed to wrong branch
+git reset HEAD~1                   # Undo commit (keep changes)
+git stash                          # Stash changes
+git checkout correct-branch        # Switch to correct branch
+git stash pop                      # Apply changes
+git add . && git commit           # Commit to correct branch
+
+# Oh no! I need to fix the last commit message
+git commit --amend                 # Edit last commit message
+
+# Oh no! I accidentally deleted a file
+git checkout HEAD -- filename.txt # Restore file from last commit
+
+# Oh no! I need to undo a merge
+git reset --merge                  # Undo merge (if not pushed)
+git revert -m 1 merge-commit-hash  # Revert merge (if pushed)
+
+# Oh no! I need to find a lost commit
+git reflog                         # Find lost commits
+git cherry-pick lost-commit-hash   # Recover lost commit</code></pre>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to WebSockets - real-time bidirectional communication with implementation examples and best practices"
+    />
+    <title>WebSockets | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link active"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link">CDN</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#web-fundamentals">Web Fundamentals</a>
+                </li>
+                <li>WebSockets</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">WebSockets</h1>
+            <p class="page-subtitle">
+              Real-time bidirectional communication between client and server
+              with implementation examples and use cases
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li>
+                  <a href="#vs-http" class="toc-link">WebSockets vs HTTP</a>
+                </li>
+                <li>
+                  <a href="#connection-flow" class="toc-link"
+                    >Connection Flow</a
+                  >
+                </li>
+                <li><a href="#use-cases" class="toc-link">Use Cases</a></li>
+                <li>
+                  <a href="#implementation" class="toc-link">Implementation</a>
+                </li>
+                <li>
+                  <a href="#scaling" class="toc-link">Scaling WebSockets</a>
+                </li>
+                <li><a href="#security" class="toc-link">Security</a></li>
+                <li>
+                  <a href="#best-practices" class="toc-link">Best Practices</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Overview</h2>
+              <p>
+                WebSockets provide a full-duplex communication channel over a
+                single TCP connection. Unlike traditional HTTP requests,
+                WebSockets maintain a persistent connection between client and
+                server, enabling real-time, bidirectional data exchange.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key WebSocket Features</h3>
+                <ul>
+                  <li>
+                    <strong>Full-Duplex:</strong> Both client and server can
+                    initiate communication
+                  </li>
+                  <li>
+                    <strong>Low Latency:</strong> No need for HTTP overhead on
+                    each message
+                  </li>
+                  <li>
+                    <strong>Persistent Connection:</strong> Eliminates
+                    connection setup time
+                  </li>
+                  <li>
+                    <strong>Real-time:</strong> Instant message delivery without
+                    polling
+                  </li>
+                </ul>
+              </div>
+
+              <div class="diagram">
+                <h3>WebSocket Communication Overview</h3>
+                <div class="mermaid">
+                  graph LR A[Client] <-->|WebSocket Connection| B[Server]
+                  subgraph "Real-time Communication" C[Chat Messages] D[Live
+                  Updates] E[Game State] F[Notifications] end B -.-> C B -.-> D
+                  B -.-> E B -.-> F
+                </div>
+              </div>
+            </section>
+
+            <!-- WebSockets vs HTTP -->
+            <section id="vs-http" class="content-section">
+              <h2>WebSockets vs HTTP</h2>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Feature</div>
+                  <div class="comparison-col">HTTP</div>
+                  <div class="comparison-col">WebSockets</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Communication</strong>
+                  </div>
+                  <div class="comparison-cell">Request-Response</div>
+                  <div class="comparison-cell">Full-Duplex</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Connection</strong></div>
+                  <div class="comparison-cell">Per-request</div>
+                  <div class="comparison-cell">Persistent</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Overhead</strong></div>
+                  <div class="comparison-cell">High (headers)</div>
+                  <div class="comparison-cell">Low (minimal framing)</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Real-time</strong></div>
+                  <div class="comparison-cell">Polling required</div>
+                  <div class="comparison-cell">Native support</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Caching</strong></div>
+                  <div class="comparison-cell">Built-in support</div>
+                  <div class="comparison-cell">Not applicable</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>State</strong></div>
+                  <div class="comparison-cell">Stateless</div>
+                  <div class="comparison-cell">Stateful</div>
+                </div>
+              </div>
+
+              <div class="diagram">
+                <h3>HTTP vs WebSocket Communication Pattern</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant C1 as Client (HTTP) participant S1
+                  as Server (HTTP) participant C2 as Client (WebSocket)
+                  participant S2 as Server (WebSocket) Note over C1,S1: HTTP
+                  Communication C1->>S1: Request 1 S1->>C1: Response 1 C1->>S1:
+                  Request 2 S1->>C1: Response 2 C1->>S1: Poll for updates
+                  S1->>C1: No updates Note over C2,S2: WebSocket Communication
+                  C2->>S2: WebSocket Handshake S2->>C2: Handshake Complete Note
+                  over C2,S2: Persistent connection established C2->>S2: Message
+                  1 S2->>C2: Real-time response S2->>C2: Push update C2->>S2:
+                  Message 2
+                </div>
+              </div>
+            </section>
+
+            <!-- Connection Flow -->
+            <section id="connection-flow" class="content-section">
+              <h2>Connection Flow</h2>
+              <p>
+                WebSocket connections begin with an HTTP handshake that upgrades
+                the connection to the WebSocket protocol. Once established, the
+                connection remains open for bidirectional communication.
+              </p>
+
+              <div class="diagram">
+                <h3>WebSocket Connection Establishment</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant C as Client participant S as
+                  Server Note over C,S: WebSocket Handshake C->>S: HTTP Upgrade
+                  Request<br />Connection: Upgrade<br />Upgrade: websocket<br />Sec-WebSocket-Key:
+                  [key] S->>S: Validate request S->>C: HTTP 101 Switching
+                  Protocols<br />Connection: Upgrade<br />Upgrade: websocket<br />Sec-WebSocket-Accept:
+                  [accept] Note over C,S: WebSocket Connection Active par
+                  Bidirectional Communication C->>S: WebSocket Frame (message)
+                  S->>C: WebSocket Frame (response) and S->>C: WebSocket Frame
+                  (push) C->>S: WebSocket Frame (ack) end Note over C,S:
+                  Connection Termination C->>S: Close Frame S->>C: Close Frame
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>WebSocket Handshake Headers</h3>
+                <pre><code>// Client Request
+GET ws://localhost:8080/chat HTTP/1.1
+Host: localhost:8080
+Connection: Upgrade
+Upgrade: websocket
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Sec-WebSocket-Protocol: chat
+
+// Server Response
+HTTP/1.1 101 Switching Protocols
+Connection: Upgrade
+Upgrade: websocket
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+Sec-WebSocket-Protocol: chat</code></pre>
+              </div>
+            </section>
+
+            <!-- Use Cases -->
+            <section id="use-cases" class="content-section">
+              <h2>Use Cases</h2>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>💬 Real-time Chat</h3>
+                  <p>
+                    Instant messaging applications where users need immediate
+                    message delivery.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: Slack, Discord, WhatsApp Web
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🎮 Online Gaming</h3>
+                  <p>
+                    Multiplayer games requiring low-latency state
+                    synchronization between players.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: .io games, real-time strategy games
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📊 Live Data Feeds</h3>
+                  <p>
+                    Financial tickers, sports scores, and monitoring dashboards
+                    with live updates.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: Stock trading platforms, system monitoring
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🤝 Collaborative Editing</h3>
+                  <p>
+                    Real-time document collaboration where multiple users edit
+                    simultaneously.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: Google Docs, Figma, CodePen
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🔔 Push Notifications</h3>
+                  <p>
+                    Server-initiated notifications to connected clients without
+                    polling.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: Social media notifications, alerts
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📹 Live Streaming</h3>
+                  <p>
+                    Real-time audio/video streaming and interactive live
+                    broadcasts.
+                  </p>
+                  <div class="use-case-example">
+                    Examples: Twitch chat, live video calls
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram">
+                <h3>Chat Application Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant U1 as User 1 participant S as Chat
+                  Server participant U2 as User 2 participant U3 as User 3 Note
+                  over U1,U3: Users connect to chat room U1->>S: Connect to room
+                  "general" U2->>S: Connect to room "general" U3->>S: Connect to
+                  room "general" Note over U1,U3: Real-time messaging U1->>S:
+                  Send message "Hello everyone!" S->>U2: Broadcast message from
+                  User 1 S->>U3: Broadcast message from User 1 U2->>S: Send
+                  message "Hi there!" S->>U1: Broadcast message from User 2
+                  S->>U3: Broadcast message from User 2 Note over U1,U3: User
+                  status updates U3->>S: Disconnect S->>U1: User 3 left
+                  notification S->>U2: User 3 left notification
+                </div>
+              </div>
+            </section>
+
+            <!-- Implementation -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation</h2>
+
+              <div class="code-block">
+                <h3>Client-Side Implementation (JavaScript)</h3>
+                <pre><code>class WebSocketClient {
+  constructor(url) {
+    this.url = url;
+    this.ws = null;
+    this.reconnectDelay = 1000;
+    this.maxReconnectDelay = 30000;
+    this.reconnectAttempts = 0;
+    this.maxReconnectAttempts = 10;
+  }
+
+  connect() {
+    try {
+      this.ws = new WebSocket(this.url);
+      
+      this.ws.onopen = (event) => {
+        console.log('Connected to WebSocket server');
+        this.reconnectAttempts = 0;
+        this.onConnect?.(event);
+      };
+
+      this.ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          this.onMessage?.(data);
+        } catch (error) {
+          console.error('Error parsing message:', error);
+        }
+      };
+
+      this.ws.onclose = (event) => {
+        console.log('WebSocket connection closed:', event.code, event.reason);
+        this.onDisconnect?.(event);
+        
+        // Attempt reconnection if not intentionally closed
+        if (event.code !== 1000 && this.reconnectAttempts < this.maxReconnectAttempts) {
+          this.scheduleReconnect();
+        }
+      };
+
+      this.ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        this.onError?.(error);
+      };
+      
+    } catch (error) {
+      console.error('Failed to create WebSocket connection:', error);
+      this.scheduleReconnect();
+    }
+  }
+
+  send(message) {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify(message));
+      return true;
+    } else {
+      console.warn('WebSocket is not connected');
+      return false;
+    }
+  }
+
+  disconnect() {
+    if (this.ws) {
+      this.ws.close(1000, 'Client disconnect');
+    }
+  }
+
+  scheduleReconnect() {
+    this.reconnectAttempts++;
+    const delay = Math.min(
+      this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1),
+      this.maxReconnectDelay
+    );
+    
+    console.log(`Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`);
+    setTimeout(() => this.connect(), delay);
+  }
+}
+
+// Usage example
+const client = new WebSocketClient('ws://localhost:8080');
+
+client.onConnect = () => {
+  console.log('Successfully connected!');
+  client.send({ type: 'join', room: 'general' });
+};
+
+client.onMessage = (data) => {
+  switch(data.type) {
+    case 'chat':
+      displayChatMessage(data.user, data.message);
+      break;
+    case 'notification':
+      showNotification(data.message);
+      break;
+    default:
+      console.log('Unknown message type:', data);
+  }
+};
+
+client.onDisconnect = (event) => {
+  showConnectionStatus('Disconnected');
+};
+
+client.connect();</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Server-Side Implementation (Node.js/ws)</h3>
+                <pre><code>const WebSocket = require('ws');
+const http = require('http');
+
+class ChatServer {
+  constructor(port = 8080) {
+    this.port = port;
+    this.clients = new Map(); // clientId -> { ws, userId, rooms }
+    this.rooms = new Map();   // roomId -> Set of clientIds
+    
+    this.server = http.createServer();
+    this.wss = new WebSocket.Server({ server: this.server });
+    
+    this.setupWebSocketServer();
+  }
+
+  setupWebSocketServer() {
+    this.wss.on('connection', (ws, request) => {
+      const clientId = this.generateClientId();
+      console.log(`Client ${clientId} connected`);
+      
+      // Store client info
+      this.clients.set(clientId, {
+        ws: ws,
+        userId: null,
+        rooms: new Set()
+      });
+
+      // Handle incoming messages
+      ws.on('message', (data) => {
+        try {
+          const message = JSON.parse(data);
+          this.handleMessage(clientId, message);
+        } catch (error) {
+          console.error('Error parsing message:', error);
+          this.sendError(clientId, 'Invalid message format');
+        }
+      });
+
+      // Handle client disconnect
+      ws.on('close', (code, reason) => {
+        console.log(`Client ${clientId} disconnected: ${code} ${reason}`);
+        this.handleDisconnect(clientId);
+      });
+
+      // Handle errors
+      ws.on('error', (error) => {
+        console.error(`WebSocket error for client ${clientId}:`, error);
+        this.handleDisconnect(clientId);
+      });
+
+      // Send welcome message
+      this.sendToClient(clientId, {
+        type: 'welcome',
+        clientId: clientId,
+        message: 'Connected to chat server'
+      });
+    });
+  }
+
+  handleMessage(clientId, message) {
+    const client = this.clients.get(clientId);
+    if (!client) return;
+
+    switch (message.type) {
+      case 'auth':
+        client.userId = message.userId;
+        this.sendToClient(clientId, {
+          type: 'auth_success',
+          userId: message.userId
+        });
+        break;
+
+      case 'join':
+        this.joinRoom(clientId, message.room);
+        break;
+
+      case 'leave':
+        this.leaveRoom(clientId, message.room);
+        break;
+
+      case 'chat':
+        this.broadcastToRoom(message.room, {
+          type: 'chat',
+          user: client.userId,
+          message: message.message,
+          timestamp: new Date().toISOString()
+        }, clientId);
+        break;
+
+      case 'ping':
+        this.sendToClient(clientId, { type: 'pong' });
+        break;
+
+      default:
+        this.sendError(clientId, `Unknown message type: ${message.type}`);
+    }
+  }
+
+  joinRoom(clientId, roomId) {
+    const client = this.clients.get(clientId);
+    if (!client) return;
+
+    // Add client to room
+    if (!this.rooms.has(roomId)) {
+      this.rooms.set(roomId, new Set());
+    }
+    this.rooms.get(roomId).add(clientId);
+    client.rooms.add(roomId);
+
+    // Notify client
+    this.sendToClient(clientId, {
+      type: 'joined',
+      room: roomId,
+      userCount: this.rooms.get(roomId).size
+    });
+
+    // Notify other users in room
+    this.broadcastToRoom(roomId, {
+      type: 'user_joined',
+      user: client.userId,
+      room: roomId
+    }, clientId);
+  }
+
+  leaveRoom(clientId, roomId) {
+    const client = this.clients.get(clientId);
+    if (!client) return;
+
+    // Remove client from room
+    if (this.rooms.has(roomId)) {
+      this.rooms.get(roomId).delete(clientId);
+      if (this.rooms.get(roomId).size === 0) {
+        this.rooms.delete(roomId);
+      }
+    }
+    client.rooms.delete(roomId);
+
+    // Notify other users in room
+    this.broadcastToRoom(roomId, {
+      type: 'user_left',
+      user: client.userId,
+      room: roomId
+    }, clientId);
+  }
+
+  sendToClient(clientId, message) {
+    const client = this.clients.get(clientId);
+    if (client && client.ws.readyState === WebSocket.OPEN) {
+      client.ws.send(JSON.stringify(message));
+    }
+  }
+
+  broadcastToRoom(roomId, message, excludeClientId = null) {
+    const room = this.rooms.get(roomId);
+    if (!room) return;
+
+    room.forEach(clientId => {
+      if (clientId !== excludeClientId) {
+        this.sendToClient(clientId, message);
+      }
+    });
+  }
+
+  sendError(clientId, error) {
+    this.sendToClient(clientId, {
+      type: 'error',
+      message: error
+    });
+  }
+
+  handleDisconnect(clientId) {
+    const client = this.clients.get(clientId);
+    if (!client) return;
+
+    // Leave all rooms
+    client.rooms.forEach(roomId => {
+      this.leaveRoom(clientId, roomId);
+    });
+
+    // Remove client
+    this.clients.delete(clientId);
+  }
+
+  generateClientId() {
+    return Math.random().toString(36).substring(2, 15);
+  }
+
+  start() {
+    this.server.listen(this.port, () => {
+      console.log(`WebSocket server listening on port ${this.port}`);
+    });
+  }
+}
+
+// Start the server
+const chatServer = new ChatServer(8080);
+chatServer.start();</code></pre>
+              </div>
+            </section>
+
+            <!-- Scaling WebSockets -->
+            <section id="scaling" class="content-section">
+              <h2>Scaling WebSockets</h2>
+
+              <div class="diagram">
+                <h3>Horizontal Scaling with Load Balancer</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Clients" C1[Client 1] C2[Client 2]
+                  C3[Client 3] C4[Client 4] end LB[Load Balancer<br />Sticky
+                  Sessions] subgraph "WebSocket Servers" WS1[WebSocket Server 1]
+                  WS2[WebSocket Server 2] end subgraph "Message Broker" R[Redis
+                  Pub/Sub] end C1 --> LB C2 --> LB C3 --> LB C4 --> LB LB -->
+                  WS1 LB --> WS2 WS1 <--> R WS2 <--> R
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Sticky Sessions</h3>
+                  <p>
+                    Load balancer routes clients to the same server for
+                    connection duration.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Simple</span>
+                    <span class="feature-tag">Server Affinity</span>
+                    <span class="feature-tag">Limited Scale</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Message Broker</h3>
+                  <p>
+                    Use Redis Pub/Sub or RabbitMQ to coordinate between
+                    WebSocket servers.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Horizontal Scale</span>
+                    <span class="feature-tag">Cross-Server</span>
+                    <span class="feature-tag">Complex</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Database Coordination</h3>
+                  <p>
+                    Store connection state and messages in a shared database.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Persistent</span>
+                    <span class="feature-tag">Stateful</span>
+                    <span class="feature-tag">Higher Latency</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Redis Pub/Sub Integration</h3>
+                <pre><code>const redis = require('redis');
+
+class ScalableWebSocketServer extends ChatServer {
+  constructor(port) {
+    super(port);
+    
+    // Redis clients for pub/sub
+    this.publisher = redis.createClient();
+    this.subscriber = redis.createClient();
+    
+    this.setupRedisSubscriber();
+  }
+
+  setupRedisSubscriber() {
+    this.subscriber.on('message', (channel, message) => {
+      try {
+        const data = JSON.parse(message);
+        
+        // Don't broadcast messages from this server
+        if (data.serverId === this.serverId) return;
+        
+        // Broadcast to local clients
+        this.broadcastToLocalRoom(data.room, data.message);
+      } catch (error) {
+        console.error('Error processing Redis message:', error);
+      }
+    });
+
+    // Subscribe to all room channels
+    this.subscriber.subscribe('room:*');
+  }
+
+  broadcastToRoom(roomId, message, excludeClientId = null) {
+    // Broadcast to local clients
+    super.broadcastToRoom(roomId, message, excludeClientId);
+    
+    // Publish to Redis for other servers
+    this.publisher.publish(`room:${roomId}`, JSON.stringify({
+      serverId: this.serverId,
+      room: roomId,
+      message: message
+    }));
+  }
+
+  broadcastToLocalRoom(roomId, message) {
+    // Only broadcast to local clients (from Redis)
+    super.broadcastToRoom(roomId, message);
+  }
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- Security -->
+            <section id="security" class="content-section">
+              <h2>Security</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🔐 Authentication & Authorization</h3>
+                  <p>
+                    Validate user identity and permissions before establishing
+                    WebSocket connections. Use tokens or session validation.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🛡️ Input Validation</h3>
+                  <p>
+                    Sanitize and validate all incoming messages to prevent
+                    injection attacks and malformed data.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🚦 Rate Limiting</h3>
+                  <p>
+                    Implement rate limiting to prevent spam and DoS attacks from
+                    malicious clients.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔒 WSS (WebSocket Secure)</h3>
+                  <p>
+                    Use WSS (WebSocket over TLS) for encrypted communication,
+                    especially in production environments.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🌐 Origin Validation</h3>
+                  <p>
+                    Validate the Origin header to prevent unauthorized
+                    cross-origin WebSocket connections.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📊 Connection Monitoring</h3>
+                  <p>
+                    Monitor connection counts, message rates, and implement
+                    automatic cleanup of stale connections.
+                  </p>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Security Implementation Example</h3>
+                <pre><code>const jwt = require('jsonwebtoken');
+
+class SecureWebSocketServer extends WebSocketServer {
+  constructor(port) {
+    super(port);
+    this.connectionLimits = new Map(); // IP -> connection count
+    this.rateLimits = new Map();       // clientId -> { count, resetTime }
+  }
+
+  setupWebSocketServer() {
+    this.wss.on('connection', (ws, request) => {
+      // 1. Validate origin
+      const origin = request.headers.origin;
+      if (!this.isValidOrigin(origin)) {
+        ws.close(1003, 'Invalid origin');
+        return;
+      }
+
+      // 2. Check connection limits per IP
+      const clientIP = request.socket.remoteAddress;
+      if (!this.checkConnectionLimit(clientIP)) {
+        ws.close(1013, 'Too many connections');
+        return;
+      }
+
+      // 3. Authenticate with token (from query or header)
+      const token = this.extractToken(request);
+      if (!this.validateToken(token)) {
+        ws.close(1008, 'Authentication failed');
+        return;
+      }
+
+      // Continue with normal connection setup...
+      super.setupWebSocketServer();
+    });
+  }
+
+  isValidOrigin(origin) {
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+    return allowedOrigins.includes(origin);
+  }
+
+  checkConnectionLimit(ip) {
+    const maxConnections = 10;
+    const currentCount = this.connectionLimits.get(ip) || 0;
+    
+    if (currentCount >= maxConnections) {
+      return false;
+    }
+    
+    this.connectionLimits.set(ip, currentCount + 1);
+    return true;
+  }
+
+  validateToken(token) {
+    if (!token) return false;
+    
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      return decoded.userId ? true : false;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  extractToken(request) {
+    // Try query parameter first
+    const url = new URL(request.url, 'http://localhost');
+    let token = url.searchParams.get('token');
+    
+    // Fallback to Authorization header
+    if (!token) {
+      const authHeader = request.headers.authorization;
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
+    
+    return token;
+  }
+
+  handleMessage(clientId, message) {
+    // Rate limiting check
+    if (!this.checkRateLimit(clientId)) {
+      this.sendError(clientId, 'Rate limit exceeded');
+      return;
+    }
+
+    // Input validation
+    if (!this.validateMessage(message)) {
+      this.sendError(clientId, 'Invalid message format');
+      return;
+    }
+
+    super.handleMessage(clientId, message);
+  }
+
+  checkRateLimit(clientId) {
+    const maxMessages = 30; // per minute
+    const windowMs = 60000;
+    
+    const now = Date.now();
+    const limit = this.rateLimits.get(clientId);
+    
+    if (!limit || now > limit.resetTime) {
+      this.rateLimits.set(clientId, { count: 1, resetTime: now + windowMs });
+      return true;
+    }
+    
+    if (limit.count >= maxMessages) {
+      return false;
+    }
+    
+    limit.count++;
+    return true;
+  }
+
+  validateMessage(message) {
+    // Basic validation
+    if (typeof message !== 'object' || !message.type) {
+      return false;
+    }
+    
+    // Sanitize string fields
+    if (message.message && typeof message.message === 'string') {
+      message.message = message.message.trim().substring(0, 1000);
+    }
+    
+    return true;
+  }
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🔄 Connection Management</h3>
+                  <p>
+                    Implement proper connection lifecycle management with
+                    heartbeat/ping-pong to detect broken connections.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔁 Automatic Reconnection</h3>
+                  <p>
+                    Implement exponential backoff reconnection logic on the
+                    client side with maximum retry limits.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📦 Message Queuing</h3>
+                  <p>
+                    Queue messages when connections are temporarily unavailable
+                    and implement delivery guarantees.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🎯 Efficient Broadcasting</h3>
+                  <p>
+                    Use room-based messaging to avoid sending messages to
+                    uninterested clients.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📈 Performance Monitoring</h3>
+                  <p>
+                    Monitor connection counts, message throughput, and server
+                    resources to identify bottlenecks.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🚫 Graceful Degradation</h3>
+                  <p>
+                    Provide fallback mechanisms (polling) when WebSocket
+                    connections fail or are unsupported.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Pitfalls to Avoid</h3>
+                <ul>
+                  <li>
+                    Not implementing proper error handling and reconnection
+                    logic
+                  </li>
+                  <li>
+                    Sending too many messages too quickly (overwhelming clients)
+                  </li>
+                  <li>Not cleaning up resources when connections close</li>
+                  <li>Storing too much state per connection on the server</li>
+                  <li>
+                    Not implementing proper authentication and authorization
+                  </li>
+                  <li>Ignoring connection limits and resource constraints</li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html>

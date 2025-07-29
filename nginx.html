@@ -145,6 +145,43 @@
                       >Encryption</a
                     >
                   </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link">CDN</a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-dropdown">
@@ -241,6 +278,410 @@
             <div class="feature-box">
               <h3 style="color: #2563eb">⚡ HTTP Cache</h3>
               <p>Stores frequently requested content for faster delivery</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- How NGINX Works - Request Flow -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔄 How NGINX Works - Request Flow
+          </h2>
+
+          <div class="visual-card">
+            <h3 style="margin-bottom: 1.5rem; color: white">
+              📈 Complete Request/Response Flow
+            </h3>
+
+            <!-- Client to NGINX to Backend Flow -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1rem 0;
+              "
+            >
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">
+                🔵 Forward Request (Client → NGINX → Backend)
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
+              >
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🖥️ Client</strong><br />
+                  <small>Browser/App</small>
+                </div>
+                <div style="color: #10b981; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #dc2626;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🌟 NGINX</strong><br />
+                  <small>Proxy Server</small>
+                </div>
+                <div style="color: #10b981; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>⚙️ Backend</strong><br />
+                  <small>App Server</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Backend to NGINX to Client Flow -->
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1rem 0;
+              "
+            >
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">
+                🔴 Return Response (Backend → NGINX → Client)
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
+              >
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>⚙️ Backend</strong><br />
+                  <small>Processes Request</small>
+                </div>
+                <div style="color: #ef4444; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #dc2626;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🌟 NGINX</strong><br />
+                  <small>Processes Response</small>
+                </div>
+                <div style="color: #ef4444; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🖥️ Client</strong><br />
+                  <small>Receives Response</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step by Step Process -->
+          <div style="margin-top: 2rem">
+            <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+              📋 Step-by-Step Process
+            </h3>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  1
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    Client Sends HTTP Request
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    User's browser sends <code>GET /api/users</code> to
+                    <code>example.com</code>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  2
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    NGINX Receives Request
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    NGINX listens on port 80/443 and receives the HTTP request
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  3
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    NGINX Processes Request
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    Checks configuration, applies rules, adds/modifies headers
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  4
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    NGINX Forwards to Backend
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    Sends request to backend server (e.g.,
+                    <code>http://localhost:3000</code>)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  5
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    Backend Processes & Responds
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    Backend server processes request and sends HTTP response
+                    back to NGINX
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  6
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    NGINX Processes Response
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    May cache response, add security headers, or compress
+                    content
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                >
+                  7
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    NGINX Returns to Client
+                  </h4>
+                  <p style="margin: 0.5rem 0 0 0">
+                    Sends final HTTP response back to the user's browser
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HTTP Headers Flow -->
+          <div style="margin-top: 2rem">
+            <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+              📋 HTTP Headers in Action
+            </h3>
+
+            <div class="step-card">
+              <h4 style="color: #2563eb">
+                📤 Request Headers (Client → NGINX)
+              </h4>
+              <div class="config-box">
+                GET /api/users HTTP/1.1<br />
+                Host: example.com<br />
+                User-Agent: Mozilla/5.0...<br />
+                Accept: application/json<br />
+                Cookie: sessionId=abc123
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h4 style="color: #2563eb">
+                🔄 Modified Headers (NGINX → Backend)
+              </h4>
+              <div class="config-box">
+                GET /api/users HTTP/1.1<br />
+                Host: <strong style="color: #fbbf24">localhost:3000</strong
+                ><br />
+                User-Agent: Mozilla/5.0...<br />
+                Accept: application/json<br />
+                Cookie: sessionId=abc123<br />
+                <strong style="color: #10b981">X-Real-IP: 192.168.1.100</strong
+                ><br />
+                <strong style="color: #10b981"
+                  >X-Forwarded-For: 192.168.1.100</strong
+                ><br />
+                <strong style="color: #10b981">X-Forwarded-Proto: https</strong>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h4 style="color: #2563eb">
+                📥 Response Headers (Backend → NGINX → Client)
+              </h4>
+              <div class="config-box">
+                HTTP/1.1 200 OK<br />
+                Content-Type: application/json<br />
+                Content-Length: 1234<br />
+                <strong style="color: #10b981">Server: nginx/1.18.0</strong
+                ><br />
+                <strong style="color: #10b981">X-Frame-Options: DENY</strong
+                ><br />
+                <strong style="color: #10b981"
+                  >X-Content-Type-Options: nosniff</strong
+                ><br />
+                <br />
+                {"users": [...]}
+              </div>
             </div>
           </div>
         </section>
@@ -365,8 +806,542 @@
         <!-- SSL/HTTPS Configuration -->
         <section style="margin: 3rem 0">
           <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
-            🔒 SSL/HTTPS Setup
+            🔒 HTTP to HTTPS Conversion & SSL Setup
           </h2>
+
+          <!-- HTTP to HTTPS Conversion Flow -->
+          <div class="visual-card">
+            <h3 style="margin-bottom: 1.5rem; color: white">
+              🔐 How NGINX Converts HTTP to HTTPS
+            </h3>
+
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1rem 0;
+              "
+            >
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">
+                🔓 HTTP Request Flow (Insecure)
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
+              >
+                <div
+                  style="
+                    background: #dc2626;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>👤 Client</strong><br />
+                  <small>HTTP Request<br />Port 80</small>
+                </div>
+                <div style="color: #ef4444; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🌟 NGINX</strong><br />
+                  <small>Redirect to HTTPS</small>
+                </div>
+                <div style="color: #ef4444; font-size: 1.5rem">↩️</div>
+                <div
+                  style="
+                    background: #dc2626;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>👤 Client</strong><br />
+                  <small>301 Redirect</small>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1rem 0;
+              "
+            >
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">
+                🔒 HTTPS Request Flow (Secure)
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
+              >
+                <div
+                  style="
+                    background: #10b981;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>👤 Client</strong><br />
+                  <small>HTTPS Request<br />Port 443</small>
+                </div>
+                <div style="color: #10b981; font-size: 1.5rem">🔐</div>
+                <div
+                  style="
+                    background: #1f2937;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>🌟 NGINX</strong><br />
+                  <small>SSL Termination</small>
+                </div>
+                <div style="color: #10b981; font-size: 1.5rem">→</div>
+                <div
+                  style="
+                    background: #10b981;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    min-width: 120px;
+                    text-align: center;
+                  "
+                >
+                  <strong>⚙️ Backend</strong><br />
+                  <small>HTTP (Internal)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Step-by-Step HTTP to HTTPS Process -->
+          <div style="margin-top: 2rem">
+            <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+              📋 HTTP to HTTPS Conversion Process
+            </h3>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  1
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    Client Sends HTTP Request
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    User types <code>http://example.com</code> or clicks HTTP
+                    link
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    GET / HTTP/1.1<br />
+                    Host: example.com<br />
+                    User-Agent: Mozilla/5.0...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #2563eb;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  2
+                </div>
+                <div>
+                  <h4 style="color: #2563eb; margin: 0">
+                    NGINX Receives HTTP Request (Port 80)
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    NGINX server block configured to listen on port 80 receives
+                    the request
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    server {<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;# This block handles HTTP
+                    requests<br />
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #f59e0b;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  3
+                </div>
+                <div>
+                  <h4 style="color: #f59e0b; margin: 0">
+                    NGINX Issues 301 Redirect
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    NGINX automatically redirects HTTP to HTTPS using a 301
+                    permanent redirect
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    server {<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;listen 80;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fbbf24"
+                      >return 301 https://$server_name$request_uri;</span
+                    ><br />
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #ef4444;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  4
+                </div>
+                <div>
+                  <h4 style="color: #ef4444; margin: 0">
+                    Client Receives Redirect Response
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    Browser receives 301 redirect and understands it needs to
+                    use HTTPS
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    HTTP/1.1 301 Moved Permanently<br />
+                    Location:
+                    <span style="color: #10b981">https://example.com/</span
+                    ><br />
+                    Server: nginx/1.18.0
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  5
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    Client Initiates HTTPS Connection
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    Browser automatically makes new request to HTTPS (port 443)
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    <span style="color: #10b981">TLS Handshake Initiated:</span
+                    ><br />
+                    1. ClientHello → Server<br />
+                    2. ServerHello ← Server<br />
+                    3. Certificate ← Server<br />
+                    4. Key Exchange → ← Both<br />
+                    5.
+                    <span style="color: #22c55e"
+                      >🔒 Encrypted Connection Established</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  6
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    NGINX Handles HTTPS Request (Port 443)
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    NGINX SSL server block receives and decrypts the HTTPS
+                    request
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    server {<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;listen
+                    <span style="color: #22c55e">443 ssl http2</span>;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;server_name example.com;<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fbbf24"
+                      >ssl_certificate /path/to/cert.crt;</span
+                    ><br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fbbf24"
+                      >ssl_certificate_key /path/to/key.key;</span
+                    ><br />
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #8b5cf6;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  7
+                </div>
+                <div>
+                  <h4 style="color: #8b5cf6; margin: 0">
+                    SSL Termination & Backend Communication
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    NGINX terminates SSL and communicates with backend via HTTP
+                    (internal network)
+                  </p>
+                  <div
+                    style="
+                      background: #f3e8ff;
+                      padding: 1rem;
+                      border-radius: 8px;
+                      border-left: 4px solid #8b5cf6;
+                      margin-top: 1rem;
+                    "
+                  >
+                    <strong>Why HTTP internally?</strong><br />
+                    <small
+                      >• Backend servers are on secure internal network<br />
+                      • Reduces CPU overhead on application servers<br />
+                      • NGINX handles all SSL/TLS complexity<br />
+                      • Easier backend development and debugging</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div style="display: flex; align-items: flex-start; gap: 1rem">
+                <div
+                  style="
+                    background: #10b981;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    flex-shrink: 0;
+                  "
+                >
+                  8
+                </div>
+                <div>
+                  <h4 style="color: #10b981; margin: 0">
+                    Encrypted Response Back to Client
+                  </h4>
+                  <p style="margin: 0.5rem 0">
+                    NGINX encrypts response and sends it back via HTTPS
+                  </p>
+                  <div class="config-box" style="margin-top: 1rem">
+                    <span style="color: #10b981">HTTPS/1.1 200 OK</span><br />
+                    Strict-Transport-Security: max-age=31536000<br />
+                    Content-Type: text/html<br />
+                    <span style="color: #22c55e"
+                      >🔒 [Encrypted HTML Content]</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Benefits -->
+          <div style="margin-top: 2rem">
+            <h3 style="color: #2563eb; margin-bottom: 1.5rem">
+              🛡️ Security Benefits of HTTP to HTTPS Conversion
+            </h3>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+              "
+            >
+              <div
+                style="
+                  background: #ecfdf5;
+                  padding: 1.5rem;
+                  border-radius: 10px;
+                  border-left: 4px solid #10b981;
+                "
+              >
+                <h4 style="color: #059669; margin-bottom: 0.5rem">
+                  🔐 Data Encryption
+                </h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  All data between client and server is encrypted, preventing
+                  eavesdropping
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: #ecfdf5;
+                  padding: 1.5rem;
+                  border-radius: 10px;
+                  border-left: 4px solid #10b981;
+                "
+              >
+                <h4 style="color: #059669; margin-bottom: 0.5rem">
+                  🆔 Authentication
+                </h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  SSL certificates verify server identity, preventing
+                  man-in-the-middle attacks
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: #ecfdf5;
+                  padding: 1.5rem;
+                  border-radius: 10px;
+                  border-left: 4px solid #10b981;
+                "
+              >
+                <h4 style="color: #059669; margin-bottom: 0.5rem">
+                  ✅ Data Integrity
+                </h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  Ensures data hasn't been tampered with during transmission
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: #ecfdf5;
+                  padding: 1.5rem;
+                  border-radius: 10px;
+                  border-left: 4px solid #10b981;
+                "
+              >
+                <h4 style="color: #059669; margin-bottom: 0.5rem">
+                  📈 SEO Benefits
+                </h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  Google ranks HTTPS sites higher in search results
+                </p>
+              </div>
+            </div>
+          </div>
 
           <div class="step-card">
             <h3 style="color: #2563eb">HTTPS with SSL Certificate</h3>

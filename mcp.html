@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Model Context Protocol (MCP) - connecting AI models to external tools, data sources, and services"
+    />
+    <title>Model Context Protocol (MCP) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li>
+                    <a href="mcp.html" class="dropdown-link active">MCP</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#ai-ml">AI/ML</a></li>
+                <li>MCP</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Model Context Protocol</h1>
+            <p class="page-subtitle">
+              Connecting AI models to external tools, data sources, and services
+              for enhanced capabilities
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <ul class="toc-list">
+              <li><a href="#overview" class="toc-link">What is MCP?</a></li>
+              <li><a href="#how-it-works" class="toc-link">How It Works</a></li>
+              <li><a href="#capabilities" class="toc-link">Capabilities</a></li>
+              <li><a href="#architecture" class="toc-link">Architecture</a></li>
+              <li>
+                <a href="#implementation" class="toc-link">Implementation</a>
+              </li>
+              <li><a href="#use-cases" class="toc-link">Use Cases</a></li>
+              <li><a href="#tools" class="toc-link">Available Tools</a></li>
+              <li>
+                <a href="#best-practices" class="toc-link">Best Practices</a>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>What is Model Context Protocol (MCP)?</h2>
+
+              <div class="highlight-box info">
+                <h3>🔗 Think of MCP as a Universal Adapter</h3>
+                <p>
+                  MCP is like giving your AI assistant the ability to use
+                  external tools - from reading your files to searching the web,
+                  accessing databases, or controlling other software. It's the
+                  bridge between AI and the real world.
+                </p>
+              </div>
+
+              <p>
+                Model Context Protocol (MCP) is an open standard developed by
+                Anthropic that enables AI assistants to securely connect with
+                external data sources and tools. Instead of being limited to
+                their training data, AI models can now access real-time
+                information, interact with databases, file systems, APIs, and
+                much more.
+              </p>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">🌐</div>
+                  <h3>Real-time Data</h3>
+                  <p>
+                    Access current information from APIs, databases, and live
+                    sources
+                  </p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔧</div>
+                  <h3>Tool Integration</h3>
+                  <p>Connect with external tools and services seamlessly</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔒</div>
+                  <h3>Secure Access</h3>
+                  <p>
+                    Controlled, permission-based access to external resources
+                  </p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔄</div>
+                  <h3>Bidirectional</h3>
+                  <p>Both read and write operations with external systems</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section id="how-it-works" class="content-section">
+              <h2>How MCP Works</h2>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>AI Assistant</strong>
+                    <p>(Claude, GPT, etc.)</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-item proxy">
+                    <strong>MCP Server</strong>
+                    <p>Protocol Handler</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-servers">
+                    <div class="diagram-item server">File System</div>
+                    <div class="diagram-item server">Database</div>
+                    <div class="diagram-item server">Web APIs</div>
+                    <div class="diagram-item server">Custom Tools</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>The MCP Flow</h3>
+                <ol class="numbered-list">
+                  <li>
+                    <strong>AI Request:</strong> The AI assistant needs external
+                    information or to perform an action
+                  </li>
+                  <li>
+                    <strong>MCP Translation:</strong> The request is translated
+                    into MCP protocol messages
+                  </li>
+                  <li>
+                    <strong>Server Processing:</strong> MCP server handles the
+                    request and interacts with external resources
+                  </li>
+                  <li>
+                    <strong>Response:</strong> Data or action results are sent
+                    back to the AI assistant
+                  </li>
+                  <li>
+                    <strong>Integration:</strong> The AI incorporates the
+                    external data into its response
+                  </li>
+                </ol>
+              </div>
+            </section>
+
+            <!-- Capabilities Section -->
+            <section id="capabilities" class="content-section">
+              <h2>MCP Capabilities</h2>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>📁 Resources</h3>
+                  <p>Access and manage various types of data</p>
+                  <ul>
+                    <li>File system access (read/write files)</li>
+                    <li>Database connections (SQL queries)</li>
+                    <li>Web scraping and content retrieval</li>
+                    <li>Cloud storage integration</li>
+                    <li>Document repositories</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🛠️ Tools</h3>
+                  <p>Execute functions and interact with external services</p>
+                  <ul>
+                    <li>API calls to external services</li>
+                    <li>Code execution environments</li>
+                    <li>System command execution</li>
+                    <li>Email and messaging services</li>
+                    <li>Data processing pipelines</li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🔄 Prompts</h3>
+                  <p>Dynamic prompt templates and context injection</p>
+                  <ul>
+                    <li>Context-aware prompt generation</li>
+                    <li>Template-based responses</li>
+                    <li>Dynamic system messages</li>
+                    <li>Conditional prompt logic</li>
+                    <li>Multi-step workflows</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Architecture Section -->
+            <section id="architecture" class="content-section">
+              <h2>MCP Architecture</h2>
+
+              <div class="architecture-grid">
+                <div class="architecture-item">
+                  <h3>Client Side</h3>
+                  <p>
+                    The AI assistant or application that needs external
+                    capabilities
+                  </p>
+                  <ul>
+                    <li>MCP client libraries</li>
+                    <li>Protocol message handling</li>
+                    <li>Request/response management</li>
+                    <li>Error handling and retries</li>
+                  </ul>
+                </div>
+
+                <div class="architecture-item">
+                  <h3>MCP Server</h3>
+                  <p>The bridge between AI and external resources</p>
+                  <ul>
+                    <li>Protocol implementation</li>
+                    <li>Resource management</li>
+                    <li>Security and permissions</li>
+                    <li>Tool execution environment</li>
+                  </ul>
+                </div>
+
+                <div class="architecture-item">
+                  <h3>External Systems</h3>
+                  <p>The actual data sources and tools being accessed</p>
+                  <ul>
+                    <li>Databases and storage</li>
+                    <li>Web APIs and services</li>
+                    <li>File systems</li>
+                    <li>Custom applications</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="code-example">
+                <h4>MCP Message Structure</h4>
+                <pre><code>{
+  "jsonrpc": "2.0",
+  "method": "resources/read",
+  "params": {
+    "uri": "file:///path/to/document.txt"
+  },
+  "id": 1
+}
+
+# Response
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      {
+        "uri": "file:///path/to/document.txt",
+        "mimeType": "text/plain",
+        "text": "Document content here..."
+      }
+    ]
+  },
+  "id": 1
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- Implementation Section -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation Examples</h2>
+
+              <div class="implementation-tabs">
+                <div class="tab-content">
+                  <h3>📂 File System MCP Server</h3>
+                  <div class="code-example">
+                    <pre><code>#!/usr/bin/env python3
+import asyncio
+import json
+import sys
+from pathlib import Path
+from mcp import server, types
+
+class FilesystemServer:
+    def __init__(self, allowed_paths: list[str]):
+        self.allowed_paths = [Path(p).resolve() for p in allowed_paths]
+    
+    def is_path_allowed(self, path: Path) -> bool:
+        """Check if path is within allowed directories"""
+        path = path.resolve()
+        return any(
+            str(path).startswith(str(allowed)) 
+            for allowed in self.allowed_paths
+        )
+
+# Create MCP server
+app = server.Server("filesystem")
+
+fs_server = FilesystemServer(["/home/user/documents", "/tmp"])
+
+@app.list_resources()
+async def list_resources() -> list[types.Resource]:
+    """List available files in allowed directories"""
+    resources = []
+    for allowed_path in fs_server.allowed_paths:
+        if allowed_path.exists():
+            for file_path in allowed_path.rglob("*"):
+                if file_path.is_file():
+                    resources.append(
+                        types.Resource(
+                            uri=f"file://{file_path}",
+                            name=file_path.name,
+                            description=f"File: {file_path.relative_to(allowed_path)}",
+                            mimeType="text/plain"
+                        )
+                    )
+    return resources
+
+@app.read_resource()
+async def read_resource(uri: str) -> str:
+    """Read file contents"""
+    if not uri.startswith("file://"):
+        raise ValueError("Only file:// URIs are supported")
+    
+    path = Path(uri[7:])  # Remove file:// prefix
+    
+    if not fs_server.is_path_allowed(path):
+        raise PermissionError(f"Access denied to {path}")
+    
+    if not path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
+    
+    return path.read_text(encoding="utf-8")
+
+@app.list_tools()
+async def list_tools() -> list[types.Tool]:
+    """List available file operations"""
+    return [
+        types.Tool(
+            name="write_file",
+            description="Write content to a file",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "path": {"type": "string", "description": "File path to write to"},
+                    "content": {"type": "string", "description": "Content to write"}
+                },
+                "required": ["path", "content"]
+            }
+        ),
+        types.Tool(
+            name="list_directory",
+            description="List files in a directory",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "path": {"type": "string", "description": "Directory path to list"}
+                },
+                "required": ["path"]
+            }
+        )
+    ]
+
+@app.call_tool()
+async def call_tool(name: str, arguments: dict) -> str:
+    """Execute file operations"""
+    if name == "write_file":
+        path = Path(arguments["path"])
+        content = arguments["content"]
+        
+        if not fs_server.is_path_allowed(path):
+            raise PermissionError(f"Access denied to {path}")
+        
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+        return f"Successfully wrote {len(content)} characters to {path}"
+    
+    elif name == "list_directory":
+        path = Path(arguments["path"])
+        
+        if not fs_server.is_path_allowed(path):
+            raise PermissionError(f"Access denied to {path}")
+        
+        if not path.is_dir():
+            raise ValueError(f"Path is not a directory: {path}")
+        
+        files = [item.name for item in path.iterdir()]
+        return f"Directory contents: {', '.join(files)}"
+    
+    else:
+        raise ValueError(f"Unknown tool: {name}")
+
+async def main():
+    # Run the server
+    async with server.stdio_server() as (read_stream, write_stream):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🗄️ Database MCP Server</h3>
+                  <div class="code-example">
+                    <pre><code>#!/usr/bin/env python3
+import asyncio
+import sqlite3
+import json
+from mcp import server, types
+
+class DatabaseServer:
+    def __init__(self, db_path: str):
+        self.db_path = db_path
+        self.connection = sqlite3.connect(db_path)
+        self.connection.row_factory = sqlite3.Row  # Enable dict-like access
+    
+    def execute_query(self, query: str, params: tuple = ()):
+        """Execute SQL query safely"""
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(query, params)
+            
+            if query.strip().upper().startswith(('SELECT', 'WITH')):
+                # For SELECT queries, return results
+                rows = cursor.fetchall()
+                return [dict(row) for row in rows]
+            else:
+                # For INSERT/UPDATE/DELETE, commit and return affected rows
+                self.connection.commit()
+                return {"affected_rows": cursor.rowcount}
+        except Exception as e:
+            self.connection.rollback()
+            raise e
+        finally:
+            cursor.close()
+
+# Initialize MCP server
+app = server.Server("database")
+db_server = DatabaseServer("example.db")
+
+@app.list_resources()
+async def list_resources() -> list[types.Resource]:
+    """List database tables and views"""
+    tables = db_server.execute_query(
+        "SELECT name FROM sqlite_master WHERE type IN ('table', 'view')"
+    )
+    
+    resources = []
+    for table in tables:
+        table_name = table['name']
+        # Get column info
+        columns = db_server.execute_query(f"PRAGMA table_info({table_name})")
+        column_names = [col['name'] for col in columns]
+        
+        resources.append(
+            types.Resource(
+                uri=f"db:///{table_name}",
+                name=table_name,
+                description=f"Database table with columns: {', '.join(column_names)}",
+                mimeType="application/json"
+            )
+        )
+    
+    return resources
+
+@app.read_resource()
+async def read_resource(uri: str) -> str:
+    """Read data from database table"""
+    if not uri.startswith("db:///"):
+        raise ValueError("Only db:/// URIs are supported")
+    
+    table_name = uri[6:]  # Remove db:/// prefix
+    
+    # Validate table name to prevent SQL injection
+    tables = db_server.execute_query(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+        (table_name,)
+    )
+    
+    if not tables:
+        raise ValueError(f"Table not found: {table_name}")
+    
+    # Get table data (limit to prevent huge responses)
+    data = db_server.execute_query(f"SELECT * FROM {table_name} LIMIT 100")
+    return json.dumps(data, indent=2)
+
+@app.list_tools()
+async def list_tools() -> list[types.Tool]:
+    """List available database operations"""
+    return [
+        types.Tool(
+            name="execute_query",
+            description="Execute a SQL query on the database",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "SQL query to execute"},
+                    "params": {
+                        "type": "array", 
+                        "items": {"type": "string"},
+                        "description": "Query parameters for prepared statements"
+                    }
+                },
+                "required": ["query"]
+            }
+        ),
+        types.Tool(
+            name="get_schema",
+            description="Get database schema information",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "table_name": {
+                        "type": "string", 
+                        "description": "Optional: specific table name"
+                    }
+                }
+            }
+        )
+    ]
+
+@app.call_tool()
+async def call_tool(name: str, arguments: dict) -> str:
+    """Execute database operations"""
+    if name == "execute_query":
+        query = arguments["query"]
+        params = tuple(arguments.get("params", []))
+        
+        # Basic safety check - only allow SELECT for safety
+        if not query.strip().upper().startswith(('SELECT', 'WITH')):
+            raise ValueError("Only SELECT queries are allowed for safety")
+        
+        result = db_server.execute_query(query, params)
+        return json.dumps(result, indent=2)
+    
+    elif name == "get_schema":
+        table_name = arguments.get("table_name")
+        
+        if table_name:
+            # Get schema for specific table
+            columns = db_server.execute_query(f"PRAGMA table_info({table_name})")
+            return json.dumps(columns, indent=2)
+        else:
+            # Get all tables
+            tables = db_server.execute_query(
+                "SELECT name, sql FROM sqlite_master WHERE type='table'"
+            )
+            return json.dumps(tables, indent=2)
+    
+    else:
+        raise ValueError(f"Unknown tool: {name}")
+
+async def main():
+    # Create sample data
+    db_server.execute_query("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    
+    db_server.execute_query("""
+        INSERT OR IGNORE INTO users (name, email) VALUES 
+        ('Alice Johnson', 'alice@example.com'),
+        ('Bob Smith', 'bob@example.com'),
+        ('Carol Davis', 'carol@example.com')
+    """)
+    
+    # Run the server
+    async with server.stdio_server() as (read_stream, write_stream):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🌐 Web API MCP Server</h3>
+                  <div class="code-example">
+                    <pre><code>#!/usr/bin/env python3
+import asyncio
+import aiohttp
+import json
+from mcp import server, types
+from urllib.parse import urljoin, urlparse
+
+class WebAPIServer:
+    def __init__(self, base_urls: list[str], api_keys: dict[str, str] = None):
+        self.base_urls = base_urls
+        self.api_keys = api_keys or {}
+        self.session = None
+    
+    async def __aenter__(self):
+        self.session = aiohttp.ClientSession()
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self.session:
+            await self.session.close()
+    
+    def get_headers(self, domain: str) -> dict:
+        """Get headers including API key if available"""
+        headers = {"User-Agent": "MCP-WebAPI-Server/1.0"}
+        if domain in self.api_keys:
+            headers["Authorization"] = f"Bearer {self.api_keys[domain]}"
+        return headers
+    
+    async def make_request(self, method: str, url: str, **kwargs) -> dict:
+        """Make HTTP request with error handling"""
+        domain = urlparse(url).netloc
+        headers = self.get_headers(domain)
+        
+        if 'headers' in kwargs:
+            headers.update(kwargs['headers'])
+        kwargs['headers'] = headers
+        
+        async with self.session.request(method, url, **kwargs) as response:
+            response.raise_for_status()
+            content_type = response.headers.get('content-type', '')
+            
+            if 'application/json' in content_type:
+                return await response.json()
+            else:
+                text = await response.text()
+                return {"content": text, "content_type": content_type}
+
+# Initialize MCP server
+app = server.Server("web-api")
+
+# Configure allowed APIs
+web_server = WebAPIServer(
+    base_urls=[
+        "https://api.github.com",
+        "https://jsonplaceholder.typicode.com",
+        "https://httpbin.org"
+    ],
+    api_keys={
+        "api.github.com": "your-github-token"  # Optional
+    }
+)
+
+@app.list_resources()
+async def list_resources() -> list[types.Resource]:
+    """List available API endpoints"""
+    resources = []
+    
+    # Define common API endpoints
+    endpoints = [
+        {
+            "uri": "api://github.com/user",
+            "name": "GitHub User Info",
+            "description": "Get authenticated user information from GitHub"
+        },
+        {
+            "uri": "api://jsonplaceholder.typicode.com/posts",
+            "name": "JSONPlaceholder Posts",
+            "description": "Sample blog posts from JSONPlaceholder API"
+        },
+        {
+            "uri": "api://httpbin.org/ip",
+            "name": "IP Address",
+            "description": "Get current IP address"
+        }
+    ]
+    
+    for endpoint in endpoints:
+        resources.append(
+            types.Resource(
+                uri=endpoint["uri"],
+                name=endpoint["name"],
+                description=endpoint["description"],
+                mimeType="application/json"
+            )
+        )
+    
+    return resources
+
+@app.read_resource()
+async def read_resource(uri: str) -> str:
+    """Read data from API endpoint"""
+    if not uri.startswith("api://"):
+        raise ValueError("Only api:// URIs are supported")
+    
+    # Convert api:// URI to https://
+    url = uri.replace("api://", "https://")
+    
+    # Validate URL is in allowed list
+    domain = urlparse(url).netloc
+    allowed = any(domain in base_url for base_url in web_server.base_urls)
+    if not allowed:
+        raise PermissionError(f"Access denied to domain: {domain}")
+    
+    async with web_server:
+        data = await web_server.make_request("GET", url)
+        return json.dumps(data, indent=2)
+
+@app.list_tools()
+async def list_tools() -> list[types.Tool]:
+    """List available API operations"""
+    return [
+        types.Tool(
+            name="http_request",
+            description="Make HTTP request to allowed APIs",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "method": {
+                        "type": "string",
+                        "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+                        "description": "HTTP method"
+                    },
+                    "url": {"type": "string", "description": "Full URL to request"},
+                    "data": {"type": "object", "description": "Request body data"},
+                    "params": {"type": "object", "description": "URL parameters"},
+                    "headers": {"type": "object", "description": "Additional headers"}
+                },
+                "required": ["method", "url"]
+            }
+        ),
+        types.Tool(
+            name="search_github",
+            description="Search GitHub repositories",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Search query"},
+                    "language": {"type": "string", "description": "Programming language filter"},
+                    "sort": {"type": "string", "enum": ["stars", "forks", "updated"], "description": "Sort criteria"}
+                },
+                "required": ["query"]
+            }
+        )
+    ]
+
+@app.call_tool()
+async def call_tool(name: str, arguments: dict) -> str:
+    """Execute API operations"""
+    async with web_server:
+        if name == "http_request":
+            method = arguments["method"]
+            url = arguments["url"]
+            
+            # Validate URL is allowed
+            domain = urlparse(url).netloc
+            allowed = any(domain in base_url for base_url in web_server.base_urls)
+            if not allowed:
+                raise PermissionError(f"Access denied to domain: {domain}")
+            
+            # Prepare request parameters
+            kwargs = {}
+            if "data" in arguments:
+                kwargs["json"] = arguments["data"]
+            if "params" in arguments:
+                kwargs["params"] = arguments["params"]
+            if "headers" in arguments:
+                kwargs["headers"] = arguments["headers"]
+            
+            result = await web_server.make_request(method, url, **kwargs)
+            return json.dumps(result, indent=2)
+        
+        elif name == "search_github":
+            query = arguments["query"]
+            params = {"q": query}
+            
+            if "language" in arguments:
+                params["q"] += f" language:{arguments['language']}"
+            if "sort" in arguments:
+                params["sort"] = arguments["sort"]
+            
+            url = "https://api.github.com/search/repositories"
+            result = await web_server.make_request("GET", url, params=params)
+            
+            # Format results nicely
+            repos = result.get("items", [])[:10]  # Limit to top 10
+            formatted = []
+            for repo in repos:
+                formatted.append({
+                    "name": repo["full_name"],
+                    "description": repo["description"],
+                    "stars": repo["stargazers_count"],
+                    "language": repo["language"],
+                    "url": repo["html_url"]
+                })
+            
+            return json.dumps(formatted, indent=2)
+        
+        else:
+            raise ValueError(f"Unknown tool: {name}")
+
+async def main():
+    async with server.stdio_server() as (read_stream, write_stream):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Use Cases Section -->
+            <section id="use-cases" class="content-section">
+              <h2>Real-World Use Cases</h2>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>📊 Business Intelligence Assistant</h3>
+                  <p>
+                    <strong>Scenario:</strong> CEO asks "What were our sales
+                    figures for Q3 and how do they compare to last year?"
+                  </p>
+                  <div class="use-case-example">
+                    <strong>MCP in Action:</strong><br />
+                    1. AI connects to company database via MCP<br />
+                    2. Executes SQL queries to get Q3 data<br />
+                    3. Compares with historical data<br />
+                    4. Generates charts and insights<br />
+                    5. Delivers comprehensive analysis
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Real-time business insights without
+                    manual data extraction
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🔬 Research Assistant</h3>
+                  <p>
+                    <strong>Scenario:</strong> Researcher needs to analyze
+                    recent papers on quantum computing
+                  </p>
+                  <div class="use-case-example">
+                    <strong>MCP in Action:</strong><br />
+                    1. Search academic databases via API<br />
+                    2. Download and parse PDFs<br />
+                    3. Extract key findings and methodologies<br />
+                    4. Cross-reference citations<br />
+                    5. Generate literature review summary
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Automated research synthesis from
+                    multiple sources
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🏠 Smart Home Controller</h3>
+                  <p>
+                    <strong>Scenario:</strong> "Set up my home for movie night"
+                  </p>
+                  <div class="use-case-example">
+                    <strong>MCP in Action:</strong><br />
+                    1. Dim living room lights via smart home API<br />
+                    2. Set temperature to optimal level<br />
+                    3. Close motorized blinds<br />
+                    4. Turn on TV and streaming service<br />
+                    5. Order snacks via delivery app
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Coordinated multi-system automation
+                    from natural language
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>💼 Customer Service Integration</h3>
+                  <p>
+                    <strong>Scenario:</strong> Customer asks about order status
+                    and wants to modify delivery
+                  </p>
+                  <div class="use-case-example">
+                    <strong>MCP in Action:</strong><br />
+                    1. Look up order in company database<br />
+                    2. Check shipping status via carrier API<br />
+                    3. Access customer history and preferences<br />
+                    4. Process delivery change request<br />
+                    5. Update CRM with interaction details
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Complete customer service without
+                    human handoffs
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Available Tools Section -->
+            <section id="tools" class="content-section">
+              <h2>Available MCP Tools & Libraries</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Official MCP SDK</h3>
+                  <p>
+                    Anthropic's official Python and TypeScript libraries for
+                    building MCP servers
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Python</span>
+                    <span class="feature-tag">TypeScript</span>
+                    <span class="feature-tag">Official</span>
+                  </div>
+                  <div class="code-block">
+                    <h4>Quick Start:</h4>
+                    <pre><code># Python
+pip install mcp
+
+# TypeScript
+npm install @modelcontextprotocol/sdk</code></pre>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Claude Desktop Integration</h3>
+                  <p>Native MCP support in Claude Desktop application</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Native</span>
+                    <span class="feature-tag">No setup</span>
+                    <span class="feature-tag">Secure</span>
+                  </div>
+                  <p>
+                    <strong>Features:</strong> File system access, database
+                    connections, web APIs
+                  </p>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Community Servers</h3>
+                  <p>Open source MCP servers for common use cases</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Open source</span>
+                    <span class="feature-tag">Community</span>
+                    <span class="feature-tag">Ready to use</span>
+                  </div>
+                  <ul>
+                    <li>Filesystem server</li>
+                    <li>Database server (PostgreSQL, MySQL)</li>
+                    <li>Git repository server</li>
+                    <li>Slack integration server</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices Section -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h4>🔒 Security First</h4>
+                  <p>
+                    Always implement proper authentication and authorization.
+                    Use sandboxed environments and validate all inputs to
+                    prevent security vulnerabilities.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>⚡ Performance Optimization</h4>
+                  <p>
+                    Cache frequently accessed data, implement connection pooling
+                    for databases, and use async operations to handle multiple
+                    requests efficiently.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔍 Error Handling</h4>
+                  <p>
+                    Provide clear, actionable error messages. Implement retry
+                    logic for transient failures and graceful degradation when
+                    external services are unavailable.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>📊 Monitoring & Logging</h4>
+                  <p>
+                    Log all MCP operations for debugging and audit purposes.
+                    Monitor performance metrics and set up alerts for service
+                    degradation.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔄 Version Management</h4>
+                  <p>
+                    Version your MCP server APIs carefully. Maintain backward
+                    compatibility and provide clear migration paths for breaking
+                    changes.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Important Considerations</h3>
+                <ul>
+                  <li>
+                    <strong>Permissions:</strong> Only grant minimum necessary
+                    access to external resources
+                  </li>
+                  <li>
+                    <strong>Rate Limiting:</strong> Implement rate limiting to
+                    prevent abuse of external APIs
+                  </li>
+                  <li>
+                    <strong>Data Privacy:</strong> Be careful with sensitive
+                    data - implement proper data handling
+                  </li>
+                  <li>
+                    <strong>Testing:</strong> Thoroughly test all MCP
+                    integrations in isolated environments
+                  </li>
+                  <li>
+                    <strong>Documentation:</strong> Document all available
+                    resources and tools clearly
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Simple guide to Fine Tuning - learn how to customize AI models for your specific needs with practical examples"
+    />
+    <title>Fine Tuning (Simple) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a
+                      href="fine-tuning-simple.html"
+                      class="dropdown-link active"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#ai-ml">AI/ML</a></li>
+                <li>Fine Tuning</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Fine Tuning Made Simple</h1>
+            <p class="page-subtitle">
+              Learn how to customize AI models for your specific needs - no PhD
+              required!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Quick Navigation</h2>
+            <ul class="toc-list">
+              <li>
+                <a href="#what-is" class="toc-link">What is Fine Tuning?</a>
+              </li>
+              <li><a href="#when-to-use" class="toc-link">When to Use</a></li>
+              <li><a href="#how-it-works" class="toc-link">How It Works</a></li>
+              <li>
+                <a href="#practical-examples" class="toc-link"
+                  >Practical Examples</a
+                >
+              </li>
+              <li>
+                <a href="#getting-started" class="toc-link">Getting Started</a>
+              </li>
+              <li><a href="#tools" class="toc-link">Tools & Services</a></li>
+            </ul>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- What is Fine Tuning Section -->
+            <section id="what-is" class="content-section">
+              <h2>What is Fine Tuning?</h2>
+
+              <div class="highlight-box info">
+                <h3>🎯 Think of it like job training</h3>
+                <p>
+                  You have a smart employee (AI model) who knows a lot about
+                  everything. Fine tuning is like giving them specialized
+                  training to become really good at your specific job tasks.
+                </p>
+              </div>
+
+              <p>
+                Fine tuning takes a pre-trained AI model and teaches it to be
+                better at your specific tasks by showing it examples of what you
+                want. Instead of training a model from scratch (which costs
+                millions), you start with an existing smart model and customize
+                it.
+              </p>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">💰</div>
+                  <h3>Cost Effective</h3>
+                  <p>Much cheaper than training from scratch</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Fast Results</h3>
+                  <p>Get custom models in hours, not months</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🎯</div>
+                  <h3>Better Performance</h3>
+                  <p>Specialized for your exact needs</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔧</div>
+                  <h3>Easy to Use</h3>
+                  <p>Many no-code tools available</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- When to Use Section -->
+            <section id="when-to-use" class="content-section">
+              <h2>When Should You Use Fine Tuning?</h2>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>✅ Good for Fine Tuning</h3>
+                  <ul>
+                    <li>
+                      <strong>Customer Support:</strong> Train on your company's
+                      support history
+                    </li>
+                    <li>
+                      <strong>Writing Style:</strong> Match your brand's tone
+                      and voice
+                    </li>
+                    <li>
+                      <strong>Domain Knowledge:</strong> Legal, medical,
+                      technical writing
+                    </li>
+                    <li>
+                      <strong>Code Generation:</strong> Your specific codebase
+                      patterns
+                    </li>
+                    <li>
+                      <strong>Data Analysis:</strong> Understanding your data
+                      formats
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>❌ Not Ideal for Fine Tuning</h3>
+                  <ul>
+                    <li>
+                      <strong>General Questions:</strong> Basic AI can already
+                      handle these
+                    </li>
+                    <li>
+                      <strong>Factual Information:</strong> Better to use RAG
+                      (Retrieval)
+                    </li>
+                    <li>
+                      <strong>Small Datasets:</strong> Need at least 50-100
+                      examples
+                    </li>
+                    <li>
+                      <strong>Changing Requirements:</strong> Fine tuning is
+                      specific
+                    </li>
+                    <li>
+                      <strong>Real-time Data:</strong> Models can't learn new
+                      facts after training
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section id="how-it-works" class="content-section">
+              <h2>How Fine Tuning Works</h2>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item">
+                    <strong>1. Start with Base Model</strong>
+                    <p>GPT-4, Claude, Llama, etc.</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item">
+                    <strong>2. Add Your Data</strong>
+                    <p>Examples of inputs & outputs</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item">
+                    <strong>3. Training Process</strong>
+                    <p>Model learns your patterns</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item">
+                    <strong>4. Custom Model</strong>
+                    <p>Specialized for your needs</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>The Magic Behind the Scenes</h3>
+                <p>
+                  During fine tuning, the AI model's "brain connections" get
+                  adjusted to recognize and respond to your specific patterns.
+                  It's like teaching someone to recognize your handwriting -
+                  they use their existing knowledge of letters but learn your
+                  specific style.
+                </p>
+              </div>
+            </section>
+
+            <!-- Practical Examples Section -->
+            <section id="practical-examples" class="content-section">
+              <h2>Practical Examples</h2>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>📧 Email Customer Support</h3>
+                  <p>
+                    <strong>Goal:</strong> Respond to customer emails in your
+                    company's tone
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Training Data Example:</strong><br />
+                    <em>Input:</em> "My order hasn't arrived yet, tracking shows
+                    delivered"<br />
+                    <em>Output:</em> "I understand how frustrating that must be!
+                    Let me help you track down your package. I've started an
+                    investigation with our shipping partner and will update you
+                    within 24 hours with a resolution."
+                  </div>
+                  <p>
+                    <strong>Result:</strong> AI responds with empathy and
+                    follows your escalation process
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>📝 Legal Document Drafting</h3>
+                  <p>
+                    <strong>Goal:</strong> Generate contracts in your firm's
+                    style
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Training Data Example:</strong><br />
+                    <em>Input:</em> "Create NDA for tech startup, 2-year
+                    term"<br />
+                    <em>Output:</em> "NON-DISCLOSURE AGREEMENT... [follows your
+                    firm's specific clauses and language patterns]"
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Consistent legal documents that
+                    match your standards
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>💻 Code Generation</h3>
+                  <p>
+                    <strong>Goal:</strong> Generate code following your team's
+                    conventions
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Training Data Example:</strong><br />
+                    <em>Input:</em> "Create user authentication function"<br />
+                    <em>Output:</em> [Code that follows your naming conventions,
+                    error handling patterns, and security practices]
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Code that fits seamlessly into your
+                    existing codebase
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Getting Started Section -->
+            <section id="getting-started" class="content-section">
+              <h2>Getting Started: Step by Step</h2>
+
+              <div class="process-flow">
+                <div class="process-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>Collect Your Data</h3>
+                    <p>Gather 50-1000 examples of input-output pairs</p>
+                    <ul>
+                      <li>Quality over quantity - good examples are key</li>
+                      <li>Show diverse scenarios you want to handle</li>
+                      <li>Include edge cases and common mistakes</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>Format Your Data</h3>
+                    <p>Most services need JSONL format (one JSON per line)</p>
+                    <div class="code-block">
+                      <pre><code>{"messages": [
+  {"role": "user", "content": "What's your return policy?"},
+  {"role": "assistant", "content": "We offer 30-day returns..."}
+]}</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>Choose Your Tool</h3>
+                    <p>Pick a platform that fits your budget and needs</p>
+                    <ul>
+                      <li>
+                        <strong>OpenAI:</strong> Easy but can be expensive
+                      </li>
+                      <li>
+                        <strong>Hugging Face:</strong> More technical,
+                        cost-effective
+                      </li>
+                      <li>
+                        <strong>Google AI Studio:</strong> Good for beginners
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Start Training</h3>
+                    <p>Upload your data and start the fine-tuning process</p>
+                    <ul>
+                      <li>Training usually takes 1-4 hours</li>
+                      <li>
+                        Monitor for overfitting (model memorizing vs learning)
+                      </li>
+                      <li>Test with examples not in your training data</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h3>Test & Deploy</h3>
+                    <p>Validate your model before going live</p>
+                    <ul>
+                      <li>Test with real scenarios</li>
+                      <li>Compare against the base model</li>
+                      <li>Start with low-risk use cases</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Tools & Services Section -->
+            <section id="tools" class="content-section">
+              <h2>Tools & Services</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>OpenAI Fine Tuning</h3>
+                  <p>Fine tune GPT-3.5 and GPT-4 models with your data</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Easy to use</span>
+                    <span class="feature-tag">High quality</span>
+                    <span class="feature-tag">API access</span>
+                  </div>
+                  <div class="code-block">
+                    <h4>Quick Start:</h4>
+                    <pre><code># Upload training file
+openai api fine_tunes.create \
+  -t training_data.jsonl \
+  -m gpt-3.5-turbo
+
+# Use your fine-tuned model
+curl https://api.openai.com/v1/chat/completions \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "model": "ft:gpt-3.5-turbo:your-model-id",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'</code></pre>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Hugging Face AutoTrain</h3>
+                  <p>No-code fine tuning for open source models</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Open source</span>
+                    <span class="feature-tag">Cost effective</span>
+                    <span class="feature-tag">No code needed</span>
+                  </div>
+                  <div class="code-block">
+                    <h4>Quick Start:</h4>
+                    <pre><code># Install AutoTrain
+pip install autotrain-advanced
+
+# Start training
+autotrain llm \
+  --train \
+  --model microsoft/DialoGPT-medium \
+  --data-path ./my_data.csv \
+  --lr 5e-4 \
+  --epochs 3</code></pre>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Google AI Studio</h3>
+                  <p>Fine tune Gemini models with a visual interface</p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Visual interface</span>
+                    <span class="feature-tag">Beginner friendly</span>
+                    <span class="feature-tag">Google integration</span>
+                  </div>
+                  <p>
+                    <strong>Perfect for:</strong> Beginners who want a visual,
+                    drag-and-drop experience
+                  </p>
+                </div>
+              </div>
+
+              <div class="best-practices">
+                <h3>💡 Pro Tips for Success</h3>
+                <div class="practice-item">
+                  <h4>Start Small</h4>
+                  <p>
+                    Begin with 50-100 high-quality examples rather than 1000
+                    mediocre ones
+                  </p>
+                </div>
+                <div class="practice-item">
+                  <h4>Test Early</h4>
+                  <p>
+                    Test your model with real scenarios, not just training
+                    examples
+                  </p>
+                </div>
+                <div class="practice-item">
+                  <h4>Monitor Costs</h4>
+                  <p>
+                    Fine tuning can be expensive - start with smaller models and
+                    scale up
+                  </p>
+                </div>
+                <div class="practice-item">
+                  <h4>Keep Improving</h4>
+                  <p>
+                    Fine tuning is iterative - collect feedback and retrain
+                    periodically
+                  </p>
+                </div>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

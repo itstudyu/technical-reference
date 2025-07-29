@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to DNS (Domain Name System) - how domain resolution works, DNS records, and DNS security"
+    />
+    <title>DNS (Domain Name System) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Enhanced styles for DNS page */
+      .hero-section {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .dns-flow {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .resolution-diagram {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .dns-server {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .dns-server:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .dns-arrow {
+        font-size: 1.5rem;
+        color: #fbbf24;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .record-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #0ea5e9;
+        margin: 1.5rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .record-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .dns-hierarchy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .hierarchy-level {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .hierarchy-item {
+        background: white;
+        border: 2px solid #0ea5e9;
+        border-radius: 10px;
+        padding: 1rem 2rem;
+        text-align: center;
+        min-width: 120px;
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+      }
+
+      .security-warning {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 12px;
+        padding: 2rem;
+        border-left: 4px solid #ef4444;
+        margin: 2rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .resolution-diagram {
+          grid-template-columns: 1fr;
+        }
+        .hierarchy-level {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                  <li>
+                    <a href="dns.html" class="dropdown-link active">DNS</a>
+                  </li>
+                  <li><a href="cdn.html" class="dropdown-link">CDN</a></li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Security
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="web-security.html" class="dropdown-link"
+                      >Web Security</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li><a href="cors.html" class="dropdown-link">CORS</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <h1 class="hero-title">🌐 DNS (Domain Name System)</h1>
+          <p class="hero-subtitle">
+            The internet's phonebook. Understand how domain names like
+            google.com are translated to IP addresses, making the web
+            user-friendly.
+          </p>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div
+        class="container"
+        style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem"
+      >
+        <!-- DNS Resolution Process -->
+        <section style="margin: 3rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔍 DNS Resolution Process
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            When you type "google.com" in your browser, here's exactly what
+            happens:
+          </p>
+
+          <!-- Step-by-Step DNS Resolution -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Browser Cache Check
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Browser checks if it already knows the IP address
+                </p>
+                <div class="code-example">
+                  # Browser DNS Cache<br />
+                  google.com → 142.250.191.14 (cached for 300 seconds)
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Operating System Cache
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  If not in browser cache, OS checks its DNS cache
+                </p>
+                <div class="code-example">
+                  # Check OS DNS cache (Windows)<br />
+                  ipconfig /displaydns<br />
+                  <br />
+                  # Check OS DNS cache (macOS/Linux)<br />
+                  sudo dscacheutil -q host -a name google.com
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Router Cache Check
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Router checks its DNS cache for the domain
+                </p>
+                <div
+                  style="
+                    background: #f0f9ff;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #0ea5e9;
+                  "
+                >
+                  <strong>Why cache?</strong> Reduces latency and DNS server
+                  load
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  ISP DNS Server Query
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Request sent to Internet Service Provider's DNS server
+                </p>
+                <div class="code-example">
+                  # Common ISP DNS servers<br />
+                  Comcast: 75.75.75.75<br />
+                  Verizon: 4.2.2.1<br />
+                  AT&T: 68.94.156.1
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">5</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Root Server Query
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  ISP DNS queries one of 13 root servers worldwide
+                </p>
+                <div class="code-example">
+                  Query: "Where can I find info about .com domains?"<br />
+                  Root Server Response: "Ask the .com TLD servers"<br />
+                  TLD Server IP: 192.5.6.30
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">6</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  TLD Server Query
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Query sent to Top-Level Domain (.com) server
+                </p>
+                <div class="code-example">
+                  Query: "Where can I find google.com?"<br />
+                  TLD Server Response: "Ask Google's authoritative servers"<br />
+                  Authoritative Server: ns1.google.com (216.239.32.10)
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">7</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Authoritative Server Query
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Final query to Google's authoritative DNS server
+                </p>
+                <div class="code-example">
+                  Query: "What's the IP address for google.com?"<br />
+                  Authoritative Response: "142.250.191.14"<br />
+                  TTL: 300 seconds
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">8</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  Resolution Complete
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  IP address returned to browser, connection established
+                </p>
+                <div
+                  style="
+                    background: #ecfdf5;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #10b981;
+                  "
+                >
+                  <strong>✅ Success:</strong> Browser connects to
+                  142.250.191.14 (Google's server)
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DNS Hierarchy Visualization -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🏗️ DNS Hierarchy Structure
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            DNS is organized as a hierarchical tree structure:
+          </p>
+
+          <div class="dns-hierarchy">
+            <!-- Root Level -->
+            <div class="hierarchy-level">
+              <div
+                class="hierarchy-item"
+                style="background: #fee2e2; border-color: #ef4444"
+              >
+                <h4 style="color: #dc2626; margin: 0">Root (.)</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">
+                  13 root servers
+                </p>
+              </div>
+            </div>
+
+            <div class="dns-arrow">⬇️</div>
+
+            <!-- TLD Level -->
+            <div class="hierarchy-level">
+              <div
+                class="hierarchy-item"
+                style="background: #fef3c7; border-color: #f59e0b"
+              >
+                <h4 style="color: #d97706; margin: 0">.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">
+                  Commercial
+                </p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #fef3c7; border-color: #f59e0b"
+              >
+                <h4 style="color: #d97706; margin: 0">.org</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">
+                  Organization
+                </p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #fef3c7; border-color: #f59e0b"
+              >
+                <h4 style="color: #d97706; margin: 0">.edu</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Education</p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #fef3c7; border-color: #f59e0b"
+              >
+                <h4 style="color: #d97706; margin: 0">.uk</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">
+                  United Kingdom
+                </p>
+              </div>
+            </div>
+
+            <div class="dns-arrow">⬇️</div>
+
+            <!-- Domain Level -->
+            <div class="hierarchy-level">
+              <div
+                class="hierarchy-item"
+                style="background: #dbeafe; border-color: #3b82f6"
+              >
+                <h4 style="color: #2563eb; margin: 0">google.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Domain</p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #dbeafe; border-color: #3b82f6"
+              >
+                <h4 style="color: #2563eb; margin: 0">github.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Domain</p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #dbeafe; border-color: #3b82f6"
+              >
+                <h4 style="color: #2563eb; margin: 0">stackoverflow.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Domain</p>
+              </div>
+            </div>
+
+            <div class="dns-arrow">⬇️</div>
+
+            <!-- Subdomain Level -->
+            <div class="hierarchy-level">
+              <div
+                class="hierarchy-item"
+                style="background: #ecfdf5; border-color: #10b981"
+              >
+                <h4 style="color: #059669; margin: 0">www.google.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Subdomain</p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #ecfdf5; border-color: #10b981"
+              >
+                <h4 style="color: #059669; margin: 0">mail.google.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Subdomain</p>
+              </div>
+              <div
+                class="hierarchy-item"
+                style="background: #ecfdf5; border-color: #10b981"
+              >
+                <h4 style="color: #059669; margin: 0">docs.google.com</h4>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem">Subdomain</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DNS Record Types -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            📋 DNS Record Types
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            Different types of DNS records serve different purposes:
+          </p>
+
+          <div style="display: grid; gap: 1.5rem">
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🎯 A Record (Address)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Maps domain name to IPv4 address
+              </p>
+              <div class="code-example">
+                google.com. 300 IN A 142.250.191.14
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> Primary domain-to-IP mapping
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🌐 AAAA Record (IPv6 Address)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Maps domain name to IPv6 address
+              </p>
+              <div class="code-example">
+                google.com. 300 IN AAAA 2607:f8b0:4004:c1b::65
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> IPv6 connectivity
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🔗 CNAME Record (Canonical Name)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Maps alias domain to canonical domain name
+              </p>
+              <div class="code-example">
+                www.google.com. 300 IN CNAME google.com.
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> Domain aliases and subdomains
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                📧 MX Record (Mail Exchange)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Specifies mail servers for email delivery
+              </p>
+              <div class="code-example">
+                google.com. 300 IN MX 10 smtp.google.com.<br />
+                google.com. 300 IN MX 20 smtp2.google.com.
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> Email routing (lower number = higher
+                priority)
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                📝 TXT Record (Text)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Stores arbitrary text data for various purposes
+              </p>
+              <div class="code-example">
+                google.com. 300 IN TXT "v=spf1 include:_spf.google.com ~all"<br />
+                google.com. 300 IN TXT "google-site-verification=abc123..."
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> SPF, DKIM, domain verification,
+                general text data
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🏛️ NS Record (Name Server)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Specifies authoritative DNS servers for domain
+              </p>
+              <div class="code-example">
+                google.com. 300 IN NS ns1.google.com.<br />
+                google.com. 300 IN NS ns2.google.com.
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> DNS delegation and authority
+              </div>
+            </div>
+
+            <div class="record-card">
+              <h3
+                style="
+                  color: #0ea5e9;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🎭 SRV Record (Service)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Defines services available on specific ports
+              </p>
+              <div class="code-example">
+                _sip._tcp.google.com. 300 IN SRV 10 5 5060 sipserver.google.com.
+              </div>
+              <div
+                style="
+                  background: #f0f9ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Use case:</strong> Service discovery (SIP, XMPP, etc.)
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DNS Security -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔒 DNS Security (DNSSEC)
+          </h2>
+
+          <div class="security-warning">
+            <h3 style="color: #dc2626; margin-bottom: 1rem">
+              ⚠️ DNS Security Risks
+            </h3>
+            <p style="margin-bottom: 1rem">
+              Traditional DNS has no built-in security, making it vulnerable to
+              attacks:
+            </p>
+            <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+              <li>
+                <strong>DNS Spoofing:</strong> Fake responses redirect users to
+                malicious sites
+              </li>
+              <li>
+                <strong>Cache Poisoning:</strong> Corrupt DNS cache with
+                malicious data
+              </li>
+              <li>
+                <strong>Man-in-the-Middle:</strong> Intercept and modify DNS
+                responses
+              </li>
+              <li>
+                <strong>DNS Hijacking:</strong> Redirect domain to
+                attacker-controlled servers
+              </li>
+            </ul>
+          </div>
+
+          <!-- DNSSEC Process -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Digital Signatures
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  DNSSEC adds cryptographic signatures to DNS records
+                </p>
+                <div class="code-example">
+                  google.com. 300 IN A 142.250.191.14<br />
+                  google.com. 300 IN RRSIG A 7 2 300 20231201000000...
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Chain of Trust
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Verification chain from root to domain
+                </p>
+                <div
+                  style="
+                    background: #ecfdf5;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #10b981;
+                  "
+                >
+                  <strong>Chain:</strong> Root → .com TLD → google.com →
+                  www.google.com
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Validation Process
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Resolver verifies signatures at each level
+                </p>
+                <div class="code-example">
+                  1. Verify root signature<br />
+                  2. Verify .com TLD signature<br />
+                  3. Verify google.com signature<br />
+                  4. ✅ Trust established
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DNS Tools & Troubleshooting -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔧 DNS Tools & Commands
+          </h2>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+              gap: 2rem;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #0ea5e9; margin-bottom: 1rem">🔍 nslookup</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Query DNS servers interactively
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                # Basic lookup<br />
+                nslookup google.com<br />
+                <br />
+                # Specific record type<br />
+                nslookup -type=MX google.com<br />
+                <br />
+                # Use specific DNS server<br />
+                nslookup google.com 8.8.8.8
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #0ea5e9; margin-bottom: 1rem">⚡ dig</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Flexible DNS lookup tool (Linux/macOS)
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                # Basic lookup<br />
+                dig google.com<br />
+                <br />
+                # Specific record type<br />
+                dig google.com MX<br />
+                <br />
+                # Trace full resolution path<br />
+                dig +trace google.com
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #0ea5e9; margin-bottom: 1rem">🏓 ping</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Test connectivity and resolve domain
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                # Ping domain (shows IP resolution)<br />
+                ping google.com<br />
+                <br />
+                # Output shows:<br />
+                PING google.com (142.250.191.14)<br />
+                64 bytes from 142.250.191.14: time=12ms
+              </div>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #0ea5e9; margin-bottom: 1rem">🔄 DNS Cache</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Manage local DNS cache
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                # Flush DNS cache (Windows)<br />
+                ipconfig /flushdns<br />
+                <br />
+                # Flush DNS cache (macOS)<br />
+                sudo dscacheutil -flushcache<br />
+                <br />
+                # Flush DNS cache (Linux)<br />
+                sudo systemctl restart systemd-resolved
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Popular DNS Providers -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🌍 Popular DNS Providers
+          </h2>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 2rem;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+                border-left: 4px solid #4285f4;
+              "
+            >
+              <h3 style="color: #4285f4; margin-bottom: 1rem">
+                Google Public DNS
+              </h3>
+              <div class="code-example" style="font-size: 0.9rem">
+                Primary: 8.8.8.8<br />
+                Secondary: 8.8.4.4<br />
+                IPv6: 2001:4860:4860::8888
+              </div>
+              <p style="margin-top: 1rem; font-size: 0.9rem; color: #6b7280">
+                Fast, secure, and reliable. Supports DNSSEC.
+              </p>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+                border-left: 4px solid #ff6900;
+              "
+            >
+              <h3 style="color: #ff6900; margin-bottom: 1rem">
+                Cloudflare DNS
+              </h3>
+              <div class="code-example" style="font-size: 0.9rem">
+                Primary: 1.1.1.1<br />
+                Secondary: 1.0.0.1<br />
+                IPv6: 2606:4700:4700::1111
+              </div>
+              <p style="margin-top: 1rem; font-size: 0.9rem; color: #6b7280">
+                Privacy-focused, very fast. Doesn't log queries.
+              </p>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+                border-left: 4px solid #0066cc;
+              "
+            >
+              <h3 style="color: #0066cc; margin-bottom: 1rem">OpenDNS</h3>
+              <div class="code-example" style="font-size: 0.9rem">
+                Primary: 208.67.222.222<br />
+                Secondary: 208.67.220.220<br />
+                IPv6: 2620:119:35::35
+              </div>
+              <p style="margin-top: 1rem; font-size: 0.9rem; color: #6b7280">
+                Includes phishing protection and content filtering.
+              </p>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+                border-left: 4px solid #2a2a2a;
+              "
+            >
+              <h3 style="color: #2a2a2a; margin-bottom: 1rem">Quad9</h3>
+              <div class="code-example" style="font-size: 0.9rem">
+                Primary: 9.9.9.9<br />
+                Secondary: 149.112.112.112<br />
+                IPv6: 2620:fe::fe
+              </div>
+              <p style="margin-top: 1rem; font-size: 0.9rem; color: #6b7280">
+                Security-focused, blocks malicious domains.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

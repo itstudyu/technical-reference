@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Content Delivery Networks (CDN) - global distribution, caching strategies, and performance optimization"
+    />
+    <title>CDN (Content Delivery Network) | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link active">CDN</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#devops">DevOps & Deployment</a>
+                </li>
+                <li>CDN</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Content Delivery Network (CDN)</h1>
+            <p class="page-subtitle">
+              Global content distribution, caching strategies, and performance
+              optimization for faster web experiences
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li>
+                  <a href="#how-it-works" class="toc-link">How CDN Works</a>
+                </li>
+                <li>
+                  <a href="#caching-strategies" class="toc-link"
+                    >Caching Strategies</a
+                  >
+                </li>
+                <li>
+                  <a href="#global-distribution" class="toc-link"
+                    >Global Distribution</a
+                  >
+                </li>
+                <li>
+                  <a href="#implementation" class="toc-link">Implementation</a>
+                </li>
+                <li>
+                  <a href="#performance" class="toc-link"
+                    >Performance Benefits</a
+                  >
+                </li>
+                <li><a href="#providers" class="toc-link">CDN Providers</a></li>
+                <li>
+                  <a href="#best-practices" class="toc-link">Best Practices</a>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Overview</h2>
+              <p>
+                A Content Delivery Network (CDN) is a geographically distributed
+                network of servers that deliver web content to users from the
+                server closest to their location. CDNs improve website
+                performance, reduce server load, and enhance user experience.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key CDN Benefits</h3>
+                <ul>
+                  <li>
+                    <strong>Faster Load Times:</strong> Content served from
+                    nearby edge servers
+                  </li>
+                  <li>
+                    <strong>Reduced Bandwidth:</strong> Cached content reduces
+                    origin server load
+                  </li>
+                  <li>
+                    <strong>High Availability:</strong> Redundancy across
+                    multiple data centers
+                  </li>
+                  <li>
+                    <strong>DDoS Protection:</strong> Distributed infrastructure
+                    absorbs attacks
+                  </li>
+                  <li>
+                    <strong>Global Reach:</strong> Serve users worldwide with
+                    low latency
+                  </li>
+                </ul>
+              </div>
+
+              <div class="diagram">
+                <h3>CDN vs Traditional Hosting</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Traditional Hosting" U1[User in Asia] -->
+                  OS[Origin Server<br />USA] U2[User in Europe] --> OS U3[User
+                  in USA] --> OS OS --> DB[(Database)] end subgraph "CDN
+                  Architecture" UA[User in Asia] --> EA[Edge Server<br />Asia]
+                  UE[User in Europe] --> EE[Edge Server<br />Europe] UU[User in
+                  USA] --> EU[Edge Server<br />USA] EA -.->|Cache Miss|
+                  OS2[Origin Server] EE -.->|Cache Miss| OS2 EU -.->|Cache Miss|
+                  OS2 OS2 --> DB2[(Database)] end
+                </div>
+              </div>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Speed</h3>
+                  <p>
+                    Up to 50% faster load times with geographically distributed
+                    caching
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">💰</div>
+                  <h3>Cost Reduction</h3>
+                  <p>
+                    Lower bandwidth costs and reduced origin server
+                    infrastructure needs
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">🛡️</div>
+                  <h3>Security</h3>
+                  <p>
+                    DDoS protection, SSL/TLS termination, and security rule
+                    enforcement
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">📈</div>
+                  <h3>Scalability</h3>
+                  <p>
+                    Handle traffic spikes without additional origin server
+                    capacity
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- How CDN Works -->
+            <section id="how-it-works" class="content-section">
+              <h2>How CDN Works</h2>
+
+              <div class="diagram">
+                <h3>CDN Request Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant U as User participant D as DNS
+                  participant E as Edge Server participant O as Origin Server
+                  U->>D: Request example.com/image.jpg D->>U: Return CDN edge
+                  server IP U->>E: Request image.jpg alt Cache Hit E->>U: Return
+                  cached image (fast) else Cache Miss E->>O: Request image.jpg
+                  O->>E: Return image.jpg E->>E: Cache image for future requests
+                  E->>U: Return image.jpg end Note over U,O: Subsequent requests
+                  served from cache U->>E: Request same image E->>U: Return from
+                  cache (very fast)
+                </div>
+              </div>
+
+              <div class="step-flow">
+                <div class="step-item">
+                  <div class="step-number">1</div>
+                  <div>
+                    <h3>DNS Resolution</h3>
+                    <p>
+                      User requests content, DNS returns the IP address of the
+                      nearest CDN edge server.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">2</div>
+                  <div>
+                    <h3>Edge Server Check</h3>
+                    <p>
+                      Edge server checks if requested content is available in
+                      its cache.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">3</div>
+                  <div>
+                    <h3>Cache Hit/Miss</h3>
+                    <p>
+                      If cached (hit), content is served immediately. If not
+                      (miss), request goes to origin.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">4</div>
+                  <div>
+                    <h3>Origin Fetch</h3>
+                    <p>
+                      On cache miss, edge server fetches content from origin
+                      server and caches it.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="step-item">
+                  <div class="step-number">5</div>
+                  <div>
+                    <h3>Content Delivery</h3>
+                    <p>
+                      Content is delivered to user and cached for future
+                      requests from that region.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>CDN Configuration Example</h3>
+                <pre><code># Cloudflare Page Rules Example
+# Rule 1: Cache everything for 1 month
+example.com/assets/*
+  Cache Level: Cache Everything
+  Browser Cache TTL: 1 month
+  Edge Cache TTL: 1 month
+
+# Rule 2: Bypass cache for API endpoints
+example.com/api/*
+  Cache Level: Bypass
+
+# Rule 3: Cache HTML for 2 hours
+example.com/*
+  Cache Level: Cache Everything
+  Browser Cache TTL: 2 hours
+  Edge Cache TTL: 2 hours</code></pre>
+              </div>
+            </section>
+
+            <!-- Caching Strategies -->
+            <section id="caching-strategies" class="content-section">
+              <h2>Caching Strategies</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Pull Strategy (Lazy Loading)</h3>
+                  <p>
+                    Content is cached when first requested by a user in that
+                    region.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">On-Demand</span>
+                    <span class="feature-tag">Efficient</span>
+                    <span class="feature-tag">Default</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Push Strategy (Pre-loading)</h3>
+                  <p>
+                    Content is proactively pushed to edge servers before user
+                    requests.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Proactive</span>
+                    <span class="feature-tag">Consistent</span>
+                    <span class="feature-tag">Resource Intensive</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Hybrid Strategy</h3>
+                  <p>
+                    Combines pull and push strategies based on content type and
+                    usage patterns.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Optimized</span>
+                    <span class="feature-tag">Flexible</span>
+                    <span class="feature-tag">Complex</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="diagram">
+                <h3>Cache Invalidation Strategies</h3>
+                <div class="mermaid">
+                  graph TB subgraph "Time-Based (TTL)" TTL[Set Cache TTL] -->
+                  EXP[Content Expires] EXP --> REF[Next Request Refreshes Cache]
+                  end subgraph "Manual Purge" PUB[Content Published] -->
+                  PURGE[Manual Cache Purge] PURGE --> UPDATE[All Edge Servers
+                  Updated] end subgraph "Versioned URLs"
+                  VER[/assets/style.css?v=1.2.3] -->
+                  NEWVER[/assets/style.css?v=1.2.4] NEWVER --> BYPASS[Bypasses
+                  Old Cache] end subgraph "Smart Invalidation" DETECT[Change
+                  Detection] --> AUTO[Automatic Purge] AUTO --> SMART[Selective
+                  Cache Clear] end
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Cache Control Headers</h3>
+                <pre><code># Static Assets (Images, CSS, JS)
+Cache-Control: public, max-age=31536000, immutable
+ETag: "abc123"
+Last-Modified: Wed, 21 Oct 2023 07:28:00 GMT
+
+# HTML Pages
+Cache-Control: public, max-age=3600, must-revalidate
+ETag: "def456"
+Vary: Accept-Encoding, User-Agent
+
+# API Responses
+Cache-Control: public, max-age=300, s-maxage=600
+ETag: "ghi789"
+Vary: Accept, Authorization
+
+# Private/Sensitive Content
+Cache-Control: private, no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+
+# Conditional Requests
+If-None-Match: "abc123"
+If-Modified-Since: Wed, 21 Oct 2023 07:28:00 GMT</code></pre>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Content Type</div>
+                  <div class="comparison-col">Cache Strategy</div>
+                  <div class="comparison-col">TTL</div>
+                  <div class="comparison-col">Headers</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Static Assets</strong><br />CSS, JS, Images
+                  </div>
+                  <div class="comparison-cell">Long-term with versioning</div>
+                  <div class="comparison-cell">1 year</div>
+                  <div class="comparison-cell">immutable, public</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>HTML Pages</strong><br />Web pages
+                  </div>
+                  <div class="comparison-cell">Short-term with validation</div>
+                  <div class="comparison-cell">1-24 hours</div>
+                  <div class="comparison-cell">must-revalidate</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>API Responses</strong><br />JSON data
+                  </div>
+                  <div class="comparison-cell">Variable based on data</div>
+                  <div class="comparison-cell">5-60 minutes</div>
+                  <div class="comparison-cell">s-maxage, Vary</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>User Content</strong><br />Profiles, feeds
+                  </div>
+                  <div class="comparison-cell">No cache or private</div>
+                  <div class="comparison-cell">0-5 minutes</div>
+                  <div class="comparison-cell">private, no-store</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Global Distribution -->
+            <section id="global-distribution" class="content-section">
+              <h2>Global Distribution</h2>
+
+              <div class="diagram">
+                <h3>Global CDN Network</h3>
+                <div class="mermaid">
+                  graph TB subgraph "North America" NA1[Seattle] NA2[San
+                  Francisco] NA3[Chicago] NA4[New York] NA5[Miami] end subgraph
+                  "Europe" EU1[London] EU2[Amsterdam] EU3[Frankfurt] EU4[Paris]
+                  EU5[Stockholm] end subgraph "Asia Pacific" AP1[Tokyo]
+                  AP2[Singapore] AP3[Sydney] AP4[Mumbai] AP5[Seoul] end subgraph
+                  "South America" SA1[São Paulo] SA2[Buenos Aires] end subgraph
+                  "Africa" AF1[Cape Town] AF2[Lagos] end subgraph "Origin
+                  Servers" OS[Primary Origin<br />US East] OS2[Secondary
+                  Origin<br />EU West] end NA1 -.-> OS NA2 -.-> OS NA3 -.-> OS
+                  NA4 -.-> OS NA5 -.-> OS EU1 -.-> OS2 EU2 -.-> OS2 EU3 -.-> OS2
+                  EU4 -.-> OS2 EU5 -.-> OS2 AP1 -.-> OS AP2 -.-> OS AP3 -.-> OS
+                  AP4 -.-> OS AP5 -.-> OS SA1 -.-> OS SA2 -.-> OS AF1 -.-> OS2
+                  AF2 -.-> OS2
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>🌍 Geographic Distribution</h3>
+                  <p>
+                    Edge servers strategically placed in major cities worldwide
+                    to minimize latency.
+                  </p>
+                  <div class="use-case-example">
+                    200+ locations across 100+ countries
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🚀 Anycast Routing</h3>
+                  <p>
+                    Single IP address routes traffic to the nearest available
+                    edge server automatically.
+                  </p>
+                  <div class="use-case-example">
+                    BGP-based intelligent routing
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>🔄 Load Balancing</h3>
+                  <p>
+                    Traffic distributed across multiple edge servers for optimal
+                    performance and availability.
+                  </p>
+                  <div class="use-case-example">
+                    Health checks and failover mechanisms
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>📊 Real-time Analytics</h3>
+                  <p>
+                    Monitor traffic patterns, cache hit rates, and performance
+                    metrics globally.
+                  </p>
+                  <div class="use-case-example">
+                    Performance insights and optimization
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>GeoDNS Configuration Example</h3>
+                <pre><code># Route53 Geolocation Routing Policy
+{
+  "Type": "A",
+  "Name": "cdn.example.com",
+  "GeoLocation": {
+    "CountryCode": "US"
+  },
+  "TTL": 60,
+  "ResourceRecords": [
+    {
+      "Value": "198.51.100.1"  // US East edge server
+    }
+  ]
+}
+
+{
+  "Type": "A", 
+  "Name": "cdn.example.com",
+  "GeoLocation": {
+    "ContinentCode": "EU"
+  },
+  "TTL": 60,
+  "ResourceRecords": [
+    {
+      "Value": "203.0.113.1"  // EU West edge server
+    }
+  ]
+}
+
+{
+  "Type": "A",
+  "Name": "cdn.example.com", 
+  "GeoLocation": {
+    "ContinentCode": "AS"
+  },
+  "TTL": 60,
+  "ResourceRecords": [
+    {
+      "Value": "198.51.100.100"  // Asia Pacific edge server
+    }
+  ]
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- Implementation -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation</h2>
+
+              <div class="diagram">
+                <h3>CDN Integration Options</h3>
+                <div class="mermaid">
+                  graph TB subgraph "DNS-based CDN" DNS[Change DNS Records] -->
+                  CDN1[CDN Provider] CDN1 --> EDGE1[Edge Servers] end subgraph
+                  "Origin Pull" APP[Application] --> ORIGIN[Origin Server]
+                  ORIGIN --> CDN2[CDN Network] CDN2 --> EDGE2[Edge Servers] end
+                  subgraph "Reverse Proxy" USER[Users] --> PROXY[CDN Proxy]
+                  PROXY --> BACKEND[Backend Services] end subgraph "Push/Upload"
+                  BUILD[Build Process] --> UPLOAD[Upload to CDN] UPLOAD -->
+                  STORAGE[CDN Storage] STORAGE --> EDGE3[Global Distribution]
+                  end
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>CloudFront Implementation (AWS)</h3>
+                <pre><code># CloudFormation template for CloudFront distribution
+Resources:
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: "Production CDN Distribution"
+        DefaultCacheBehavior:
+          TargetOriginId: "S3Origin"
+          ViewerProtocolPolicy: "redirect-to-https"
+          CachePolicyId: "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # Managed-CachingOptimized
+          OriginRequestPolicyId: "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf" # Managed-CORS-S3Origin
+          ResponseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512c2204b41" # Managed-SecurityHeadersPolicy
+          
+        CacheBehaviors:
+          # API endpoints - no caching
+          - PathPattern: "/api/*"
+            TargetOriginId: "APIOrigin"
+            ViewerProtocolPolicy: "redirect-to-https"
+            CachePolicyId: "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+            OriginRequestPolicyId: "2e54312d-136d-493c-8eb9-b001f22f67d2"
+            TTL: 0
+            
+          # Static assets - long caching
+          - PathPattern: "/assets/*"
+            TargetOriginId: "S3Origin"
+            ViewerProtocolPolicy: "redirect-to-https"
+            CachePolicyId: "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+            TTL: 31536000  # 1 year
+            
+        Origins:
+          - Id: "S3Origin"
+            DomainName: "mybucket.s3.amazonaws.com"
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentity}"
+              
+          - Id: "APIOrigin"
+            DomainName: "api.example.com"
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: "https-only"
+              
+        Enabled: true
+        PriceClass: "PriceClass_All"
+        
+        ViewerCertificate:
+          AcmCertificateArn: !Ref SSLCertificate
+          SslSupportMethod: "sni-only"
+          MinimumProtocolVersion: "TLSv1.2_2021"
+          
+        Aliases:
+          - "cdn.example.com"
+          - "assets.example.com"</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>Nginx CDN Configuration</h3>
+                <pre><code># Nginx configuration for CDN origin server
+server {
+    listen 80;
+    listen 443 ssl http2;
+    server_name origin.example.com;
+    
+    # SSL configuration
+    ssl_certificate /path/to/cert.pem;
+    ssl_certificate_key /path/to/key.pem;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    
+    # CORS headers for CDN
+    add_header Access-Control-Allow-Origin "*" always;
+    add_header Access-Control-Allow-Methods "GET, HEAD, OPTIONS" always;
+    add_header Access-Control-Allow-Headers "Range" always;
+    add_header Access-Control-Expose-Headers "Content-Length, Content-Range" always;
+    
+    # Static assets with long caching
+    location ~* \.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$ {
+        root /var/www/assets;
+        
+        # Cache headers for CDN
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header ETag "";
+        
+        # Enable compression
+        gzip on;
+        gzip_types text/css application/javascript image/svg+xml;
+        
+        # Handle range requests for video/large files
+        add_header Accept-Ranges bytes;
+    }
+    
+    # HTML files with shorter caching
+    location ~* \.html$ {
+        root /var/www/html;
+        
+        expires 1h;
+        add_header Cache-Control "public, must-revalidate";
+        
+        # Enable compression
+        gzip on;
+        gzip_types text/html;
+    }
+    
+    # API endpoints - no caching
+    location /api/ {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Disable caching
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires "0";
+    }
+    
+    # Health check endpoint
+    location /health {
+        access_log off;
+        return 200 "OK";
+        add_header Content-Type text/plain;
+    }
+}</code></pre>
+              </div>
+
+              <div class="code-block">
+                <h3>JavaScript CDN Integration</h3>
+                <pre><code>// Dynamic CDN URL generation
+class CDNManager {
+  constructor(baseUrl, version = '1.0.0') {
+    this.baseUrl = baseUrl;
+    this.version = version;
+    this.isProduction = process.env.NODE_ENV === 'production';
+  }
+
+  // Generate versioned asset URLs
+  getAssetUrl(path) {
+    if (!this.isProduction) {
+      return path; // Use local assets in development
+    }
+    
+    // Add version parameter for cache busting
+    const separator = path.includes('?') ? '&' : '?';
+    return `${this.baseUrl}${path}${separator}v=${this.version}`;
+  }
+
+  // Preload critical assets
+  preloadAssets(assets) {
+    assets.forEach(asset => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.href = this.getAssetUrl(asset.url);
+      link.as = asset.type; // 'style', 'script', 'image', etc.
+      
+      if (asset.type === 'style') {
+        link.onload = () => {
+          link.rel = 'stylesheet';
+        };
+      }
+      
+      document.head.appendChild(link);
+    });
+  }
+
+  // Load images with CDN fallback
+  loadImage(src, fallbackSrc = null) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      
+      img.onload = () => resolve(img);
+      img.onerror = () => {
+        if (fallbackSrc) {
+          img.src = fallbackSrc;
+        } else {
+          reject(new Error(`Failed to load image: ${src}`));
+        }
+      };
+      
+      img.src = this.getAssetUrl(src);
+    });
+  }
+
+  // Lazy load images with CDN
+  lazyLoadImages() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = this.getAssetUrl(img.dataset.src);
+          img.removeAttribute('data-src');
+          imageObserver.unobserve(img);
+        }
+      });
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+  }
+}
+
+// Usage
+const cdn = new CDNManager('https://cdn.example.com', '2.1.0');
+
+// Preload critical assets
+cdn.preloadAssets([
+  { url: '/css/critical.css', type: 'style' },
+  { url: '/js/app.js', type: 'script' },
+  { url: '/images/hero.jpg', type: 'image' }
+]);
+
+// Initialize lazy loading
+document.addEventListener('DOMContentLoaded', () => {
+  cdn.lazyLoadImages();
+});</code></pre>
+              </div>
+            </section>
+
+            <!-- Performance Benefits -->
+            <section id="performance" class="content-section">
+              <h2>Performance Benefits</h2>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">⚡</div>
+                  <h3>Reduced Latency</h3>
+                  <p>
+                    50-90% reduction in load times by serving content from
+                    nearby edge servers
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">📊</div>
+                  <h3>Higher Cache Hit Ratio</h3>
+                  <p>
+                    85-95% of requests served from cache, reducing origin server
+                    load
+                  </p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">🌐</div>
+                  <h3>Global Availability</h3>
+                  <p>99.9%+ uptime with automatic failover and redundancy</p>
+                </div>
+
+                <div class="benefit-item">
+                  <div class="benefit-icon">💾</div>
+                  <h3>Bandwidth Savings</h3>
+                  <p>60-80% reduction in origin server bandwidth usage</p>
+                </div>
+              </div>
+
+              <div class="diagram">
+                <h3>Performance Comparison</h3>
+                <div class="mermaid">
+                  graph LR subgraph "Load Time Comparison (seconds)" A[No CDN<br />4.2s]
+                  B[CDN - Same Region<br />1.8s] C[CDN - Global<br />0.9s] end A
+                  -.->|76% slower| B B -.->|50% slower| C style A fill:#ff6b6b
+                  style B fill:#ffd93d style C fill:#6bcf7f
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Performance Monitoring</h3>
+                <pre><code>// Performance measurement with CDN
+class PerformanceMonitor {
+  constructor() {
+    this.metrics = {};
+  }
+
+  // Measure resource loading times
+  measureResourceTiming() {
+    const resources = performance.getEntriesByType('resource');
+    
+    resources.forEach(resource => {
+      if (resource.name.includes('cdn.')) {
+        this.metrics[resource.name] = {
+          dns: resource.domainLookupEnd - resource.domainLookupStart,
+          connect: resource.connectEnd - resource.connectStart,
+          download: resource.responseEnd - resource.responseStart,
+          total: resource.responseEnd - resource.requestStart,
+          cached: resource.transferSize === 0
+        };
+      }
+    });
+    
+    return this.metrics;
+  }
+
+  // Calculate cache hit rate
+  calculateCacheHitRate() {
+    const resources = Object.values(this.metrics);
+    const totalRequests = resources.length;
+    const cachedRequests = resources.filter(r => r.cached).length;
+    
+    return {
+      hitRate: (cachedRequests / totalRequests) * 100,
+      totalRequests,
+      cachedRequests
+    };
+  }
+
+  // Send metrics to analytics
+  sendMetrics() {
+    const cacheStats = this.calculateCacheHitRate();
+    const avgLoadTime = Object.values(this.metrics)
+      .reduce((sum, metric) => sum + metric.total, 0) / Object.keys(this.metrics).length;
+
+    // Send to analytics service
+    fetch('/api/analytics/performance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cacheHitRate: cacheStats.hitRate,
+        averageLoadTime: avgLoadTime,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        connection: navigator.connection?.effectiveType
+      })
+    });
+  }
+}
+
+// Usage
+const monitor = new PerformanceMonitor();
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    monitor.measureResourceTiming();
+    monitor.sendMetrics();
+  }, 2000);
+});</code></pre>
+              </div>
+            </section>
+
+            <!-- CDN Providers -->
+            <section id="providers" class="content-section">
+              <h2>CDN Providers</h2>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>CloudFlare</h3>
+                  <p>
+                    Global network with security features, edge computing, and
+                    DNS services.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">200+ Locations</span>
+                    <span class="feature-tag">Security</span>
+                    <span class="feature-tag">Edge Computing</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>AWS CloudFront</h3>
+                  <p>
+                    Integrated with AWS ecosystem, global edge locations, and
+                    lambda@edge.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">AWS Integration</span>
+                    <span class="feature-tag">Lambda@Edge</span>
+                    <span class="feature-tag">Enterprise</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Google Cloud CDN</h3>
+                  <p>
+                    Google's global infrastructure with HTTP/2, QUIC, and
+                    intelligent caching.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Google Network</span>
+                    <span class="feature-tag">HTTP/3</span>
+                    <span class="feature-tag">ML-Powered</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Azure CDN</h3>
+                  <p>
+                    Microsoft's CDN service integrated with Azure services and
+                    Office 365.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Azure Integration</span>
+                    <span class="feature-tag">Enterprise</span>
+                    <span class="feature-tag">Hybrid Cloud</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>KeyCDN</h3>
+                  <p>
+                    Performance-focused CDN with competitive pricing and
+                    developer tools.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Performance</span>
+                    <span class="feature-tag">Affordable</span>
+                    <span class="feature-tag">Developer-Friendly</span>
+                  </div>
+                </div>
+
+                <div class="solution-card">
+                  <h3>Fastly</h3>
+                  <p>
+                    Edge cloud platform with real-time configuration and edge
+                    computing.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Real-time</span>
+                    <span class="feature-tag">Edge Computing</span>
+                    <span class="feature-tag">High-Performance</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Provider</div>
+                  <div class="comparison-col">Edge Locations</div>
+                  <div class="comparison-col">Key Features</div>
+                  <div class="comparison-col">Best For</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>CloudFlare</strong></div>
+                  <div class="comparison-cell">275+ cities</div>
+                  <div class="comparison-cell">Security, DNS, Workers</div>
+                  <div class="comparison-cell">Security-focused sites</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>AWS CloudFront</strong>
+                  </div>
+                  <div class="comparison-cell">400+ locations</div>
+                  <div class="comparison-cell">
+                    AWS integration, Lambda@Edge
+                  </div>
+                  <div class="comparison-cell">AWS ecosystem users</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Google Cloud CDN</strong>
+                  </div>
+                  <div class="comparison-cell">140+ locations</div>
+                  <div class="comparison-cell">Google network, HTTP/3</div>
+                  <div class="comparison-cell">Google Cloud users</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Fastly</strong></div>
+                  <div class="comparison-cell">65+ locations</div>
+                  <div class="comparison-cell">Real-time purging, VCL</div>
+                  <div class="comparison-cell">High-performance apps</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section id="best-practices" class="content-section">
+              <h2>Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🎯 Optimize Cache Strategy</h3>
+                  <p>
+                    Set appropriate cache headers, use versioning for static
+                    assets, and implement smart cache invalidation.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🗜️ Enable Compression</h3>
+                  <p>
+                    Use Gzip/Brotli compression for text-based content to reduce
+                    bandwidth and improve load times.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🖼️ Optimize Images</h3>
+                  <p>
+                    Use modern formats (WebP, AVIF), implement responsive
+                    images, and lazy loading.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔒 Secure Configuration</h3>
+                  <p>
+                    Implement proper SSL/TLS, security headers, and access
+                    controls for sensitive content.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📊 Monitor Performance</h3>
+                  <p>
+                    Track cache hit rates, load times, and error rates to
+                    optimize CDN configuration.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>💰 Cost Optimization</h3>
+                  <p>
+                    Choose appropriate price tiers, optimize cache policies, and
+                    monitor bandwidth usage.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common CDN Mistakes</h3>
+                <ul>
+                  <li>
+                    Not setting appropriate cache headers for different content
+                    types
+                  </li>
+                  <li>Caching dynamic content that shouldn't be cached</li>
+                  <li>Not implementing proper cache invalidation strategies</li>
+                  <li>Ignoring geographic distribution of users</li>
+                  <li>
+                    Not monitoring cache hit rates and performance metrics
+                  </li>
+                  <li>Using CDN for all content without considering costs</li>
+                </ul>
+              </div>
+
+              <div class="code-block">
+                <h3>CDN Optimization Checklist</h3>
+                <pre><code># Asset Optimization Checklist
+
+## Static Assets
+✅ Use versioned URLs for cache busting
+✅ Set long cache times (1 year) with immutable flag
+✅ Enable compression (Gzip/Brotli)
+✅ Optimize images (WebP, responsive sizes)
+✅ Minify CSS/JS before uploading
+
+## HTML Content
+✅ Set shorter cache times (1-24 hours)
+✅ Use must-revalidate directive
+✅ Implement proper ETags
+✅ Add Vary headers for responsive content
+
+## API Responses
+✅ Cache stable data with appropriate TTL
+✅ Use private cache for user-specific data
+✅ Implement conditional requests
+✅ Add CORS headers for cross-origin requests
+
+## Security
+✅ Use HTTPS-only with HSTS headers
+✅ Implement proper CSP headers
+✅ Validate origin servers
+✅ Monitor for security issues
+
+## Monitoring
+✅ Track cache hit rates (target: 85%+)
+✅ Monitor load times and performance
+✅ Set up alerts for errors and outages
+✅ Analyze traffic patterns and costs</code></pre>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html>

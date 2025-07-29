@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to encryption and decryption - symmetric, asymmetric encryption, hashing, and security best practices"
+    />
+    <title>Encryption & Decryption | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link active"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#web-fundamentals">Web Fundamentals</a>
+                </li>
+                <li>Encryption</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Encryption & Decryption</h1>
+            <p class="page-subtitle">
+              Essential guide to cryptography, data security, and protecting
+              information in the digital age
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Contents</h2>
+            <ul class="toc-list">
+              <li>
+                <a href="#overview" class="toc-link">What is Encryption?</a>
+              </li>
+              <li>
+                <a href="#symmetric" class="toc-link">Symmetric Encryption</a>
+              </li>
+              <li>
+                <a href="#asymmetric" class="toc-link">Asymmetric Encryption</a>
+              </li>
+              <li><a href="#hashing" class="toc-link">Hashing</a></li>
+              <li>
+                <a href="#digital-signatures" class="toc-link"
+                  >Digital Signatures</a
+                >
+              </li>
+              <li>
+                <a href="#use-cases" class="toc-link">Common Use Cases</a>
+              </li>
+              <li>
+                <a href="#implementation" class="toc-link">Implementation</a>
+              </li>
+              <li>
+                <a href="#best-practices" class="toc-link">Best Practices</a>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- Main Content -->
+          <article class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>What is Encryption?</h2>
+
+              <div class="highlight-box info">
+                <h3>🔐 Think of Encryption as a Digital Safe</h3>
+                <p>
+                  Encryption is like putting your data in a safe with a complex
+                  lock. Only someone with the right key (or combination) can
+                  open it and see the contents. Without the key, the data looks
+                  like meaningless gibberish.
+                </p>
+              </div>
+
+              <p>
+                Encryption is the process of converting readable data
+                (plaintext) into an unreadable format (ciphertext) using an
+                algorithm and a key. Only those with the correct key can decrypt
+                the data back to its original, readable form.
+              </p>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item">
+                    <strong>Plaintext</strong>
+                    <p>"Hello World!"</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <strong>Encryption</strong>
+                    <p>Algorithm + Key</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item">
+                    <strong>Ciphertext</strong>
+                    <p>"X!mL9@pQw3$"</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <div class="benefit-icon">🔒</div>
+                  <h3>Confidentiality</h3>
+                  <p>Keeps sensitive information private and secure</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🛡️</div>
+                  <h3>Integrity</h3>
+                  <p>Ensures data hasn't been tampered with or modified</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">✅</div>
+                  <h3>Authentication</h3>
+                  <p>Verifies the identity of the sender or data source</p>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">📝</div>
+                  <h3>Non-repudiation</h3>
+                  <p>Prevents denial of actions or transactions</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Symmetric Encryption Section -->
+            <section id="symmetric" class="content-section">
+              <h2>Symmetric Encryption</h2>
+
+              <p>
+                Symmetric encryption uses the same key for both encryption and
+                decryption. It's like having one key that both locks and unlocks
+                a door. Both the sender and receiver must have the same secret
+                key.
+              </p>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>Alice</strong>
+                    <p>Has Secret Key</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-item proxy">
+                    <strong>Encrypted Data</strong>
+                    <p>Transmitted Securely</p>
+                  </div>
+                  <div class="diagram-arrow">⟷</div>
+                  <div class="diagram-item server">
+                    <strong>Bob</strong>
+                    <p>Has Same Secret Key</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>AES (Advanced Encryption Standard)</h3>
+                  <p><strong>Key sizes:</strong> 128, 192, or 256 bits</p>
+                  <ul>
+                    <li>Most widely used symmetric algorithm</li>
+                    <li>Fast and efficient</li>
+                    <li>Government approved (FIPS 140-2)</li>
+                    <li>Suitable for large amounts of data</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> File encryption, database
+                    encryption, secure communications
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>ChaCha20</h3>
+                  <p><strong>Key size:</strong> 256 bits</p>
+                  <ul>
+                    <li>Excellent performance on mobile devices</li>
+                    <li>Constant-time implementation</li>
+                    <li>Resistant to timing attacks</li>
+                    <li>Used in TLS 1.3</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> Mobile applications, IoT devices,
+                    high-performance scenarios
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Blowfish & Twofish</h3>
+                  <p><strong>Key sizes:</strong> Variable (32-448 bits)</p>
+                  <ul>
+                    <li>Fast and flexible</li>
+                    <li>No known cryptographic weaknesses</li>
+                    <li>Good for applications with frequent key changes</li>
+                    <li>Twofish was AES finalist</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> Password managers, legacy
+                    systems, embedded systems
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Symmetric Encryption Pros & Cons</h3>
+                <div class="comparison-grid">
+                  <div class="comparison-item">
+                    <h4>✅ Advantages</h4>
+                    <ul>
+                      <li>Very fast encryption/decryption</li>
+                      <li>Low computational overhead</li>
+                      <li>Suitable for large data volumes</li>
+                      <li>Simple to implement</li>
+                    </ul>
+                  </div>
+                  <div class="comparison-item">
+                    <h4>❌ Disadvantages</h4>
+                    <ul>
+                      <li>Key distribution problem</li>
+                      <li>Same key for all participants</li>
+                      <li>No authentication of sender</li>
+                      <li>Key management complexity</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Asymmetric Encryption Section -->
+            <section id="asymmetric" class="content-section">
+              <h2>Asymmetric Encryption (Public Key Cryptography)</h2>
+
+              <p>
+                Asymmetric encryption uses two mathematically related keys: a
+                public key (which can be shared openly) and a private key (which
+                must be kept secret). Data encrypted with one key can only be
+                decrypted with the other key.
+              </p>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item client">
+                    <strong>Alice</strong>
+                    <p>Public Key: 🔓<br />Private Key: 🔑</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <strong>Bob encrypts with Alice's Public Key</strong>
+                    <p>Message → 🔓 → Ciphertext</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item server">
+                    <strong>Alice decrypts with Private Key</strong>
+                    <p>Ciphertext → 🔑 → Message</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>RSA (Rivest-Shamir-Adleman)</h3>
+                  <p><strong>Key sizes:</strong> 2048, 3072, 4096 bits</p>
+                  <ul>
+                    <li>Most widely used asymmetric algorithm</li>
+                    <li>Based on factoring large prime numbers</li>
+                    <li>Suitable for digital signatures</li>
+                    <li>Widely supported in standards</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> TLS/SSL, digital certificates,
+                    email encryption (PGP)
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Elliptic Curve Cryptography (ECC)</h3>
+                  <p><strong>Curves:</strong> P-256, P-384, P-521</p>
+                  <ul>
+                    <li>Smaller key sizes than RSA</li>
+                    <li>Better performance</li>
+                    <li>Lower power consumption</li>
+                    <li>Same security with shorter keys</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> Mobile devices, IoT,
+                    cryptocurrency, modern TLS
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>Ed25519 (EdDSA)</h3>
+                  <p><strong>Key size:</strong> 256-bit equivalent security</p>
+                  <ul>
+                    <li>High performance</li>
+                    <li>Built-in protection against side-channel attacks</li>
+                    <li>Deterministic signatures</li>
+                    <li>Small signature size</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> SSH keys, Git commits, secure
+                    messaging, APIs
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <h3>Asymmetric Encryption Pros & Cons</h3>
+                <div class="comparison-grid">
+                  <div class="comparison-item">
+                    <h4>✅ Advantages</h4>
+                    <ul>
+                      <li>No key distribution problem</li>
+                      <li>Enables digital signatures</li>
+                      <li>Authentication of sender</li>
+                      <li>Non-repudiation</li>
+                    </ul>
+                  </div>
+                  <div class="comparison-item">
+                    <h4>❌ Disadvantages</h4>
+                    <ul>
+                      <li>Much slower than symmetric</li>
+                      <li>Higher computational overhead</li>
+                      <li>Limited data size for encryption</li>
+                      <li>More complex implementation</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Hashing Section -->
+            <section id="hashing" class="content-section">
+              <h2>Hashing (One-Way Functions)</h2>
+
+              <p>
+                Hashing creates a fixed-size "fingerprint" or "digest" of data.
+                Unlike encryption, hashing is a one-way process - you cannot
+                recover the original data from the hash. The same input always
+                produces the same hash, but different inputs should produce
+                different hashes.
+              </p>
+
+              <div class="diagram">
+                <div class="diagram-container">
+                  <div class="diagram-item">
+                    <strong>Input Data</strong>
+                    <p>"The quick brown fox jumps over the lazy dog"</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item proxy">
+                    <strong>Hash Function</strong>
+                    <p>SHA-256</p>
+                  </div>
+                  <div class="diagram-arrow">→</div>
+                  <div class="diagram-item">
+                    <strong>Hash Output</strong>
+                    <p>d7a8fbb307d...</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>SHA-256 (Secure Hash Algorithm)</h3>
+                  <p><strong>Output size:</strong> 256 bits (32 bytes)</p>
+                  <ul>
+                    <li>Part of SHA-2 family</li>
+                    <li>Widely adopted and trusted</li>
+                    <li>Used in Bitcoin and blockchain</li>
+                    <li>FIPS 180-4 approved</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> Password storage, file integrity,
+                    digital certificates, blockchain
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>SHA-3 (Keccak)</h3>
+                  <p><strong>Output sizes:</strong> 224, 256, 384, 512 bits</p>
+                  <ul>
+                    <li>Latest SHA standard</li>
+                    <li>Different construction than SHA-2</li>
+                    <li>Resistant to length extension attacks</li>
+                    <li>Good for future-proofing</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> New applications, high-security
+                    requirements, Ethereum
+                  </div>
+                </div>
+
+                <div class="use-case-card">
+                  <h3>BLAKE2</h3>
+                  <p>
+                    <strong>Variants:</strong> BLAKE2b (64-byte), BLAKE2s
+                    (32-byte)
+                  </p>
+                  <ul>
+                    <li>Faster than SHA-2 and SHA-3</li>
+                    <li>Configurable output length</li>
+                    <li>Built-in keyed hashing</li>
+                    <li>Designed for high performance</li>
+                  </ul>
+                  <div class="use-case-example">
+                    <strong>Best for:</strong> High-performance applications,
+                    file checksums, MACs
+                  </div>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Avoid These Deprecated Hash Functions</h3>
+                <ul>
+                  <li>
+                    <strong>MD5:</strong> Cryptographically broken, vulnerable
+                    to collisions
+                  </li>
+                  <li>
+                    <strong>SHA-1:</strong> Deprecated, collision attacks
+                    demonstrated
+                  </li>
+                  <li>
+                    <strong>CRC32:</strong> Not cryptographically secure, only
+                    for error detection
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Digital Signatures Section -->
+            <section id="digital-signatures" class="content-section">
+              <h2>Digital Signatures</h2>
+
+              <p>
+                Digital signatures combine hashing and asymmetric encryption to
+                provide authentication, integrity, and non-repudiation. They
+                prove that a message came from a specific sender and hasn't been
+                tampered with.
+              </p>
+
+              <div class="process-flow">
+                <div class="process-step">
+                  <div class="step-number">1</div>
+                  <div class="step-content">
+                    <h3>Create Hash</h3>
+                    <p>Sender creates a hash of the message</p>
+                    <div class="code-example">
+                      <pre><code>Message → Hash Function → Hash Digest</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">2</div>
+                  <div class="step-content">
+                    <h3>Sign Hash</h3>
+                    <p>Sender encrypts the hash with their private key</p>
+                    <div class="code-example">
+                      <pre><code>Hash Digest + Private Key → Digital Signature</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">3</div>
+                  <div class="step-content">
+                    <h3>Send Message</h3>
+                    <p>Sender transmits both message and digital signature</p>
+                    <div class="code-example">
+                      <pre><code>Original Message + Digital Signature → Recipient</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">4</div>
+                  <div class="step-content">
+                    <h3>Verify Signature</h3>
+                    <p>Recipient decrypts signature with sender's public key</p>
+                    <div class="code-example">
+                      <pre><code>Digital Signature + Public Key → Original Hash</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="process-step">
+                  <div class="step-number">5</div>
+                  <div class="step-content">
+                    <h3>Compare Hashes</h3>
+                    <p>
+                      Recipient creates hash of received message and compares
+                    </p>
+                    <div class="code-example">
+                      <pre><code>New Hash == Original Hash ? Verified : Invalid</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Use Cases Section -->
+            <section id="use-cases" class="content-section">
+              <h2>Common Use Cases</h2>
+
+              <div class="use-case-list">
+                <div class="use-case-item">
+                  <h3>🔐 Password Storage</h3>
+                  <p>
+                    <strong>Challenge:</strong> Store user passwords securely in
+                    database
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Solution:</strong><br />
+                    1. Never store passwords in plaintext<br />
+                    2. Use strong hashing (bcrypt, scrypt, Argon2)<br />
+                    3. Add salt to prevent rainbow table attacks<br />
+                    4. Use slow hashing functions to resist brute force
+                  </div>
+                  <p><strong>Tools:</strong> bcrypt, scrypt, Argon2, PBKDF2</p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>🌐 HTTPS/TLS</h3>
+                  <p>
+                    <strong>Challenge:</strong> Secure communication over the
+                    internet
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Solution:</strong><br />
+                    1. Use asymmetric encryption for key exchange (RSA, ECDH)<br />
+                    2. Switch to symmetric encryption for data transfer (AES)<br />
+                    3. Digital certificates for authentication<br />
+                    4. Hashing for message integrity (HMAC)
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Secure, authenticated, and
+                    efficient communication
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>📧 Email Encryption (PGP/GPG)</h3>
+                  <p>
+                    <strong>Challenge:</strong> Send private emails that only
+                    recipient can read
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Solution:</strong><br />
+                    1. Generate RSA or ECC key pairs<br />
+                    2. Share public keys openly<br />
+                    3. Encrypt emails with recipient's public key<br />
+                    4. Sign emails with your private key for authenticity
+                  </div>
+                  <p>
+                    <strong>Result:</strong> End-to-end encrypted email
+                    communication
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>💾 File/Database Encryption</h3>
+                  <p>
+                    <strong>Challenge:</strong> Protect sensitive data stored on
+                    disk
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Solution:</strong><br />
+                    1. Use AES-256 for bulk data encryption<br />
+                    2. Implement key derivation from passwords (PBKDF2)<br />
+                    3. Use different keys for different data types<br />
+                    4. Secure key storage and rotation
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Data remains protected even if
+                    storage is compromised
+                  </p>
+                </div>
+
+                <div class="use-case-item">
+                  <h3>💰 Cryptocurrency & Blockchain</h3>
+                  <p>
+                    <strong>Challenge:</strong> Create tamper-proof distributed
+                    ledger
+                  </p>
+                  <div class="use-case-example">
+                    <strong>Solution:</strong><br />
+                    1. SHA-256 hashing for block integrity<br />
+                    2. ECDSA for transaction signatures<br />
+                    3. Merkle trees for efficient verification<br />
+                    4. Proof-of-work using hash functions
+                  </div>
+                  <p>
+                    <strong>Result:</strong> Decentralized, secure, and
+                    verifiable transactions
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Implementation Section -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation Examples</h2>
+
+              <div class="implementation-tabs">
+                <div class="tab-content">
+                  <h3>🐍 Python Encryption Examples</h3>
+                  <div class="code-example">
+                    <pre><code>from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import hashlib
+import bcrypt
+import base64
+import os
+
+class CryptoToolkit:
+    def __init__(self):
+        pass
+    
+    # Symmetric Encryption (AES via Fernet)
+    def generate_symmetric_key(self):
+        """Generate a new symmetric encryption key"""
+        return Fernet.generate_key()
+    
+    def encrypt_symmetric(self, data: bytes, key: bytes) -> bytes:
+        """Encrypt data using symmetric encryption"""
+        fernet = Fernet(key)
+        return fernet.encrypt(data)
+    
+    def decrypt_symmetric(self, encrypted_data: bytes, key: bytes) -> bytes:
+        """Decrypt data using symmetric encryption"""
+        fernet = Fernet(key)
+        return fernet.decrypt(encrypted_data)
+    
+    # Password-based symmetric encryption
+    def encrypt_with_password(self, data: bytes, password: str) -> tuple:
+        """Encrypt data using password-derived key"""
+        # Generate salt
+        salt = os.urandom(16)
+        
+        # Derive key from password
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+        )
+        key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+        
+        # Encrypt data
+        fernet = Fernet(key)
+        encrypted_data = fernet.encrypt(data)
+        
+        return encrypted_data, salt
+    
+    def decrypt_with_password(self, encrypted_data: bytes, password: str, salt: bytes) -> bytes:
+        """Decrypt data using password-derived key"""
+        # Derive key from password and salt
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=100000,
+        )
+        key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+        
+        # Decrypt data
+        fernet = Fernet(key)
+        return fernet.decrypt(encrypted_data)
+    
+    # Asymmetric Encryption (RSA)
+    def generate_rsa_keys(self, key_size=2048):
+        """Generate RSA public/private key pair"""
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=key_size,
+        )
+        public_key = private_key.public_key()
+        return private_key, public_key
+    
+    def encrypt_rsa(self, data: bytes, public_key) -> bytes:
+        """Encrypt data using RSA public key"""
+        return public_key.encrypt(
+            data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+    
+    def decrypt_rsa(self, encrypted_data: bytes, private_key) -> bytes:
+        """Decrypt data using RSA private key"""
+        return private_key.decrypt(
+            encrypted_data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+    
+    # Digital Signatures
+    def sign_data(self, data: bytes, private_key) -> bytes:
+        """Create digital signature"""
+        return private_key.sign(
+            data,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+    
+    def verify_signature(self, data: bytes, signature: bytes, public_key) -> bool:
+        """Verify digital signature"""
+        try:
+            public_key.verify(
+                signature,
+                data,
+                padding.PSS(
+                    mgf=padding.MGF1(hashes.SHA256()),
+                    salt_length=padding.PSS.MAX_LENGTH
+                ),
+                hashes.SHA256()
+            )
+            return True
+        except:
+            return False
+    
+    # Hashing
+    def hash_sha256(self, data: bytes) -> str:
+        """Create SHA-256 hash"""
+        return hashlib.sha256(data).hexdigest()
+    
+    def hash_password(self, password: str) -> str:
+        """Hash password using bcrypt"""
+        salt = bcrypt.gensalt()
+        return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
+    
+    def verify_password(self, password: str, hashed: str) -> bool:
+        """Verify password against bcrypt hash"""
+        return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+
+# Usage Examples
+crypto = CryptoToolkit()
+
+# Symmetric Encryption Example
+print("=== Symmetric Encryption ===")
+message = b"Hello, this is a secret message!"
+key = crypto.generate_symmetric_key()
+encrypted = crypto.encrypt_symmetric(message, key)
+decrypted = crypto.decrypt_symmetric(encrypted, key)
+
+print(f"Original: {message}")
+print(f"Encrypted: {encrypted}")
+print(f"Decrypted: {decrypted}")
+print(f"Match: {message == decrypted}")
+
+# Password-based Encryption Example
+print("\n=== Password-based Encryption ===")
+password = "my_super_secure_password"
+encrypted_data, salt = crypto.encrypt_with_password(message, password)
+decrypted_data = crypto.decrypt_with_password(encrypted_data, password, salt)
+
+print(f"Original: {message}")
+print(f"Encrypted: {encrypted_data}")
+print(f"Decrypted: {decrypted_data}")
+print(f"Match: {message == decrypted_data}")
+
+# Asymmetric Encryption Example
+print("\n=== Asymmetric Encryption ===")
+private_key, public_key = crypto.generate_rsa_keys()
+short_message = b"Secret!"  # RSA can only encrypt small messages
+encrypted_rsa = crypto.encrypt_rsa(short_message, public_key)
+decrypted_rsa = crypto.decrypt_rsa(encrypted_rsa, private_key)
+
+print(f"Original: {short_message}")
+print(f"Encrypted: {encrypted_rsa}")
+print(f"Decrypted: {decrypted_rsa}")
+print(f"Match: {short_message == decrypted_rsa}")
+
+# Digital Signature Example
+print("\n=== Digital Signatures ===")
+signature = crypto.sign_data(message, private_key)
+is_valid = crypto.verify_signature(message, signature, public_key)
+
+print(f"Message: {message}")
+print(f"Signature: {signature}")
+print(f"Valid: {is_valid}")
+
+# Hashing Example
+print("\n=== Hashing ===")
+hash_result = crypto.hash_sha256(message)
+print(f"Message: {message}")
+print(f"SHA-256: {hash_result}")
+
+# Password Hashing Example
+print("\n=== Password Hashing ===")
+password = "user_password_123"
+hashed_password = crypto.hash_password(password)
+is_correct = crypto.verify_password(password, hashed_password)
+is_wrong = crypto.verify_password("wrong_password", hashed_password)
+
+print(f"Password: {password}")
+print(f"Hashed: {hashed_password}")
+print(f"Correct password: {is_correct}")
+print(f"Wrong password: {is_wrong}")</code></pre>
+                  </div>
+                </div>
+
+                <div class="tab-content">
+                  <h3>🟨 JavaScript Web Crypto API</h3>
+                  <div class="code-example">
+                    <pre><code>class WebCryptoToolkit {
+    constructor() {
+        this.crypto = window.crypto || window.msCrypto;
+    }
+
+    // Utility function to convert string to ArrayBuffer
+    stringToArrayBuffer(str) {
+        return new TextEncoder().encode(str);
+    }
+
+    // Utility function to convert ArrayBuffer to string
+    arrayBufferToString(buffer) {
+        return new TextDecoder().decode(buffer);
+    }
+
+    // Utility function to convert ArrayBuffer to hex string
+    arrayBufferToHex(buffer) {
+        return Array.from(new Uint8Array(buffer))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+    }
+
+    // Generate symmetric key for AES
+    async generateSymmetricKey() {
+        return await this.crypto.subtle.generateKey(
+            {
+                name: "AES-GCM",
+                length: 256
+            },
+            true, // extractable
+            ["encrypt", "decrypt"]
+        );
+    }
+
+    // Symmetric encryption using AES-GCM
+    async encryptSymmetric(data, key) {
+        const iv = this.crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV for GCM
+        const encodedData = typeof data === 'string' ? this.stringToArrayBuffer(data) : data;
+
+        const encrypted = await this.crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            encodedData
+        );
+
+        return {
+            encrypted: encrypted,
+            iv: iv
+        };
+    }
+
+    // Symmetric decryption using AES-GCM
+    async decryptSymmetric(encryptedData, key, iv) {
+        const decrypted = await this.crypto.subtle.decrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            encryptedData
+        );
+
+        return this.arrayBufferToString(decrypted);
+    }
+
+    // Generate RSA key pair
+    async generateRSAKeys() {
+        return await this.crypto.subtle.generateKey(
+            {
+                name: "RSA-OAEP",
+                modulusLength: 2048,
+                publicExponent: new Uint8Array([1, 0, 1]), // 65537
+                hash: "SHA-256"
+            },
+            true, // extractable
+            ["encrypt", "decrypt"]
+        );
+    }
+
+    // RSA encryption
+    async encryptRSA(data, publicKey) {
+        const encodedData = this.stringToArrayBuffer(data);
+        return await this.crypto.subtle.encrypt(
+            {
+                name: "RSA-OAEP"
+            },
+            publicKey,
+            encodedData
+        );
+    }
+
+    // RSA decryption
+    async decryptRSA(encryptedData, privateKey) {
+        const decrypted = await this.crypto.subtle.decrypt(
+            {
+                name: "RSA-OAEP"
+            },
+            privateKey,
+            encryptedData
+        );
+        return this.arrayBufferToString(decrypted);
+    }
+
+    // Generate signing key pair
+    async generateSigningKeys() {
+        return await this.crypto.subtle.generateKey(
+            {
+                name: "RSA-PSS",
+                modulusLength: 2048,
+                publicExponent: new Uint8Array([1, 0, 1]),
+                hash: "SHA-256"
+            },
+            true,
+            ["sign", "verify"]
+        );
+    }
+
+    // Create digital signature
+    async signData(data, privateKey) {
+        const encodedData = this.stringToArrayBuffer(data);
+        return await this.crypto.subtle.sign(
+            {
+                name: "RSA-PSS",
+                saltLength: 32
+            },
+            privateKey,
+            encodedData
+        );
+    }
+
+    // Verify digital signature
+    async verifySignature(data, signature, publicKey) {
+        const encodedData = this.stringToArrayBuffer(data);
+        return await this.crypto.subtle.verify(
+            {
+                name: "RSA-PSS",
+                saltLength: 32
+            },
+            publicKey,
+            signature,
+            encodedData
+        );
+    }
+
+    // SHA-256 hashing
+    async hashSHA256(data) {
+        const encodedData = this.stringToArrayBuffer(data);
+        const hashBuffer = await this.crypto.subtle.digest('SHA-256', encodedData);
+        return this.arrayBufferToHex(hashBuffer);
+    }
+
+    // Password-based key derivation
+    async deriveKeyFromPassword(password, salt, iterations = 100000) {
+        const keyMaterial = await this.crypto.subtle.importKey(
+            "raw",
+            this.stringToArrayBuffer(password),
+            "PBKDF2",
+            false,
+            ["deriveBits", "deriveKey"]
+        );
+
+        return await this.crypto.subtle.deriveKey(
+            {
+                name: "PBKDF2",
+                salt: salt,
+                iterations: iterations,
+                hash: "SHA-256"
+            },
+            keyMaterial,
+            {
+                name: "AES-GCM",
+                length: 256
+            },
+            true,
+            ["encrypt", "decrypt"]
+        );
+    }
+
+    // Export key to JWK format
+    async exportKey(key) {
+        return await this.crypto.subtle.exportKey("jwk", key);
+    }
+
+    // Import key from JWK format
+    async importKey(jwk, algorithm, usages) {
+        return await this.crypto.subtle.importKey(
+            "jwk",
+            jwk,
+            algorithm,
+            true,
+            usages
+        );
+    }
+}
+
+// Usage Examples
+async function demonstrateCrypto() {
+    const crypto = new WebCryptoToolkit();
+
+    try {
+        console.log("=== Symmetric Encryption Demo ===");
+        const message = "Hello, this is a secret message!";
+        const symmetricKey = await crypto.generateSymmetricKey();
+        
+        const { encrypted, iv } = await crypto.encryptSymmetric(message, symmetricKey);
+        const decrypted = await crypto.decryptSymmetric(encrypted, symmetricKey, iv);
+        
+        console.log("Original:", message);
+        console.log("Encrypted:", new Uint8Array(encrypted));
+        console.log("Decrypted:", decrypted);
+        console.log("Match:", message === decrypted);
+
+        console.log("\n=== Asymmetric Encryption Demo ===");
+        const keyPair = await crypto.generateRSAKeys();
+        const shortMessage = "Secret!";
+        
+        const encryptedRSA = await crypto.encryptRSA(shortMessage, keyPair.publicKey);
+        const decryptedRSA = await crypto.decryptRSA(encryptedRSA, keyPair.privateKey);
+        
+        console.log("Original:", shortMessage);
+        console.log("Encrypted:", new Uint8Array(encryptedRSA));
+        console.log("Decrypted:", decryptedRSA);
+        console.log("Match:", shortMessage === decryptedRSA);
+
+        console.log("\n=== Digital Signature Demo ===");
+        const signingKeys = await crypto.generateSigningKeys();
+        const signature = await crypto.signData(message, signingKeys.privateKey);
+        const isValid = await crypto.verifySignature(message, signature, signingKeys.publicKey);
+        
+        console.log("Message:", message);
+        console.log("Signature:", new Uint8Array(signature));
+        console.log("Valid:", isValid);
+
+        console.log("\n=== Hashing Demo ===");
+        const hash = await crypto.hashSHA256(message);
+        console.log("Message:", message);
+        console.log("SHA-256:", hash);
+
+        console.log("\n=== Password-based Encryption Demo ===");
+        const password = "my_secure_password";
+        const salt = crypto.crypto.getRandomValues(new Uint8Array(16));
+        const derivedKey = await crypto.deriveKeyFromPassword(password, salt);
+        
+        const { encrypted: pwEncrypted, iv: pwIv } = await crypto.encryptSymmetric(message, derivedKey);
+        const pwDecrypted = await crypto.decryptSymmetric(pwEncrypted, derivedKey, pwIv);
+        
+        console.log("Password:", password);
+        console.log("Salt:", Array.from(salt));
+        console.log("Original:", message);
+        console.log("Decrypted:", pwDecrypted);
+        console.log("Match:", message === pwDecrypted);
+
+    } catch (error) {
+        console.error("Crypto operation failed:", error);
+    }
+}
+
+// Run the demonstration
+demonstrateCrypto();</code></pre>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Best Practices Section -->
+            <section id="best-practices" class="content-section">
+              <h2>Security Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h4>🔑 Key Management</h4>
+                  <p>
+                    Use proper key generation, storage, and rotation. Never
+                    hardcode keys in source code. Use key management services
+                    (AWS KMS, Azure Key Vault) for production systems.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🧂 Always Use Salt</h4>
+                  <p>
+                    When hashing passwords or deriving keys, always use a
+                    unique, random salt. This prevents rainbow table attacks and
+                    ensures identical passwords have different hashes.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>⚡ Choose Strong Algorithms</h4>
+                  <p>
+                    Use modern, well-vetted algorithms. Prefer AES-256,
+                    RSA-2048+, SHA-256+, and avoid deprecated algorithms like
+                    MD5, SHA-1, DES, and RC4.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🔄 Implement Forward Secrecy</h4>
+                  <p>
+                    Use ephemeral keys for session encryption. Even if long-term
+                    keys are compromised, past communications remain secure
+                    (Perfect Forward Secrecy).
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>🛡️ Validate and Sanitize</h4>
+                  <p>
+                    Always validate inputs before encryption/decryption
+                    operations. Implement proper error handling without
+                    revealing sensitive information.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h4>📊 Regular Security Audits</h4>
+                  <p>
+                    Regularly review and audit cryptographic implementations.
+                    Keep up with security advisories and update cryptographic
+                    libraries promptly.
+                  </p>
+                </div>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Common Cryptographic Mistakes</h3>
+                <ul>
+                  <li>
+                    <strong>Rolling your own crypto:</strong> Use established,
+                    peer-reviewed libraries
+                  </li>
+                  <li>
+                    <strong>Weak random number generation:</strong> Use
+                    cryptographically secure RNGs
+                  </li>
+                  <li>
+                    <strong>Improper key storage:</strong> Never store keys with
+                    encrypted data
+                  </li>
+                  <li>
+                    <strong>Insufficient key length:</strong> Use minimum
+                    recommended key sizes
+                  </li>
+                  <li>
+                    <strong>Missing authentication:</strong> Encrypt-then-MAC or
+                    use authenticated encryption
+                  </li>
+                  <li>
+                    <strong>Timing attacks:</strong> Use constant-time
+                    comparison functions
+                  </li>
+                  <li>
+                    <strong>Weak passwords:</strong> Enforce strong password
+                    policies and use proper hashing
+                  </li>
+                </ul>
+              </div>
+
+              <div class="info-card">
+                <h3>🔒 Encryption Checklist</h3>
+                <ul>
+                  <li>✅ Use AES-256 for symmetric encryption</li>
+                  <li>
+                    ✅ Use RSA-2048+ or ECC P-256+ for asymmetric encryption
+                  </li>
+                  <li>✅ Use SHA-256+ for hashing</li>
+                  <li>✅ Use bcrypt, scrypt, or Argon2 for password hashing</li>
+                  <li>✅ Generate keys using cryptographically secure RNG</li>
+                  <li>✅ Use unique salts for each password/key derivation</li>
+                  <li>✅ Implement proper key rotation policies</li>
+                  <li>
+                    ✅ Use authenticated encryption modes (GCM,
+                    ChaCha20-Poly1305)
+                  </li>
+                  <li>✅ Validate all inputs and handle errors securely</li>
+                  <li>✅ Keep cryptographic libraries updated</li>
+                </ul>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

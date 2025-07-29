@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Authentication Methods - JWT, OAuth 2.0, and session-based authentication with implementation examples"
+    />
+    <title>Authentication Methods | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link active"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cors.html" class="dropdown-link">CORS</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  DevOps & Deployment
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="docker.html" class="dropdown-link"
+                      >Docker/Containerization</a
+                    >
+                  </li>
+                  <li>
+                    <a href="cdn.html" class="dropdown-link">CDN</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html#web-fundamentals">Web Fundamentals</a>
+                </li>
+                <li>Authentication Methods</li>
+              </ol>
+            </nav>
+            <h1 class="page-title">Authentication Methods</h1>
+            <p class="page-subtitle">
+              Complete guide to JWT, OAuth 2.0, and session-based authentication
+              with implementation examples and security best practices
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <div class="container">
+        <div class="content-layout">
+          <!-- Table of Contents -->
+          <aside class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <nav aria-label="Page contents">
+              <ul class="toc-list">
+                <li><a href="#overview" class="toc-link">Overview</a></li>
+                <li>
+                  <a href="#session-auth" class="toc-link"
+                    >Session-Based Authentication</a
+                  >
+                </li>
+                <li>
+                  <a href="#jwt-auth" class="toc-link">JWT Authentication</a>
+                </li>
+                <li><a href="#oauth2" class="toc-link">OAuth 2.0</a></li>
+                <li><a href="#comparison" class="toc-link">Comparison</a></li>
+                <li>
+                  <a href="#security" class="toc-link"
+                    >Security Best Practices</a
+                  >
+                </li>
+                <li>
+                  <a href="#implementation" class="toc-link"
+                    >Implementation Examples</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section">
+              <h2>Overview</h2>
+              <p>
+                Authentication is the process of verifying the identity of users
+                or systems. In web applications, there are several methods to
+                implement authentication, each with its own advantages and use
+                cases.
+              </p>
+
+              <div class="highlight-box info">
+                <h3>Key Authentication Methods</h3>
+                <ul>
+                  <li>
+                    <strong>Session-Based Authentication:</strong> Traditional
+                    server-side session management
+                  </li>
+                  <li>
+                    <strong>JWT (JSON Web Tokens):</strong> Stateless
+                    token-based authentication
+                  </li>
+                  <li>
+                    <strong>OAuth 2.0:</strong> Authorization framework for
+                    third-party access
+                  </li>
+                </ul>
+              </div>
+
+              <div class="diagram">
+                <h3>Authentication Flow Overview</h3>
+                <div class="mermaid">
+                  graph TD A[User] --> B{Choose Auth Method} B -->
+                  C[Session-Based] B --> D[JWT Token] B --> E[OAuth 2.0] C -->
+                  F[Server Session Store] D --> G[Client Token Storage] E -->
+                  H[Third-party Provider] F --> I[Authenticated User] G --> I H
+                  --> I
+                </div>
+              </div>
+            </section>
+
+            <!-- Session-Based Authentication -->
+            <section id="session-auth" class="content-section">
+              <h2>Session-Based Authentication</h2>
+              <p>
+                Traditional authentication method where user credentials are
+                verified and a session is created on the server. The session ID
+                is stored in a cookie and sent with each request.
+              </p>
+
+              <div class="diagram">
+                <h3>Session Authentication Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant C as Client participant S as
+                  Server participant DB as Session Store C->>S: POST /login
+                  (username, password) S->>S: Validate credentials S->>DB:
+                  Create session DB-->>S: Session ID S->>C: Set cookie with
+                  session ID Note over C,S: Subsequent requests C->>S: Request
+                  with session cookie S->>DB: Validate session ID DB-->>S:
+                  Session data S->>C: Authenticated response
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>✅ Advantages</h3>
+                  <ul>
+                    <li>Server-side control over sessions</li>
+                    <li>Easy to implement and understand</li>
+                    <li>Session data stored securely on server</li>
+                    <li>Can easily revoke sessions</li>
+                  </ul>
+                </div>
+                <div class="use-case-card">
+                  <h3>❌ Disadvantages</h3>
+                  <ul>
+                    <li>Not suitable for stateless applications</li>
+                    <li>Memory usage grows with users</li>
+                    <li>Challenging for distributed systems</li>
+                    <li>CSRF vulnerability concerns</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>Session Authentication Example (Node.js/Express)</h3>
+                <pre><code>const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Login route
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  
+  if (user && await bcrypt.compare(password, user.password)) {
+    req.session.userId = user._id;
+    req.session.username = user.username;
+    res.json({ success: true, user: { username: user.username } });
+  } else {
+    res.status(401).json({ error: 'Invalid credentials' });
+  }
+});</code></pre>
+              </div>
+            </section>
+
+            <!-- JWT Authentication -->
+            <section id="jwt-auth" class="content-section">
+              <h2>JWT Authentication</h2>
+              <p>
+                JSON Web Tokens (JWT) are a stateless authentication method
+                where user information is encoded in a token. The token is
+                signed by the server and can be verified without storing session
+                data.
+              </p>
+
+              <div class="diagram">
+                <h3>JWT Authentication Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant C as Client participant S as
+                  Server C->>S: POST /login (username, password) S->>S: Validate
+                  credentials S->>S: Generate JWT token S->>C: Return JWT token
+                  Note over C: Store token (localStorage/cookie) Note over C,S:
+                  Subsequent requests C->>S: Request with JWT in header S->>S:
+                  Verify & decode JWT S->>C: Authenticated response
+                </div>
+              </div>
+
+              <div class="highlight-box info">
+                <h3>JWT Structure</h3>
+                <p>A JWT consists of three parts separated by dots (.):</p>
+                <ul>
+                  <li>
+                    <strong>Header:</strong> Token type and signing algorithm
+                  </li>
+                  <li>
+                    <strong>Payload:</strong> Claims (user data, expiration,
+                    etc.)
+                  </li>
+                  <li><strong>Signature:</strong> Ensures token integrity</li>
+                </ul>
+                <div class="code-example">
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                </div>
+              </div>
+
+              <div class="use-case-cards">
+                <div class="use-case-card">
+                  <h3>✅ Advantages</h3>
+                  <ul>
+                    <li>Stateless and scalable</li>
+                    <li>Cross-domain authentication</li>
+                    <li>Mobile-friendly</li>
+                    <li>Self-contained user information</li>
+                  </ul>
+                </div>
+                <div class="use-case-card">
+                  <h3>❌ Disadvantages</h3>
+                  <ul>
+                    <li>Token size can be large</li>
+                    <li>Cannot revoke tokens easily</li>
+                    <li>Token storage security concerns</li>
+                    <li>Replay attack vulnerability</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>JWT Authentication Example (Node.js)</h3>
+                <pre><code>const jwt = require('jsonwebtoken');
+
+// Generate JWT token
+function generateToken(user) {
+  return jwt.sign(
+    { 
+      userId: user._id, 
+      username: user.username,
+      email: user.email 
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+}
+
+// Login route
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  
+  if (user && await bcrypt.compare(password, user.password)) {
+    const token = generateToken(user);
+    res.json({ 
+      success: true, 
+      token,
+      user: { username: user.username, email: user.email }
+    });
+  } else {
+    res.status(401).json({ error: 'Invalid credentials' });
+  }
+});
+
+// JWT verification middleware
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+  
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(403).json({ error: 'Invalid token' });
+  }
+}</code></pre>
+              </div>
+            </section>
+
+            <!-- OAuth 2.0 -->
+            <section id="oauth2" class="content-section">
+              <h2>OAuth 2.0</h2>
+              <p>
+                OAuth 2.0 is an authorization framework that enables
+                applications to obtain limited access to user accounts on HTTP
+                services. It's commonly used for "Login with Google/Facebook"
+                functionality.
+              </p>
+
+              <div class="diagram">
+                <h3>OAuth 2.0 Authorization Code Flow</h3>
+                <div class="mermaid">
+                  sequenceDiagram participant U as User participant C as Client
+                  App participant A as Auth Server participant R as Resource
+                  Server U->>C: Click "Login with Provider" C->>A: Redirect to
+                  authorization URL A->>U: Show login/consent form U->>A: Grant
+                  permission A->>C: Redirect with auth code C->>A: Exchange code
+                  for access token A->>C: Return access token C->>R: Request
+                  user data with token R->>C: Return user profile C->>U: User
+                  logged in
+                </div>
+              </div>
+
+              <div class="solutions-grid">
+                <div class="solution-card">
+                  <h3>Authorization Code Flow</h3>
+                  <p>
+                    Most secure flow for web applications with server-side
+                    components.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Server-Side</span>
+                    <span class="feature-tag">Most Secure</span>
+                    <span class="feature-tag">Refresh Tokens</span>
+                  </div>
+                </div>
+                <div class="solution-card">
+                  <h3>Implicit Flow</h3>
+                  <p>
+                    Simplified flow for single-page applications (deprecated).
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">Client-Side</span>
+                    <span class="feature-tag">Deprecated</span>
+                    <span class="feature-tag">No Refresh</span>
+                  </div>
+                </div>
+                <div class="solution-card">
+                  <h3>Client Credentials</h3>
+                  <p>
+                    Machine-to-machine authentication without user involvement.
+                  </p>
+                  <div class="solution-features">
+                    <span class="feature-tag">M2M</span>
+                    <span class="feature-tag">No User</span>
+                    <span class="feature-tag">Backend</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-block">
+                <h3>OAuth 2.0 Implementation Example (Node.js/Passport)</h3>
+                <pre><code>const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/auth/google/callback"
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    let user = await User.findOne({ googleId: profile.id });
+    
+    if (user) {
+      return done(null, user);
+    } else {
+      user = await User.create({
+        googleId: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value,
+        avatar: profile.photos[0].value
+      });
+      return done(null, user);
+    }
+  } catch (error) {
+    return done(error, null);
+  }
+}));
+
+// Routes
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/dashboard');
+  }
+);</code></pre>
+              </div>
+            </section>
+
+            <!-- Comparison -->
+            <section id="comparison" class="content-section">
+              <h2>Authentication Methods Comparison</h2>
+
+              <div class="comparison-table">
+                <div class="comparison-header">
+                  <div class="comparison-col">Feature</div>
+                  <div class="comparison-col">Session-Based</div>
+                  <div class="comparison-col">JWT</div>
+                  <div class="comparison-col">OAuth 2.0</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Statefulness</strong>
+                  </div>
+                  <div class="comparison-cell">Stateful</div>
+                  <div class="comparison-cell">Stateless</div>
+                  <div class="comparison-cell">Stateless</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Scalability</strong>
+                  </div>
+                  <div class="comparison-cell">Limited</div>
+                  <div class="comparison-cell">High</div>
+                  <div class="comparison-cell">High</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Security</strong></div>
+                  <div class="comparison-cell">High</div>
+                  <div class="comparison-cell">Medium</div>
+                  <div class="comparison-cell">High</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell"><strong>Complexity</strong></div>
+                  <div class="comparison-cell">Low</div>
+                  <div class="comparison-cell">Medium</div>
+                  <div class="comparison-cell">High</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Mobile Support</strong>
+                  </div>
+                  <div class="comparison-cell">Limited</div>
+                  <div class="comparison-cell">Excellent</div>
+                  <div class="comparison-cell">Excellent</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="comparison-cell">
+                    <strong>Third-party Integration</strong>
+                  </div>
+                  <div class="comparison-cell">No</div>
+                  <div class="comparison-cell">Limited</div>
+                  <div class="comparison-cell">Yes</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Security Best Practices -->
+            <section id="security" class="content-section">
+              <h2>Security Best Practices</h2>
+
+              <div class="best-practices">
+                <div class="practice-item">
+                  <h3>🔒 Secure Token Storage</h3>
+                  <p>
+                    Store tokens securely using httpOnly cookies or secure
+                    storage mechanisms. Avoid localStorage for sensitive tokens.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>⏱️ Token Expiration</h3>
+                  <p>
+                    Implement short-lived access tokens with longer-lived
+                    refresh tokens. Rotate tokens regularly.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🛡️ HTTPS Only</h3>
+                  <p>
+                    Always use HTTPS for authentication endpoints and token
+                    transmission. Never send credentials over HTTP.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🔐 Strong Secrets</h3>
+                  <p>
+                    Use cryptographically strong secrets for signing tokens.
+                    Store secrets securely and rotate them periodically.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>🚫 Input Validation</h3>
+                  <p>
+                    Validate and sanitize all input. Implement rate limiting to
+                    prevent brute force attacks.
+                  </p>
+                </div>
+
+                <div class="practice-item">
+                  <h3>📝 Audit Logging</h3>
+                  <p>
+                    Log authentication events for security monitoring and
+                    forensic analysis.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Implementation Examples -->
+            <section id="implementation" class="content-section">
+              <h2>Implementation Examples</h2>
+
+              <div class="code-block">
+                <h3>Frontend JWT Implementation (React)</h3>
+                <pre><code>import axios from 'axios';
+
+// Token management utilities
+const TOKEN_KEY = 'auth_token';
+
+export const authService = {
+  // Store token
+  setToken(token) {
+    localStorage.setItem(TOKEN_KEY, token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  },
+
+  // Get stored token
+  getToken() {
+    return localStorage.getItem(TOKEN_KEY);
+  },
+
+  // Remove token
+  removeToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    delete axios.defaults.headers.common['Authorization'];
+  },
+
+  // Login function
+  async login(credentials) {
+    try {
+      const response = await axios.post('/api/login', credentials);
+      const { token, user } = response.data;
+      
+      this.setToken(token);
+      return { success: true, user };
+    } catch (error) {
+      return { success: false, error: error.response.data.message };
+    }
+  },
+
+  // Logout function
+  logout() {
+    this.removeToken();
+    window.location.href = '/login';
+  },
+
+  // Check if user is authenticated
+  isAuthenticated() {
+    const token = this.getToken();
+    if (!token) return false;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp > Date.now() / 1000;
+    } catch {
+      return false;
+    }
+  }
+};
+
+// Axios interceptor for token refresh
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      authService.logout();
+    }
+    return Promise.reject(error);
+  }
+);</code></pre>
+              </div>
+
+              <div class="highlight-box warning">
+                <h3>⚠️ Important Security Considerations</h3>
+                <ul>
+                  <li>
+                    Never store sensitive tokens in localStorage in production
+                  </li>
+                  <li>Implement proper token refresh mechanisms</li>
+                  <li>Use CSRF protection for session-based authentication</li>
+                  <li>Validate tokens on every protected request</li>
+                  <li>Implement proper error handling and logging</li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Initialize Mermaid diagrams
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+  </body>
+</html>

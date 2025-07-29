@@ -10,14 +10,22 @@ document.addEventListener("DOMContentLoaded", function () {
 // Navigation Dropdown Functionality
 function initializeNavigation() {
   const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+  let closeTimeout;
 
   dropdownToggles.forEach((toggle) => {
+    const dropdown = toggle.parentElement;
     const dropdownMenu = toggle.nextElementSibling;
 
     // Toggle dropdown on click
     toggle.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
+
+      // Clear any pending close timeout
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
 
       // Close other dropdowns
       dropdownToggles.forEach((otherToggle) => {
@@ -38,6 +46,49 @@ function initializeNavigation() {
       }
     });
 
+    // Add hover support for better UX (but keep click as primary interaction)
+    dropdown.addEventListener("mouseenter", function () {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+    });
+
+    dropdown.addEventListener("mouseleave", function () {
+      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+      if (isExpanded) {
+        // Add a small delay before closing to prevent accidental closes
+        closeTimeout = setTimeout(() => {
+          toggle.setAttribute("aria-expanded", "false");
+          if (dropdownMenu) {
+            dropdownMenu.classList.remove("active");
+          }
+          closeTimeout = null;
+        }, 300); // 300ms delay
+      }
+    });
+
+    // Cancel close timeout when hovering over menu items
+    if (dropdownMenu) {
+      dropdownMenu.addEventListener("mouseenter", function () {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+      });
+
+      dropdownMenu.addEventListener("mouseleave", function () {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        if (isExpanded) {
+          closeTimeout = setTimeout(() => {
+            toggle.setAttribute("aria-expanded", "false");
+            dropdownMenu.classList.remove("active");
+            closeTimeout = null;
+          }, 300);
+        }
+      });
+    }
+
     // Handle keyboard navigation
     toggle.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") {
@@ -55,6 +106,12 @@ function initializeNavigation() {
   // Close dropdowns when clicking outside
   document.addEventListener("click", function (e) {
     if (!e.target.closest(".nav-dropdown")) {
+      // Clear any pending timeouts
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+
       dropdownToggles.forEach((toggle) => {
         const dropdownMenu = toggle.nextElementSibling;
         toggle.setAttribute("aria-expanded", "false");
@@ -299,6 +356,11 @@ window.addEventListener("load", function () {
 document.addEventListener("keydown", function (e) {
   // Escape key closes all dropdowns
   if (e.key === "Escape") {
+    // Clear any pending dropdown close timeouts
+    const timeouts = window.dropdownTimeouts || [];
+    timeouts.forEach((timeout) => clearTimeout(timeout));
+    window.dropdownTimeouts = [];
+
     const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
     dropdownToggles.forEach((toggle) => {
       const dropdownMenu = toggle.nextElementSibling;

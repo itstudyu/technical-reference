@@ -144,6 +144,10 @@ body {
     position: relative;
 }
 
+.nav-dropdown:hover .dropdown-toggle {
+    color: var(--primary-color);
+}
+
 .nav-link {
     display: flex;
     align-items: center;
@@ -190,13 +194,91 @@ body {
     transition: all var(--transition-fast);
     list-style: none;
     padding: var(--space-sm);
-    margin-top: var(--space-xs);
+    margin-top: 2px;
+    z-index: 1000;
 }
 
 .dropdown-menu.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* Mobile dropdown improvements */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        position: static;
+        background: var(--gray-50);
+        border: none;
+        box-shadow: none;
+        margin-top: var(--space-xs);
+        margin-left: var(--space-md);
+        border-left: 2px solid var(--primary-color);
+        border-radius: 0;
+        transform: none;
+        transition: all var(--transition-fast);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .dropdown-menu.active {
+        max-height: 200px;
+        padding: var(--space-sm);
+    }
+}
+
+/* Step Flow Components */
+.step-flow {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--primary-color);
+    transition: all var(--transition-fast);
+}
+
+.step-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.step-number {
+    background: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.code-example {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: Monaco, Consolas, monospace;
+    margin: 1rem 0;
+    border-left: 4px solid var(--primary-color);
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .dropdown-link {

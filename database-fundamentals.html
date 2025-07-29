@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Database Fundamentals - SQL vs NoSQL, database design, indexing, relationships, and performance optimization"
+    />
+    <title>Database Fundamentals | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Enhanced styles for database page */
+      .hero-section {
+        background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .schema-diagram {
+        background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .table-visual {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .table-header {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px 8px 0 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .table-cell {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.8rem;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .table-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .row-cell {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.8rem;
+        text-align: center;
+      }
+
+      .db-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .db-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .db-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .sql-card {
+        border-left: 4px solid #2563eb;
+      }
+
+      .nosql-card {
+        border-left: 4px solid #10b981;
+      }
+
+      .relationship-diagram {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .relationship-box {
+        background: white;
+        border: 2px solid #7c3aed;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        min-width: 150px;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+      }
+
+      .relationship-arrow {
+        font-size: 2rem;
+        color: #7c3aed;
+        font-weight: bold;
+      }
+
+      .performance-card {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 2rem;
+        border-left: 4px solid #10b981;
+        margin: 1.5rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .db-comparison {
+          grid-template-columns: 1fr;
+        }
+        .relationship-diagram {
+          flex-direction: column;
+        }
+        .relationship-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                  <li><a href="dns.html" class="dropdown-link">DNS</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Databases
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      href="database-fundamentals.html"
+                      class="dropdown-link active"
+                      >Database Fundamentals</a
+                    >
+                  </li>
+                  <li>
+                    <a href="redis-caching.html" class="dropdown-link"
+                      >Redis & Caching</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Security
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="web-security.html" class="dropdown-link"
+                      >Web Security</a
+                    >
+                  </li>
+                  <li>
+                    <a href="authentication.html" class="dropdown-link"
+                      >Authentication</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link">RAG</a>
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <h1 class="hero-title">🗄️ Database Fundamentals</h1>
+          <p class="hero-subtitle">
+            Master the foundation of data storage. Learn SQL vs NoSQL, database
+            design principles, relationships, indexing, and performance
+            optimization with visual examples.
+          </p>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div
+        class="container"
+        style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem"
+      >
+        <!-- Database Basics -->
+        <section style="margin: 3rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            📚 What is a Database?
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            A database is an organized collection of data that can be easily
+            accessed, managed, and updated. Here's how data flows through a
+            database system:
+          </p>
+
+          <!-- Database Operation Flow -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Application Request
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Application needs to store or retrieve data
+                </p>
+                <div class="code-example">
+                  # User registration request<br />
+                  POST /api/users<br />
+                  {<br />
+                  &nbsp;&nbsp;"name": "John Doe",<br />
+                  &nbsp;&nbsp;"email": "john@example.com",<br />
+                  &nbsp;&nbsp;"age": 25<br />
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Query Generation
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Application generates database query
+                </p>
+                <div class="code-example">
+                  INSERT INTO users (name, email, age, created_at)<br />
+                  VALUES ('John Doe', 'john@example.com', 25, NOW());
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Database Processing
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Database engine processes the query
+                </p>
+                <div
+                  style="
+                    background: #f0f9ff;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #0ea5e9;
+                  "
+                >
+                  <strong>Steps:</strong> Parse query → Validate → Execute →
+                  Return result
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  Data Storage/Retrieval
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Data written to disk or retrieved from storage
+                </p>
+                <div
+                  style="
+                    background: #ecfdf5;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    border-left: 4px solid #10b981;
+                  "
+                >
+                  <strong>✅ Success:</strong> User record saved with ID: 12345
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SQL vs NoSQL -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            ⚖️ SQL vs NoSQL Databases
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            Two main approaches to organizing and accessing data:
+          </p>
+
+          <div class="db-comparison">
+            <!-- SQL Database -->
+            <div class="db-card sql-card">
+              <h3
+                style="
+                  color: #2563eb;
+                  margin-bottom: 1.5rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                📊 SQL (Relational) Databases
+              </h3>
+
+              <div style="margin-bottom: 2rem">
+                <h4 style="color: #374151; margin-bottom: 1rem">Structure</h4>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Data stored in tables with rows and columns</li>
+                  <li>Fixed schema (structure must be defined)</li>
+                  <li>Relationships between tables</li>
+                  <li>
+                    ACID compliance (Atomicity, Consistency, Isolation,
+                    Durability)
+                  </li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 2rem">
+                <h4 style="color: #374151; margin-bottom: 1rem">Best For</h4>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Complex relationships between data</li>
+                  <li>Financial systems, banking</li>
+                  <li>E-commerce applications</li>
+                  <li>Systems requiring strict consistency</li>
+                </ul>
+              </div>
+
+              <div
+                style="background: #f8fafc; padding: 1rem; border-radius: 8px"
+              >
+                <strong>Examples:</strong> MySQL, PostgreSQL, SQLite, Oracle,
+                SQL Server
+              </div>
+            </div>
+
+            <!-- NoSQL Database -->
+            <div class="db-card nosql-card">
+              <h3
+                style="
+                  color: #10b981;
+                  margin-bottom: 1.5rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                🔄 NoSQL (Non-Relational) Databases
+              </h3>
+
+              <div style="margin-bottom: 2rem">
+                <h4 style="color: #374151; margin-bottom: 1rem">Structure</h4>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Flexible data models (documents, key-value, graph)</li>
+                  <li>Dynamic schema (can change structure)</li>
+                  <li>Horizontal scaling capabilities</li>
+                  <li>Eventual consistency (BASE properties)</li>
+                </ul>
+              </div>
+
+              <div style="margin-bottom: 2rem">
+                <h4 style="color: #374151; margin-bottom: 1rem">Best For</h4>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Rapidly changing requirements</li>
+                  <li>Real-time applications</li>
+                  <li>Big data and analytics</li>
+                  <li>Systems requiring high scalability</li>
+                </ul>
+              </div>
+
+              <div
+                style="background: #f8fafc; padding: 1rem; border-radius: 8px"
+              >
+                <strong>Examples:</strong> MongoDB, Redis, Cassandra, DynamoDB,
+                Neo4j
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Database Schema Design -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🏗️ Database Schema Design
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            A well-designed schema is the foundation of a good database. Here's
+            a practical example:
+          </p>
+
+          <!-- Schema Visualization -->
+          <div class="schema-diagram">
+            <h3
+              style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem"
+            >
+              🛒 E-Commerce Database Schema
+            </h3>
+
+            <!-- Users Table -->
+            <div class="table-visual">
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">👤 users</h4>
+              <div class="table-header">
+                <div class="table-cell">id (PK)</div>
+                <div class="table-cell">name</div>
+                <div class="table-cell">email</div>
+                <div class="table-cell">created_at</div>
+              </div>
+              <div class="table-row">
+                <div class="row-cell">1</div>
+                <div class="row-cell">John Doe</div>
+                <div class="row-cell">john@example.com</div>
+                <div class="row-cell">2023-01-15</div>
+              </div>
+              <div class="table-row">
+                <div class="row-cell">2</div>
+                <div class="row-cell">Jane Smith</div>
+                <div class="row-cell">jane@example.com</div>
+                <div class="row-cell">2023-02-20</div>
+              </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="table-visual">
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">📦 products</h4>
+              <div class="table-header">
+                <div class="table-cell">id (PK)</div>
+                <div class="table-cell">name</div>
+                <div class="table-cell">price</div>
+                <div class="table-cell">category_id (FK)</div>
+              </div>
+              <div class="table-row">
+                <div class="row-cell">1</div>
+                <div class="row-cell">Laptop</div>
+                <div class="row-cell">$999.99</div>
+                <div class="row-cell">1</div>
+              </div>
+              <div class="table-row">
+                <div class="row-cell">2</div>
+                <div class="row-cell">Smartphone</div>
+                <div class="row-cell">$699.99</div>
+                <div class="row-cell">1</div>
+              </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="table-visual">
+              <h4 style="color: #fbbf24; margin-bottom: 1rem">🛍️ orders</h4>
+              <div class="table-header">
+                <div class="table-cell">id (PK)</div>
+                <div class="table-cell">user_id (FK)</div>
+                <div class="table-cell">total</div>
+                <div class="table-cell">status</div>
+                <div class="table-cell">created_at</div>
+              </div>
+              <div class="table-row">
+                <div class="row-cell">1</div>
+                <div class="row-cell">1</div>
+                <div class="row-cell">$999.99</div>
+                <div class="row-cell">completed</div>
+                <div class="row-cell">2023-03-01</div>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 2rem;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+              "
+            >
+              <strong>Key Terms:</strong><br />
+              <strong>PK</strong> = Primary Key (unique identifier)<br />
+              <strong>FK</strong> = Foreign Key (references another table)
+            </div>
+          </div>
+        </section>
+
+        <!-- Database Relationships -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔗 Database Relationships
+          </h2>
+
+          <div style="display: grid; gap: 2rem">
+            <!-- One-to-One -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+              "
+            >
+              <h3 style="color: #7c3aed; margin-bottom: 1rem">
+                1️⃣ One-to-One Relationship
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                One record in table A relates to exactly one record in table B
+              </p>
+
+              <div class="relationship-diagram">
+                <div class="relationship-box">
+                  <strong>User</strong><br />
+                  <small>id: 1<br />name: John</small>
+                </div>
+                <div class="relationship-arrow">↔</div>
+                <div class="relationship-box">
+                  <strong>Profile</strong><br />
+                  <small>user_id: 1<br />bio: "Developer"</small>
+                </div>
+              </div>
+
+              <div class="code-example">
+                CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));<br />
+                CREATE TABLE profiles (<br />
+                &nbsp;&nbsp;id INT PRIMARY KEY,<br />
+                &nbsp;&nbsp;user_id INT UNIQUE,<br />
+                &nbsp;&nbsp;bio TEXT,<br />
+                &nbsp;&nbsp;FOREIGN KEY (user_id) REFERENCES users(id)<br />
+                );
+              </div>
+            </div>
+
+            <!-- One-to-Many -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+              "
+            >
+              <h3 style="color: #7c3aed; margin-bottom: 1rem">
+                📚 One-to-Many Relationship
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                One record in table A can relate to multiple records in table B
+              </p>
+
+              <div class="relationship-diagram">
+                <div class="relationship-box">
+                  <strong>User</strong><br />
+                  <small>id: 1<br />name: John</small>
+                </div>
+                <div class="relationship-arrow">→</div>
+                <div class="relationship-box">
+                  <strong>Orders</strong><br />
+                  <small>user_id: 1<br />Multiple orders</small>
+                </div>
+              </div>
+
+              <div class="code-example">
+                CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));<br />
+                CREATE TABLE orders (<br />
+                &nbsp;&nbsp;id INT PRIMARY KEY,<br />
+                &nbsp;&nbsp;user_id INT,<br />
+                &nbsp;&nbsp;total DECIMAL(10,2),<br />
+                &nbsp;&nbsp;FOREIGN KEY (user_id) REFERENCES users(id)<br />
+                );
+              </div>
+            </div>
+
+            <!-- Many-to-Many -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+              "
+            >
+              <h3 style="color: #7c3aed; margin-bottom: 1rem">
+                🔀 Many-to-Many Relationship
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                Multiple records in table A can relate to multiple records in
+                table B
+              </p>
+
+              <div class="relationship-diagram">
+                <div class="relationship-box">
+                  <strong>Students</strong><br />
+                  <small>Multiple students</small>
+                </div>
+                <div class="relationship-arrow">↔</div>
+                <div class="relationship-box">
+                  <strong>Junction Table</strong><br />
+                  <small>student_course</small>
+                </div>
+                <div class="relationship-arrow">↔</div>
+                <div class="relationship-box">
+                  <strong>Courses</strong><br />
+                  <small>Multiple courses</small>
+                </div>
+              </div>
+
+              <div class="code-example">
+                CREATE TABLE students (id INT PRIMARY KEY, name
+                VARCHAR(100));<br />
+                CREATE TABLE courses (id INT PRIMARY KEY, title
+                VARCHAR(100));<br />
+                CREATE TABLE student_courses (<br />
+                &nbsp;&nbsp;student_id INT,<br />
+                &nbsp;&nbsp;course_id INT,<br />
+                &nbsp;&nbsp;enrolled_date DATE,<br />
+                &nbsp;&nbsp;PRIMARY KEY (student_id, course_id),<br />
+                &nbsp;&nbsp;FOREIGN KEY (student_id) REFERENCES students(id),<br />
+                &nbsp;&nbsp;FOREIGN KEY (course_id) REFERENCES courses(id)<br />
+                );
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Database Indexing -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🚀 Database Indexing for Performance
+          </h2>
+
+          <p
+            style="
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+              color: #6b7280;
+              text-align: center;
+            "
+          >
+            Indexes are like a book's table of contents - they help find data
+            quickly without scanning everything:
+          </p>
+
+          <!-- Indexing Process -->
+          <div class="step-flow">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Without Index (Table Scan)
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Database must check every row to find matches
+                </p>
+                <div class="code-example">
+                  SELECT * FROM users WHERE email = 'john@example.com';<br />
+                  <br />
+                  # Database checks:<br />
+                  Row 1: alice@example.com ❌<br />
+                  Row 2: bob@example.com ❌<br />
+                  Row 3: charlie@example.com ❌<br />
+                  ...<br />
+                  Row 10000: john@example.com ✅<br />
+                  <br />
+                  <span style="color: #ef4444">⏱️ Time: 500ms (slow!)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 0.5rem">
+                  Create Index
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Build sorted reference structure pointing to actual data
+                </p>
+                <div class="code-example">
+                  CREATE INDEX idx_email ON users(email);<br />
+                  <br />
+                  # Index structure (simplified):<br />
+                  alice@example.com → Row 1<br />
+                  bob@example.com → Row 2<br />
+                  charlie@example.com → Row 3<br />
+                  john@example.com → Row 10000<br />
+                  ...
+                </div>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 0.5rem">
+                  With Index (Fast Lookup)
+                </h3>
+                <p style="margin-bottom: 1rem">
+                  Database uses index to jump directly to the right row
+                </p>
+                <div class="code-example">
+                  SELECT * FROM users WHERE email = 'john@example.com';<br />
+                  <br />
+                  # Using binary search on index:<br />
+                  1. Check middle of index<br />
+                  2. Determine which half contains target<br />
+                  3. Repeat until found<br />
+                  4. Jump directly to Row 10000<br />
+                  <br />
+                  <span style="color: #10b981"
+                    >⚡ Time: 2ms (250x faster!)</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Index Types -->
+          <div style="margin: 3rem 0">
+            <h3
+              style="color: #2563eb; margin-bottom: 1.5rem; text-align: center"
+            >
+              🔧 Common Index Types
+            </h3>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+              "
+            >
+              <div class="performance-card">
+                <h4 style="color: #059669; margin-bottom: 1rem">
+                  🎯 Primary Index
+                </h4>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                  Automatically created for primary key
+                </p>
+                <div class="code-example" style="font-size: 0.8rem">
+                  CREATE TABLE users (<br />
+                  &nbsp;&nbsp;id INT PRIMARY KEY, -- Auto-indexed<br />
+                  &nbsp;&nbsp;name VARCHAR(100)<br />
+                  );
+                </div>
+              </div>
+
+              <div class="performance-card">
+                <h4 style="color: #059669; margin-bottom: 1rem">
+                  🔍 Single Column Index
+                </h4>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                  Index on one column for fast searches
+                </p>
+                <div class="code-example" style="font-size: 0.8rem">
+                  CREATE INDEX idx_email ON users(email);<br />
+                  CREATE INDEX idx_last_name ON users(last_name);
+                </div>
+              </div>
+
+              <div class="performance-card">
+                <h4 style="color: #059669; margin-bottom: 1rem">
+                  🔗 Composite Index
+                </h4>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                  Index on multiple columns
+                </p>
+                <div class="code-example" style="font-size: 0.8rem">
+                  CREATE INDEX idx_name_email ON users(last_name,
+                  first_name);<br />
+                  -- Good for: WHERE last_name = 'Smith' AND first_name = 'John'
+                </div>
+              </div>
+
+              <div class="performance-card">
+                <h4 style="color: #059669; margin-bottom: 1rem">
+                  ⚡ Unique Index
+                </h4>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem">
+                  Ensures uniqueness and provides fast lookup
+                </p>
+                <div class="code-example" style="font-size: 0.8rem">
+                  CREATE UNIQUE INDEX idx_username ON users(username);<br />
+                  -- Prevents duplicate usernames
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Index Best Practices -->
+          <div
+            style="
+              background: #f0f9ff;
+              padding: 2rem;
+              border-radius: 12px;
+              border-left: 4px solid #0ea5e9;
+              margin: 2rem 0;
+            "
+          >
+            <h4 style="color: #0ea5e9; margin-bottom: 1rem">
+              💡 Indexing Best Practices
+            </h4>
+            <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+              <li>
+                <strong>Index columns used in WHERE clauses:</strong> Focus on
+                frequently searched columns
+              </li>
+              <li>
+                <strong>Don't over-index:</strong> Each index slows down
+                INSERT/UPDATE operations
+              </li>
+              <li>
+                <strong>Composite index order matters:</strong> Most selective
+                column first
+              </li>
+              <li>
+                <strong>Monitor index usage:</strong> Remove unused indexes
+              </li>
+              <li>
+                <strong>Consider partial indexes:</strong> Index only subset of
+                data when appropriate
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- NoSQL Data Models -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🔄 NoSQL Data Models
+          </h2>
+
+          <div style="display: grid; gap: 2rem">
+            <!-- Document Database -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #10b981;
+              "
+            >
+              <h3 style="color: #10b981; margin-bottom: 1rem">
+                📄 Document Database (MongoDB)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                Stores data as flexible JSON-like documents
+              </p>
+
+              <div class="code-example">
+                // User document<br />
+                {<br />
+                &nbsp;&nbsp;"_id": "507f1f77bcf86cd799439011",<br />
+                &nbsp;&nbsp;"name": "John Doe",<br />
+                &nbsp;&nbsp;"email": "john@example.com",<br />
+                &nbsp;&nbsp;"age": 25,<br />
+                &nbsp;&nbsp;"address": {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;"street": "123 Main St",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;"city": "New York",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;"zipcode": "10001"<br />
+                &nbsp;&nbsp;},<br />
+                &nbsp;&nbsp;"hobbies": ["coding", "reading", "gaming"],<br />
+                &nbsp;&nbsp;"orders": [<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 1, "total": 99.99, "date":
+                "2023-01-15"},<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;{"id": 2, "total": 149.99, "date":
+                "2023-02-20"}<br />
+                &nbsp;&nbsp;]<br />
+                }
+              </div>
+
+              <div
+                style="
+                  background: #ecfdf5;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Benefits:</strong> Flexible schema, nested data, easy to
+                scale horizontally
+              </div>
+            </div>
+
+            <!-- Key-Value Database -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #f59e0b;
+              "
+            >
+              <h3 style="color: #f59e0b; margin-bottom: 1rem">
+                🔑 Key-Value Database (Redis)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                Simple key-value pairs, extremely fast for caching
+              </p>
+
+              <div class="code-example">
+                # Session data<br />
+                SET session:abc123 "{'user_id': 456, 'role': 'admin', 'expires':
+                1640995200}"<br />
+                <br />
+                # User preferences<br />
+                SET user:456:preferences "{'theme': 'dark', 'language':
+                'en'}"<br />
+                <br />
+                # Shopping cart<br />
+                SET cart:user456 "{'items': [{'id': 1, 'qty': 2}, {'id': 5,
+                'qty': 1}]}"<br />
+                <br />
+                # Retrieve data<br />
+                GET session:abc123
+              </div>
+
+              <div
+                style="
+                  background: #fef3c7;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Benefits:</strong> Extremely fast, simple operations,
+                great for caching
+              </div>
+            </div>
+
+            <!-- Graph Database -->
+            <div
+              style="
+                background: white;
+                border-radius: 12px;
+                padding: 2rem;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #8b5cf6;
+              "
+            >
+              <h3 style="color: #8b5cf6; margin-bottom: 1rem">
+                🕸️ Graph Database (Neo4j)
+              </h3>
+              <p style="margin-bottom: 1rem; color: #6b7280">
+                Stores data as nodes and relationships, perfect for connected
+                data
+              </p>
+
+              <div class="code-example">
+                // Create nodes and relationships<br />
+                CREATE (john:Person {name: 'John Doe', age: 25})<br />
+                CREATE (jane:Person {name: 'Jane Smith', age: 30})<br />
+                CREATE (company:Company {name: 'TechCorp'})<br />
+                <br />
+                // Create relationships<br />
+                CREATE (john)-[:WORKS_FOR {since: '2020'}]->(company)<br />
+                CREATE (jane)-[:WORKS_FOR {since: '2019'}]->(company)<br />
+                CREATE (john)-[:FRIENDS_WITH {since: '2018'}]->(jane)<br />
+                <br />
+                // Query relationships<br />
+                MATCH (p:Person)-[:WORKS_FOR]->(c:Company {name: 'TechCorp'})<br />
+                RETURN p.name
+              </div>
+
+              <div
+                style="
+                  background: #f3e8ff;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-top: 1rem;
+                "
+              >
+                <strong>Benefits:</strong> Perfect for social networks,
+                recommendations, fraud detection
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Database Performance -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            ⚡ Database Performance Optimization
+          </h2>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+              gap: 2rem;
+            "
+          >
+            <div class="performance-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                📊 Query Optimization
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Use EXPLAIN to analyze query execution</li>
+                <li>Avoid SELECT * - specify columns needed</li>
+                <li>Use LIMIT for large result sets</li>
+                <li>Optimize WHERE clause conditions</li>
+                <li>Use JOINs efficiently</li>
+              </ul>
+            </div>
+
+            <div class="performance-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🎯 Indexing Strategy
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Index frequently queried columns</li>
+                <li>Remove unused indexes</li>
+                <li>Use composite indexes wisely</li>
+                <li>Monitor index usage statistics</li>
+                <li>Consider partial indexes</li>
+              </ul>
+            </div>
+
+            <div class="performance-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                🔄 Connection Management
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Use connection pooling</li>
+                <li>Set appropriate pool size</li>
+                <li>Close connections when done</li>
+                <li>Monitor connection usage</li>
+                <li>Handle connection timeouts</li>
+              </ul>
+            </div>
+
+            <div class="performance-card">
+              <h3 style="color: #059669; margin-bottom: 1rem">
+                💾 Caching Strategies
+              </h3>
+              <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                <li>Implement Redis for session data</li>
+                <li>Cache frequently accessed queries</li>
+                <li>Use appropriate TTL values</li>
+                <li>Implement cache invalidation</li>
+                <li>Consider database query cache</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- When to Use What -->
+        <section style="margin: 4rem 0">
+          <h2
+            style="
+              color: #1f2937;
+              font-size: 2.5rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🤔 When to Use SQL vs NoSQL
+          </h2>
+
+          <div style="background: #f8fafc; padding: 2rem; border-radius: 15px">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+              "
+            >
+              <div>
+                <h3 style="color: #2563eb; margin-bottom: 1rem">
+                  📊 Choose SQL When:
+                </h3>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Complex relationships between data</li>
+                  <li>ACID compliance is critical</li>
+                  <li>Financial or banking applications</li>
+                  <li>Mature ecosystem and tools needed</li>
+                  <li>Strong consistency requirements</li>
+                  <li>Well-defined, stable schema</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 style="color: #10b981; margin-bottom: 1rem">
+                  🔄 Choose NoSQL When:
+                </h3>
+                <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.8">
+                  <li>Rapid application development</li>
+                  <li>Horizontal scaling requirements</li>
+                  <li>Unstructured or semi-structured data</li>
+                  <li>Real-time applications</li>
+                  <li>Big data and analytics</li>
+                  <li>Flexible, evolving schema</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
