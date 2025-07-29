@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to API Gateways - architecture, features, implementation, and best practices"
+    />
+    <title>API Gateway | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link active"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="llm.html" class="dropdown-link">LLM</a></li>
+                  <li>
+                    <a href="fine-tuning.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li><a href="rag.html" class="dropdown-link">RAG</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">API Gateway</h1>
+            <p class="page-subtitle">
+              The central hub for managing, securing, and monitoring API traffic
+              in modern microservices architectures
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <div class="container">
+          <div class="content-layout">
+            <!-- Table of Contents -->
+            <aside class="toc-sidebar">
+              <div class="toc-container">
+                <h2 class="toc-title">Contents</h2>
+                <nav class="toc">
+                  <ul class="toc-list">
+                    <li><a href="#overview" class="toc-link">Overview</a></li>
+                    <li>
+                      <a href="#architecture" class="toc-link">Architecture</a>
+                    </li>
+                    <li>
+                      <a href="#features" class="toc-link">Core Features</a>
+                    </li>
+                    <li><a href="#benefits" class="toc-link">Benefits</a></li>
+                    <li>
+                      <a href="#types" class="toc-link">Types & Patterns</a>
+                    </li>
+                    <li>
+                      <a href="#implementation" class="toc-link"
+                        >Implementation</a
+                      >
+                    </li>
+                    <li><a href="#tools" class="toc-link">Popular Tools</a></li>
+                    <li>
+                      <a href="#best-practices" class="toc-link"
+                        >Best Practices</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+              <!-- Overview Section -->
+              <section id="overview" class="content-section">
+                <h2 class="section-title">What is an API Gateway?</h2>
+                <p class="section-intro">
+                  An API Gateway is a server that acts as an API front-end,
+                  receiving API requests, enforcing throttling and security
+                  policies, passing requests to the back-end service, and then
+                  passing the response back to the requester. It serves as a
+                  single entry point for multiple microservices.
+                </p>
+
+                <div class="key-concepts">
+                  <div class="concept-card">
+                    <h3>🚪 Single Entry Point</h3>
+                    <p>
+                      Provides a unified interface for clients to access
+                      multiple backend services
+                    </p>
+                  </div>
+                  <div class="concept-card">
+                    <h3>🛡️ Security Layer</h3>
+                    <p>
+                      Handles authentication, authorization, and security
+                      policies centrally
+                    </p>
+                  </div>
+                  <div class="concept-card">
+                    <h3>📊 Traffic Management</h3>
+                    <p>
+                      Controls request routing, rate limiting, and load
+                      distribution
+                    </p>
+                  </div>
+                  <div class="concept-card">
+                    <h3>🔍 Observability</h3>
+                    <p>
+                      Provides monitoring, logging, and analytics for API usage
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Architecture Section -->
+              <section id="architecture" class="content-section">
+                <h2 class="section-title">API Gateway Architecture</h2>
+
+                <div class="architecture-diagram">
+                  <h3>High-Level Architecture</h3>
+                  <div class="diagram-container">
+                    <div class="flow-diagram">
+                      <div class="client-section">
+                        <h4>Clients</h4>
+                        <div class="client-items">
+                          <div class="client-item">📱 Mobile App</div>
+                          <div class="client-item">💻 Web App</div>
+                          <div class="client-item">🔗 Third-party</div>
+                        </div>
+                      </div>
+
+                      <div class="gateway-section">
+                        <h4>API Gateway</h4>
+                        <div class="gateway-layers">
+                          <div class="layer">🔐 Authentication</div>
+                          <div class="layer">⚡ Rate Limiting</div>
+                          <div class="layer">🔄 Load Balancing</div>
+                          <div class="layer">📈 Monitoring</div>
+                          <div class="layer">🛣️ Routing</div>
+                        </div>
+                      </div>
+
+                      <div class="services-section">
+                        <h4>Backend Services</h4>
+                        <div class="service-items">
+                          <div class="service-item">👤 User Service</div>
+                          <div class="service-item">🛒 Order Service</div>
+                          <div class="service-item">💳 Payment Service</div>
+                          <div class="service-item">📦 Inventory Service</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="detailed-flow">
+                  <h3>Request Flow</h3>
+                  <div class="flow-steps">
+                    <div class="step">
+                      <div class="step-number">1</div>
+                      <div class="step-content">
+                        <h4>Client Request</h4>
+                        <p>Client sends API request to gateway endpoint</p>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">2</div>
+                      <div class="step-content">
+                        <h4>Authentication</h4>
+                        <p>
+                          Gateway validates API keys, tokens, or certificates
+                        </p>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">3</div>
+                      <div class="step-content">
+                        <h4>Rate Limiting</h4>
+                        <p>Checks if client has exceeded request limits</p>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">4</div>
+                      <div class="step-content">
+                        <h4>Request Routing</h4>
+                        <p>Routes request to appropriate backend service</p>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <div class="step-number">5</div>
+                      <div class="step-content">
+                        <h4>Response Processing</h4>
+                        <p>Processes response and returns to client</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Features Section -->
+              <section id="features" class="content-section">
+                <h2 class="section-title">Core Features</h2>
+
+                <div class="features-grid">
+                  <div class="feature-category">
+                    <h3>🔐 Security Features</h3>
+                    <div class="feature-list">
+                      <div class="feature-item">
+                        <h4>Authentication & Authorization</h4>
+                        <p>JWT tokens, API keys, OAuth 2.0, SAML integration</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Input Validation</h4>
+                        <p>
+                          Schema validation, SQL injection prevention, XSS
+                          protection
+                        </p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>TLS Termination</h4>
+                        <p>SSL/TLS encryption and certificate management</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="feature-category">
+                    <h3>🚦 Traffic Management</h3>
+                    <div class="feature-list">
+                      <div class="feature-item">
+                        <h4>Rate Limiting</h4>
+                        <p>Throttling based on IP, user, or API key</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Load Balancing</h4>
+                        <p>
+                          Round-robin, weighted, least connections algorithms
+                        </p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Circuit Breaker</h4>
+                        <p>Prevent cascade failures with automatic fallbacks</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="feature-category">
+                    <h3>🔄 Request Processing</h3>
+                    <div class="feature-list">
+                      <div class="feature-item">
+                        <h4>Request/Response Transformation</h4>
+                        <p>Format conversion, field mapping, data enrichment</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Caching</h4>
+                        <p>Response caching, cache invalidation strategies</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Request Aggregation</h4>
+                        <p>
+                          Combine multiple backend calls into single response
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="feature-category">
+                    <h3>📊 Observability</h3>
+                    <div class="feature-list">
+                      <div class="feature-item">
+                        <h4>Logging & Monitoring</h4>
+                        <p>Request logs, performance metrics, error tracking</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Analytics</h4>
+                        <p>API usage statistics, user behavior insights</p>
+                      </div>
+                      <div class="feature-item">
+                        <h4>Health Checks</h4>
+                        <p>Service health monitoring and automatic failover</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Benefits Section -->
+              <section id="benefits" class="content-section">
+                <h2 class="section-title">Key Benefits</h2>
+
+                <div class="benefits-comparison">
+                  <div class="without-gateway">
+                    <h3>❌ Without API Gateway</h3>
+                    <ul>
+                      <li>Clients connect directly to services</li>
+                      <li>Security implemented per service</li>
+                      <li>Scattered monitoring and logging</li>
+                      <li>Complex client-side logic</li>
+                      <li>Tight coupling between clients and services</li>
+                    </ul>
+                  </div>
+
+                  <div class="with-gateway">
+                    <h3>✅ With API Gateway</h3>
+                    <ul>
+                      <li>Centralized access control</li>
+                      <li>Unified security policies</li>
+                      <li>Comprehensive monitoring</li>
+                      <li>Simplified client implementation</li>
+                      <li>Loose coupling and service abstraction</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="business-benefits">
+                  <h3>Business Benefits</h3>
+                  <div class="benefit-cards">
+                    <div class="benefit-card">
+                      <h4>🚀 Faster Development</h4>
+                      <p>
+                        Developers focus on business logic instead of
+                        cross-cutting concerns
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>💰 Cost Reduction</h4>
+                      <p>
+                        Reduced infrastructure complexity and operational
+                        overhead
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>📈 Better Performance</h4>
+                      <p>
+                        Caching, compression, and optimized routing improve
+                        response times
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>🔒 Enhanced Security</h4>
+                      <p>Centralized security policies and threat protection</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Types Section -->
+              <section id="types" class="content-section">
+                <h2 class="section-title">Types & Deployment Patterns</h2>
+
+                <div class="gateway-types">
+                  <div class="type-card">
+                    <h3>🌐 Public API Gateway</h3>
+                    <p>
+                      Manages external APIs exposed to third-party developers
+                      and partners
+                    </p>
+                    <div class="type-features">
+                      <ul>
+                        <li>Developer portal integration</li>
+                        <li>API versioning and documentation</li>
+                        <li>Monetization and billing</li>
+                        <li>Advanced analytics</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="type-card">
+                    <h3>🏢 Internal API Gateway</h3>
+                    <p>
+                      Manages internal microservices communication within
+                      organization
+                    </p>
+                    <div class="type-features">
+                      <ul>
+                        <li>Service discovery</li>
+                        <li>Internal security policies</li>
+                        <li>Performance optimization</li>
+                        <li>Development team collaboration</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="type-card">
+                    <h3>🔄 Hybrid Gateway</h3>
+                    <p>
+                      Handles both internal and external API traffic with
+                      different policies
+                    </p>
+                    <div class="type-features">
+                      <ul>
+                        <li>Multi-tenant architecture</li>
+                        <li>Flexible policy management</li>
+                        <li>Unified monitoring</li>
+                        <li>Cost optimization</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="deployment-patterns">
+                  <h3>Deployment Patterns</h3>
+                  <div class="pattern-grid">
+                    <div class="pattern-item">
+                      <h4>Edge Gateway</h4>
+                      <p>
+                        Deployed at network edge for global traffic management
+                      </p>
+                    </div>
+                    <div class="pattern-item">
+                      <h4>Regional Gateway</h4>
+                      <p>Regional deployment for reduced latency</p>
+                    </div>
+                    <div class="pattern-item">
+                      <h4>Service Mesh Gateway</h4>
+                      <p>
+                        Integrated with service mesh for advanced microservices
+                        management
+                      </p>
+                    </div>
+                    <div class="pattern-item">
+                      <h4>Multi-Cloud Gateway</h4>
+                      <p>Manages APIs across multiple cloud providers</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Implementation Section -->
+              <section id="implementation" class="content-section">
+                <h2 class="section-title">Implementation Examples</h2>
+
+                <div class="implementation-tabs">
+                  <div class="impl-example">
+                    <h3>Kong Gateway Configuration</h3>
+                    <div class="code-example">
+                      <pre><code># Add a service
+curl -i -X POST http://localhost:8001/services/ \
+  --data "name=user-service" \
+  --data "url=http://user-service:3000"
+
+# Add a route
+curl -i -X POST http://localhost:8001/services/user-service/routes \
+  --data "hosts[]=api.example.com" \
+  --data "paths[]=/users"
+
+# Add rate limiting plugin
+curl -i -X POST http://localhost:8001/services/user-service/plugins \
+  --data "name=rate-limiting" \
+  --data "config.minute=100" \
+  --data "config.hour=1000"
+
+# Add authentication plugin
+curl -i -X POST http://localhost:8001/services/user-service/plugins \
+  --data "name=jwt"</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="impl-example">
+                    <h3>NGINX API Gateway Setup</h3>
+                    <div class="code-example">
+                      <pre><code>upstream user_service {
+    server user-service:3000;
+    server user-service-2:3000;
+}
+
+upstream order_service {
+    server order-service:3001;
+    server order-service-2:3001;
+}
+
+server {
+    listen 80;
+    server_name api.example.com;
+
+    # Rate limiting
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+    
+    # Authentication
+    location /auth {
+        internal;
+        proxy_pass http://auth-service/validate;
+        proxy_set_header X-Original-URI $request_uri;
+    }
+
+    # User service route
+    location /api/users {
+        auth_request /auth;
+        limit_req zone=api burst=20 nodelay;
+        
+        proxy_pass http://user_service;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # Order service route
+    location /api/orders {
+        auth_request /auth;
+        limit_req zone=api burst=20 nodelay;
+        
+        proxy_pass http://order_service;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="impl-example">
+                    <h3>AWS API Gateway with Lambda</h3>
+                    <div class="code-example">
+                      <pre><code>import json
+import boto3
+
+def lambda_handler(event, context):
+    # Get request details
+    http_method = event['httpMethod']
+    path = event['path']
+    headers = event['headers']
+    
+    # Authentication
+    auth_token = headers.get('Authorization')
+    if not validate_token(auth_token):
+        return {
+            'statusCode': 401,
+            'body': json.dumps({'error': 'Unauthorized'})
+        }
+    
+    # Rate limiting check
+    if is_rate_limited(event['requestContext']['identity']['sourceIp']):
+        return {
+            'statusCode': 429,
+            'body': json.dumps({'error': 'Rate limit exceeded'})
+        }
+    
+    # Route to appropriate service
+    if path.startswith('/users'):
+        return route_to_user_service(event)
+    elif path.startswith('/orders'):
+        return route_to_order_service(event)
+    else:
+        return {
+            'statusCode': 404,
+            'body': json.dumps({'error': 'Not found'})
+        }
+
+def validate_token(token):
+    # JWT validation logic
+    try:
+        # Validate JWT token
+        return True
+    except:
+        return False
+
+def is_rate_limited(ip):
+    # Check DynamoDB for rate limiting
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('rate_limits')
+    # Rate limiting logic
+    return False</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Tools Section -->
+              <section id="tools" class="content-section">
+                <h2 class="section-title">Popular API Gateway Tools</h2>
+
+                <div class="tools-grid">
+                  <div class="tool-card">
+                    <h3>Kong</h3>
+                    <p><strong>Type:</strong> Open Source / Enterprise</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Plugin ecosystem (100+ plugins)</li>
+                        <li>Kubernetes native</li>
+                        <li>High performance (built on NGINX)</li>
+                        <li>Admin API and GUI</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> Microservices, API management
+                      at scale
+                    </div>
+                  </div>
+
+                  <div class="tool-card">
+                    <h3>AWS API Gateway</h3>
+                    <p><strong>Type:</strong> Cloud Service</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Serverless integration</li>
+                        <li>Auto-scaling</li>
+                        <li>Built-in monitoring</li>
+                        <li>AWS service integration</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> AWS-based architectures,
+                      serverless applications
+                    </div>
+                  </div>
+
+                  <div class="tool-card">
+                    <h3>Zuul (Netflix)</h3>
+                    <p><strong>Type:</strong> Open Source</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Dynamic routing</li>
+                        <li>Monitoring and insights</li>
+                        <li>Security and filtering</li>
+                        <li>Java-based</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> Java ecosystems, Netflix OSS
+                      stack
+                    </div>
+                  </div>
+
+                  <div class="tool-card">
+                    <h3>Istio Gateway</h3>
+                    <p><strong>Type:</strong> Service Mesh</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Service mesh integration</li>
+                        <li>Advanced traffic management</li>
+                        <li>Security policies</li>
+                        <li>Observability</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> Kubernetes, complex
+                      microservices
+                    </div>
+                  </div>
+
+                  <div class="tool-card">
+                    <h3>Traefik</h3>
+                    <p><strong>Type:</strong> Open Source</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Auto service discovery</li>
+                        <li>Let's Encrypt integration</li>
+                        <li>Docker/Kubernetes native</li>
+                        <li>Real-time dashboard</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> Container environments,
+                      automatic configuration
+                    </div>
+                  </div>
+
+                  <div class="tool-card">
+                    <h3>Apigee</h3>
+                    <p><strong>Type:</strong> Enterprise Platform</p>
+                    <div class="tool-features">
+                      <h4>Key Features:</h4>
+                      <ul>
+                        <li>Full API lifecycle management</li>
+                        <li>Developer portal</li>
+                        <li>Analytics and monetization</li>
+                        <li>Multi-cloud deployment</li>
+                      </ul>
+                    </div>
+                    <div class="tool-use-case">
+                      <strong>Best for:</strong> Enterprise API programs, API
+                      monetization
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices Section -->
+              <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <div class="practices-grid">
+                  <div class="practice-category">
+                    <h3>🏗️ Design Principles</h3>
+                    <ul>
+                      <li>
+                        <strong>Single Responsibility:</strong> Focus on API
+                        management, not business logic
+                      </li>
+                      <li>
+                        <strong>Stateless Design:</strong> Keep gateway
+                        stateless for scalability
+                      </li>
+                      <li>
+                        <strong>Fail Fast:</strong> Quick error responses to
+                        prevent resource waste
+                      </li>
+                      <li>
+                        <strong>Backward Compatibility:</strong> Support API
+                        versioning
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>🔒 Security</h3>
+                    <ul>
+                      <li>
+                        <strong>Defense in Depth:</strong> Multiple security
+                        layers
+                      </li>
+                      <li>
+                        <strong>Principle of Least Privilege:</strong> Minimal
+                        required permissions
+                      </li>
+                      <li>
+                        <strong>Regular Security Audits:</strong> Continuous
+                        vulnerability assessment
+                      </li>
+                      <li>
+                        <strong>Secure Defaults:</strong> Security-first
+                        configuration
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>⚡ Performance</h3>
+                    <ul>
+                      <li>
+                        <strong>Caching Strategy:</strong> Implement intelligent
+                        caching
+                      </li>
+                      <li>
+                        <strong>Connection Pooling:</strong> Reuse connections
+                        to backend services
+                      </li>
+                      <li>
+                        <strong>Asynchronous Processing:</strong> Non-blocking
+                        request handling
+                      </li>
+                      <li>
+                        <strong>Resource Limits:</strong> Set appropriate
+                        timeouts and limits
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>📊 Monitoring</h3>
+                    <ul>
+                      <li>
+                        <strong>Comprehensive Logging:</strong> Log all requests
+                        and responses
+                      </li>
+                      <li>
+                        <strong>Health Checks:</strong> Monitor gateway and
+                        service health
+                      </li>
+                      <li>
+                        <strong>Alerting:</strong> Set up proactive alerts
+                      </li>
+                      <li>
+                        <strong>Distributed Tracing:</strong> Track requests
+                        across services
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="anti-patterns">
+                  <h3>⚠️ Common Anti-Patterns to Avoid</h3>
+                  <div class="anti-pattern-list">
+                    <div class="anti-pattern-item">
+                      <h4>Gateway as a Monolith</h4>
+                      <p>
+                        Putting too much business logic in the gateway makes it
+                        a bottleneck
+                      </p>
+                    </div>
+                    <div class="anti-pattern-item">
+                      <h4>Direct Database Access</h4>
+                      <p>
+                        Gateway should not directly access databases, only route
+                        to services
+                      </p>
+                    </div>
+                    <div class="anti-pattern-item">
+                      <h4>Chatty API Design</h4>
+                      <p>
+                        Avoid creating APIs that require multiple round trips
+                      </p>
+                    </div>
+                    <div class="anti-pattern-item">
+                      <h4>Ignoring Error Handling</h4>
+                      <p>
+                        Proper error handling and circuit breakers are essential
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

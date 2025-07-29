@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Complete guide to Load Balancing with NGINX - algorithms, configurations, and best practices"
+    />
+    <title>Load Balancer & NGINX | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer.html" class="dropdown-link active"
+                      >Load Balancer</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="llm.html" class="dropdown-link">LLM</a></li>
+                  <li>
+                    <a href="fine-tuning.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li><a href="rag.html" class="dropdown-link">RAG</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="container">
+          <div class="page-header-content">
+            <h1 class="page-title">Load Balancer & NGINX</h1>
+            <p class="page-subtitle">
+              Distribute traffic efficiently across multiple servers for high
+              availability and performance
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <div class="container">
+          <div class="content-layout">
+            <!-- Table of Contents -->
+            <aside class="toc-sidebar">
+              <div class="toc-container">
+                <h2 class="toc-title">Contents</h2>
+                <nav class="toc">
+                  <ul class="toc-list">
+                    <li><a href="#overview" class="toc-link">Overview</a></li>
+                    <li><a href="#types" class="toc-link">Types</a></li>
+                    <li>
+                      <a href="#algorithms" class="toc-link">Algorithms</a>
+                    </li>
+                    <li>
+                      <a href="#nginx" class="toc-link">NGINX Load Balancing</a>
+                    </li>
+                    <li>
+                      <a href="#configuration" class="toc-link"
+                        >Configuration</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#health-checks" class="toc-link"
+                        >Health Checks</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#ssl-termination" class="toc-link"
+                        >SSL Termination</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#best-practices" class="toc-link"
+                        >Best Practices</a
+                      >
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </aside>
+
+            <!-- Main Content -->
+            <article class="content">
+              <!-- Overview Section -->
+              <section id="overview" class="content-section">
+                <h2 class="section-title">What is Load Balancing?</h2>
+                <p class="section-intro">
+                  Load balancing is the process of distributing incoming network
+                  traffic across multiple servers to ensure no single server
+                  becomes overwhelmed. It improves application availability,
+                  performance, and scalability.
+                </p>
+
+                <div class="load-balancer-diagram">
+                  <h3>Load Balancer Architecture</h3>
+                  <div class="diagram-container">
+                    <div class="lb-flow">
+                      <div class="clients-section">
+                        <h4>👥 Clients</h4>
+                        <div class="client-requests">
+                          <div class="request">Request 1</div>
+                          <div class="request">Request 2</div>
+                          <div class="request">Request 3</div>
+                          <div class="request">Request 4</div>
+                        </div>
+                      </div>
+
+                      <div class="lb-section">
+                        <h4>⚖️ Load Balancer</h4>
+                        <div class="lb-features">
+                          <div class="feature">🔄 Traffic Distribution</div>
+                          <div class="feature">🏥 Health Monitoring</div>
+                          <div class="feature">🔐 SSL Termination</div>
+                        </div>
+                      </div>
+
+                      <div class="servers-section">
+                        <h4>🖥️ Backend Servers</h4>
+                        <div class="server-pool">
+                          <div class="server healthy">Server 1 ✅</div>
+                          <div class="server healthy">Server 2 ✅</div>
+                          <div class="server unhealthy">Server 3 ❌</div>
+                          <div class="server healthy">Server 4 ✅</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="benefits-overview">
+                  <h3>Key Benefits</h3>
+                  <div class="benefit-cards">
+                    <div class="benefit-card">
+                      <h4>🚀 High Availability</h4>
+                      <p>
+                        Eliminates single points of failure by distributing load
+                        across multiple servers
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>📈 Scalability</h4>
+                      <p>
+                        Easily add or remove servers based on demand without
+                        service interruption
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>⚡ Performance</h4>
+                      <p>
+                        Reduces response times by efficiently distributing
+                        requests
+                      </p>
+                    </div>
+                    <div class="benefit-card">
+                      <h4>🔧 Maintenance</h4>
+                      <p>Perform server maintenance without downtime</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Types Section -->
+              <section id="types" class="content-section">
+                <h2 class="section-title">Types of Load Balancers</h2>
+
+                <div class="lb-types">
+                  <div class="type-comparison">
+                    <div class="lb-type">
+                      <h3>🌐 Layer 4 (Transport Layer)</h3>
+                      <div class="type-details">
+                        <h4>How it works:</h4>
+                        <p>
+                          Routes traffic based on IP address and port
+                          information without inspecting packet content
+                        </p>
+
+                        <h4>Characteristics:</h4>
+                        <ul>
+                          <li>✅ High performance (low latency)</li>
+                          <li>✅ Protocol agnostic (TCP, UDP)</li>
+                          <li>✅ Lower resource consumption</li>
+                          <li>❌ Limited routing intelligence</li>
+                          <li>❌ No content-based routing</li>
+                        </ul>
+
+                        <h4>Best for:</h4>
+                        <p>
+                          Simple load distribution, high-throughput
+                          applications, non-HTTP protocols
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="lb-type">
+                      <h3>🔍 Layer 7 (Application Layer)</h3>
+                      <div class="type-details">
+                        <h4>How it works:</h4>
+                        <p>
+                          Makes routing decisions based on application-level
+                          content (HTTP headers, URLs, cookies)
+                        </p>
+
+                        <h4>Characteristics:</h4>
+                        <ul>
+                          <li>✅ Advanced routing capabilities</li>
+                          <li>✅ Content-based decisions</li>
+                          <li>✅ SSL termination</li>
+                          <li>❌ Higher latency</li>
+                          <li>❌ More resource intensive</li>
+                        </ul>
+
+                        <h4>Best for:</h4>
+                        <p>
+                          Web applications, microservices, complex routing
+                          requirements
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="deployment-types">
+                    <h3>Deployment Types</h3>
+                    <div class="deployment-grid">
+                      <div class="deployment-item">
+                        <h4>🔄 Hardware Load Balancer</h4>
+                        <p>
+                          Dedicated physical appliances with high performance
+                          and reliability
+                        </p>
+                        <ul>
+                          <li>Very high throughput</li>
+                          <li>Advanced features</li>
+                          <li>Expensive</li>
+                          <li>Vendor lock-in</li>
+                        </ul>
+                      </div>
+
+                      <div class="deployment-item">
+                        <h4>💻 Software Load Balancer</h4>
+                        <p>
+                          Software-based solutions running on standard servers
+                        </p>
+                        <ul>
+                          <li>Cost-effective</li>
+                          <li>Flexible configuration</li>
+                          <li>Easy to scale</li>
+                          <li>Open source options</li>
+                        </ul>
+                      </div>
+
+                      <div class="deployment-item">
+                        <h4>☁️ Cloud Load Balancer</h4>
+                        <p>Managed services provided by cloud providers</p>
+                        <ul>
+                          <li>Auto-scaling</li>
+                          <li>No infrastructure management</li>
+                          <li>Global distribution</li>
+                          <li>Pay-per-use</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Algorithms Section -->
+              <section id="algorithms" class="content-section">
+                <h2 class="section-title">Load Balancing Algorithms</h2>
+
+                <div class="algorithms-grid">
+                  <div class="algorithm-card">
+                    <h3>🔄 Round Robin</h3>
+                    <div class="algorithm-visual">
+                      <div class="requests">R1 → R2 → R3 → R4 →</div>
+                      <div class="servers">S1 → S2 → S3 → S1 →</div>
+                    </div>
+                    <div class="algorithm-details">
+                      <p>
+                        <strong>How it works:</strong> Distributes requests
+                        sequentially across all available servers
+                      </p>
+                      <div class="pros-cons">
+                        <div class="pros">
+                          <strong>Pros:</strong>
+                          <ul>
+                            <li>Simple implementation</li>
+                            <li>Even distribution</li>
+                            <li>Fair resource usage</li>
+                          </ul>
+                        </div>
+                        <div class="cons">
+                          <strong>Cons:</strong>
+                          <ul>
+                            <li>Ignores server capacity</li>
+                            <li>No consideration for response time</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p>
+                        <strong>Best for:</strong> Servers with similar
+                        specifications and uniform request patterns
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="algorithm-card">
+                    <h3>⚖️ Weighted Round Robin</h3>
+                    <div class="algorithm-visual">
+                      <div class="servers">S1(3) → S2(2) → S3(1)</div>
+                      <div class="distribution">60% → 30% → 10%</div>
+                    </div>
+                    <div class="algorithm-details">
+                      <p>
+                        <strong>How it works:</strong> Assigns weights to
+                        servers based on their capacity
+                      </p>
+                      <div class="pros-cons">
+                        <div class="pros">
+                          <strong>Pros:</strong>
+                          <ul>
+                            <li>Accounts for server capacity</li>
+                            <li>Flexible distribution</li>
+                            <li>Better resource utilization</li>
+                          </ul>
+                        </div>
+                        <div class="cons">
+                          <strong>Cons:</strong>
+                          <ul>
+                            <li>Static weights</li>
+                            <li>Manual configuration needed</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p>
+                        <strong>Best for:</strong> Heterogeneous server
+                        environments with different capacities
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="algorithm-card">
+                    <h3>📊 Least Connections</h3>
+                    <div class="algorithm-visual">
+                      <div class="servers">S1(5) S2(3) S3(7)</div>
+                      <div class="choice">Next request → S2 ✅</div>
+                    </div>
+                    <div class="algorithm-details">
+                      <p>
+                        <strong>How it works:</strong> Routes requests to the
+                        server with the fewest active connections
+                      </p>
+                      <div class="pros-cons">
+                        <div class="pros">
+                          <strong>Pros:</strong>
+                          <ul>
+                            <li>Dynamic load awareness</li>
+                            <li>Better for long-lived connections</li>
+                            <li>Adapts to server performance</li>
+                          </ul>
+                        </div>
+                        <div class="cons">
+                          <strong>Cons:</strong>
+                          <ul>
+                            <li>More complex tracking</li>
+                            <li>Overhead for connection counting</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p>
+                        <strong>Best for:</strong> Applications with persistent
+                        connections or varying request durations
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="algorithm-card">
+                    <h3>🎯 IP Hash</h3>
+                    <div class="algorithm-visual">
+                      <div class="hash-function">
+                        hash(192.168.1.100) % 3 = 1
+                      </div>
+                      <div class="result">Client → Server 2</div>
+                    </div>
+                    <div class="algorithm-details">
+                      <p>
+                        <strong>How it works:</strong> Uses client IP address to
+                        determine which server receives the request
+                      </p>
+                      <div class="pros-cons">
+                        <div class="pros">
+                          <strong>Pros:</strong>
+                          <ul>
+                            <li>Session persistence</li>
+                            <li>Predictable routing</li>
+                            <li>Simple implementation</li>
+                          </ul>
+                        </div>
+                        <div class="cons">
+                          <strong>Cons:</strong>
+                          <ul>
+                            <li>Uneven distribution</li>
+                            <li>Issues with NAT/proxies</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p>
+                        <strong>Best for:</strong> Applications requiring
+                        session affinity or user state preservation
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="algorithm-card">
+                    <h3>⚡ Least Response Time</h3>
+                    <div class="algorithm-visual">
+                      <div class="response-times">
+                        S1(50ms) S2(30ms) S3(80ms)
+                      </div>
+                      <div class="choice">Next request → S2 ✅</div>
+                    </div>
+                    <div class="algorithm-details">
+                      <p>
+                        <strong>How it works:</strong> Routes to the server with
+                        the fastest response time and fewest connections
+                      </p>
+                      <div class="pros-cons">
+                        <div class="pros">
+                          <strong>Pros:</strong>
+                          <ul>
+                            <li>Performance-aware</li>
+                            <li>Adaptive to server conditions</li>
+                            <li>Optimal user experience</li>
+                          </ul>
+                        </div>
+                        <div class="cons">
+                          <strong>Cons:</strong>
+                          <ul>
+                            <li>Complex implementation</li>
+                            <li>Higher overhead</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p>
+                        <strong>Best for:</strong> Performance-critical
+                        applications with varying server response times
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- NGINX Section -->
+              <section id="nginx" class="content-section">
+                <h2 class="section-title">NGINX Load Balancing</h2>
+
+                <div class="nginx-overview">
+                  <h3>Why NGINX for Load Balancing?</h3>
+                  <div class="nginx-benefits">
+                    <div class="benefit-item">
+                      <h4>🚀 High Performance</h4>
+                      <p>
+                        Event-driven architecture handles thousands of
+                        concurrent connections efficiently
+                      </p>
+                    </div>
+                    <div class="benefit-item">
+                      <h4>💰 Cost-Effective</h4>
+                      <p>
+                        Open-source solution with enterprise features available
+                      </p>
+                    </div>
+                    <div class="benefit-item">
+                      <h4>🔧 Flexible Configuration</h4>
+                      <p>
+                        Powerful configuration language with extensive
+                        customization options
+                      </p>
+                    </div>
+                    <div class="benefit-item">
+                      <h4>🌐 Multiple Protocols</h4>
+                      <p>Supports HTTP, HTTPS, TCP, UDP, and more</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="nginx-features">
+                  <h3>NGINX Load Balancing Features</h3>
+                  <div class="feature-grid">
+                    <div class="feature-item">
+                      <h4>Load Balancing Methods</h4>
+                      <ul>
+                        <li>Round-robin (default)</li>
+                        <li>Least connections</li>
+                        <li>IP hash</li>
+                        <li>Weighted distribution</li>
+                        <li>Random</li>
+                      </ul>
+                    </div>
+                    <div class="feature-item">
+                      <h4>Health Checks</h4>
+                      <ul>
+                        <li>Passive health monitoring</li>
+                        <li>Active health checks (Plus)</li>
+                        <li>Custom health check endpoints</li>
+                        <li>Automatic failover</li>
+                      </ul>
+                    </div>
+                    <div class="feature-item">
+                      <h4>Session Persistence</h4>
+                      <ul>
+                        <li>IP hash sticky sessions</li>
+                        <li>Cookie-based persistence</li>
+                        <li>Custom session routing</li>
+                        <li>Consistent hash ring</li>
+                      </ul>
+                    </div>
+                    <div class="feature-item">
+                      <h4>Advanced Features</h4>
+                      <ul>
+                        <li>SSL termination</li>
+                        <li>Rate limiting</li>
+                        <li>Request/response modification</li>
+                        <li>Caching and compression</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Configuration Section -->
+              <section id="configuration" class="content-section">
+                <h2 class="section-title">NGINX Configuration Examples</h2>
+
+                <div class="config-examples">
+                  <div class="config-example">
+                    <h3>Basic Load Balancing</h3>
+                    <div class="code-example">
+                      <pre><code># Define upstream servers
+upstream backend {
+    server 192.168.1.10:80;
+    server 192.168.1.11:80;
+    server 192.168.1.12:80;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="config-example">
+                    <h3>Weighted Load Balancing</h3>
+                    <div class="code-example">
+                      <pre><code>upstream backend {
+    server 192.168.1.10:80 weight=3;  # Gets 3x more requests
+    server 192.168.1.11:80 weight=2;  # Gets 2x more requests  
+    server 192.168.1.12:80 weight=1;  # Gets 1x requests (default)
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        
+        # Connection settings
+        proxy_connect_timeout 5s;
+        proxy_send_timeout 10s;
+        proxy_read_timeout 10s;
+        
+        # Headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="config-example">
+                    <h3>Least Connections with Health Checks</h3>
+                    <div class="code-example">
+                      <pre><code>upstream backend {
+    least_conn;  # Use least connections algorithm
+    
+    server 192.168.1.10:80 max_fails=3 fail_timeout=30s;
+    server 192.168.1.11:80 max_fails=3 fail_timeout=30s;
+    server 192.168.1.12:80 max_fails=3 fail_timeout=30s;
+    
+    # Backup server (only used when others fail)
+    server 192.168.1.20:80 backup;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        
+        # Health check configuration
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_next_upstream_timeout 5s;
+        proxy_next_upstream_tries 3;
+        
+        # Standard headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="config-example">
+                    <h3>IP Hash for Session Persistence</h3>
+                    <div class="code-example">
+                      <pre><code>upstream backend {
+    ip_hash;  # Ensures same client goes to same server
+    
+    server 192.168.1.10:80;
+    server 192.168.1.11:80;
+    server 192.168.1.12:80;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        
+        # Session cookie handling
+        proxy_cookie_path / "/; Secure; HttpOnly";
+        
+        # Standard proxy headers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        
+        # Optional: Add server info to response headers
+        add_header X-Upstream-Server $upstream_addr always;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+
+                  <div class="config-example">
+                    <h3>Advanced Configuration with Multiple Upstreams</h3>
+                    <div class="code-example">
+                      <pre><code># API servers
+upstream api_servers {
+    least_conn;
+    server api1.internal:8080 weight=2;
+    server api2.internal:8080 weight=2;
+    server api3.internal:8080 weight=1;
+}
+
+# Web servers  
+upstream web_servers {
+    server web1.internal:80;
+    server web2.internal:80;
+    server web3.internal:80;
+}
+
+# Database proxy servers
+upstream db_proxy {
+    server db-proxy1.internal:5432 max_fails=1 fail_timeout=30s;
+    server db-proxy2.internal:5432 max_fails=1 fail_timeout=30s backup;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    # Route API requests
+    location /api/ {
+        proxy_pass http://api_servers;
+        
+        # API-specific settings
+        proxy_connect_timeout 2s;
+        proxy_send_timeout 5s;
+        proxy_read_timeout 10s;
+        
+        # Rate limiting for API
+        limit_req zone=api burst=10 nodelay;
+        
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # Route web requests
+    location / {
+        proxy_pass http://web_servers;
+        
+        # Web-specific settings
+        proxy_connect_timeout 5s;
+        proxy_send_timeout 30s;
+        proxy_read_timeout 30s;
+        
+        # Enable caching for static content
+        proxy_cache_bypass $http_pragma $http_authorization;
+        
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+# Rate limiting zone definition
+http {
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+}</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Health Checks Section -->
+              <section id="health-checks" class="content-section">
+                <h2 class="section-title">Health Checks & Monitoring</h2>
+
+                <div class="health-check-types">
+                  <div class="health-type">
+                    <h3>🔍 Passive Health Checks</h3>
+                    <p>Monitor server responses during normal traffic flow</p>
+                    <div class="health-details">
+                      <h4>Configuration:</h4>
+                      <div class="code-example">
+                        <pre><code>upstream backend {
+    server 192.168.1.10:80 max_fails=3 fail_timeout=30s;
+    server 192.168.1.11:80 max_fails=2 fail_timeout=10s;
+}
+
+# max_fails: Number of failed attempts before marking server unavailable
+# fail_timeout: Time to wait before trying server again</code></pre>
+                      </div>
+                      <h4>Pros & Cons:</h4>
+                      <ul>
+                        <li>✅ No additional traffic</li>
+                        <li>✅ Built into NGINX OSS</li>
+                        <li>❌ Only detects failures during traffic</li>
+                        <li>❌ Slower failure detection</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="health-type">
+                    <h3>🎯 Active Health Checks (NGINX Plus)</h3>
+                    <p>
+                      Proactively check server health with dedicated health
+                      requests
+                    </p>
+                    <div class="health-details">
+                      <h4>Configuration:</h4>
+                      <div class="code-example">
+                        <pre><code>upstream backend {
+    zone backend 64k;
+    server 192.168.1.10:80;
+    server 192.168.1.11:80;
+}
+
+server {
+    listen 80;
+    
+    location / {
+        proxy_pass http://backend;
+        health_check interval=5s fails=3 passes=2 uri=/health;
+    }
+}
+
+# interval: How often to check (default 5s)
+# fails: Failures before marking unhealthy (default 1)  
+# passes: Successes before marking healthy (default 1)
+# uri: Health check endpoint</code></pre>
+                      </div>
+                      <h4>Pros & Cons:</h4>
+                      <ul>
+                        <li>✅ Proactive failure detection</li>
+                        <li>✅ Custom health check endpoints</li>
+                        <li>✅ Faster recovery detection</li>
+                        <li>❌ Requires NGINX Plus</li>
+                        <li>❌ Additional network traffic</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="monitoring-setup">
+                  <h3>Monitoring Configuration</h3>
+                  <div class="monitoring-example">
+                    <div class="code-example">
+                      <pre><code># Enable status and monitoring
+server {
+    listen 8080;
+    server_name localhost;
+
+    # Basic status (NGINX OSS)
+    location /nginx_status {
+        stub_status on;
+        access_log off;
+        allow 127.0.0.1;
+        allow 192.168.1.0/24;
+        deny all;
+    }
+
+    # Upstream status (NGINX Plus)
+    location /api {
+        api write=on;
+        allow 127.0.0.1;
+        allow 192.168.1.0/24;
+        deny all;
+    }
+
+    # Dashboard (NGINX Plus)
+    location = /dashboard.html {
+        root /usr/share/nginx/html;
+    }
+}
+
+# Logging configuration
+http {
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for" '
+                    'upstream_addr=$upstream_addr '
+                    'upstream_status=$upstream_status '
+                    'upstream_response_time=$upstream_response_time';
+
+    access_log /var/log/nginx/access.log main;
+    error_log /var/log/nginx/error.log warn;
+}</code></pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- SSL Termination Section -->
+              <section id="ssl-termination" class="content-section">
+                <h2 class="section-title">SSL Termination</h2>
+
+                <div class="ssl-overview">
+                  <h3>What is SSL Termination?</h3>
+                  <p>
+                    SSL termination is the process of decrypting SSL/TLS traffic
+                    at the load balancer level, then forwarding unencrypted
+                    traffic to backend servers. This reduces the computational
+                    load on backend servers.
+                  </p>
+
+                  <div class="ssl-benefits">
+                    <h4>Benefits:</h4>
+                    <ul>
+                      <li>
+                        🚀 <strong>Performance:</strong> Offloads SSL processing
+                        from backend servers
+                      </li>
+                      <li>
+                        🔧 <strong>Centralized Management:</strong> Single point
+                        for certificate management
+                      </li>
+                      <li>
+                        💰 <strong>Cost Effective:</strong> Reduces server
+                        resource requirements
+                      </li>
+                      <li>
+                        🔍 <strong>Inspection:</strong> Allows load balancer to
+                        inspect HTTP content
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="ssl-configuration">
+                  <h3>SSL Termination Configuration</h3>
+                  <div class="ssl-example">
+                    <div class="code-example">
+                      <pre><code># Upstream servers (HTTP)
+upstream backend {
+    server 192.168.1.10:80;
+    server 192.168.1.11:80;
+    server 192.168.1.12:80;
+}
+
+# HTTP server (redirect to HTTPS)
+server {
+    listen 80;
+    server_name example.com www.example.com;
+    
+    # Redirect all HTTP traffic to HTTPS
+    return 301 https://$server_name$request_uri;
+}
+
+# HTTPS server with SSL termination
+server {
+    listen 443 ssl http2;
+    server_name example.com www.example.com;
+
+    # SSL certificate configuration
+    ssl_certificate /etc/nginx/ssl/example.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/example.com.key;
+
+    # SSL security settings
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # HSTS (HTTP Strict Transport Security)
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # Security headers
+    add_header X-Frame-Options DENY always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    location / {
+        proxy_pass http://backend;  # Forward to HTTP backend
+        
+        # Headers for backend servers
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Port $server_port;
+    }
+}</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ssl-patterns">
+                  <h3>SSL Deployment Patterns</h3>
+                  <div class="pattern-grid">
+                    <div class="pattern-card">
+                      <h4>🔚 SSL Termination</h4>
+                      <p>Decrypt at load balancer, forward HTTP to backends</p>
+                      <div class="pattern-pros-cons">
+                        <div class="pros">
+                          ✅ Best performance, easy inspection
+                        </div>
+                        <div class="cons">❌ Unencrypted internal traffic</div>
+                      </div>
+                    </div>
+
+                    <div class="pattern-card">
+                      <h4>🔄 SSL Pass-through</h4>
+                      <p>Forward encrypted traffic directly to backends</p>
+                      <div class="pattern-pros-cons">
+                        <div class="pros">✅ End-to-end encryption</div>
+                        <div class="cons">
+                          ❌ No content inspection, higher backend load
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pattern-card">
+                      <h4>🔐 SSL Re-encryption</h4>
+                      <p>Decrypt at load balancer, re-encrypt to backends</p>
+                      <div class="pattern-pros-cons">
+                        <div class="pros">✅ Security + inspection</div>
+                        <div class="cons">❌ Highest processing overhead</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Best Practices Section -->
+              <section id="best-practices" class="content-section">
+                <h2 class="section-title">Best Practices</h2>
+
+                <div class="practices-grid">
+                  <div class="practice-category">
+                    <h3>🏗️ Design Principles</h3>
+                    <ul>
+                      <li>
+                        <strong>High Availability:</strong> Deploy multiple load
+                        balancers for redundancy
+                      </li>
+                      <li>
+                        <strong>Health Monitoring:</strong> Implement
+                        comprehensive health checks
+                      </li>
+                      <li>
+                        <strong>Graceful Degradation:</strong> Configure backup
+                        servers and fallback mechanisms
+                      </li>
+                      <li>
+                        <strong>Capacity Planning:</strong> Monitor and plan for
+                        traffic growth
+                      </li>
+                      <li>
+                        <strong>Geographic Distribution:</strong> Use multiple
+                        data centers for global availability
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>⚡ Performance Optimization</h3>
+                    <ul>
+                      <li>
+                        <strong>Connection Pooling:</strong> Reuse connections
+                        to backend servers
+                      </li>
+                      <li>
+                        <strong>Keep-Alive:</strong> Enable HTTP keep-alive for
+                        better performance
+                      </li>
+                      <li>
+                        <strong>Caching:</strong> Implement response caching
+                        where appropriate
+                      </li>
+                      <li>
+                        <strong>Compression:</strong> Enable gzip compression
+                        for text content
+                      </li>
+                      <li>
+                        <strong>Buffering:</strong> Configure appropriate buffer
+                        sizes
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>🔒 Security</h3>
+                    <ul>
+                      <li>
+                        <strong>SSL/TLS:</strong> Use strong encryption and
+                        current protocols
+                      </li>
+                      <li>
+                        <strong>Rate Limiting:</strong> Protect against DDoS and
+                        abuse
+                      </li>
+                      <li>
+                        <strong>Access Control:</strong> Restrict administrative
+                        interfaces
+                      </li>
+                      <li>
+                        <strong>Security Headers:</strong> Implement security
+                        headers (HSTS, CSP, etc.)
+                      </li>
+                      <li>
+                        <strong>Regular Updates:</strong> Keep NGINX and modules
+                        updated
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="practice-category">
+                    <h3>📊 Monitoring</h3>
+                    <ul>
+                      <li>
+                        <strong>Metrics Collection:</strong> Monitor key
+                        performance indicators
+                      </li>
+                      <li>
+                        <strong>Alerting:</strong> Set up alerts for failures
+                        and performance issues
+                      </li>
+                      <li>
+                        <strong>Log Analysis:</strong> Analyze access and error
+                        logs regularly
+                      </li>
+                      <li>
+                        <strong>Capacity Monitoring:</strong> Track resource
+                        utilization
+                      </li>
+                      <li>
+                        <strong>User Experience:</strong> Monitor end-user
+                        response times
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="troubleshooting">
+                  <h3>🔧 Common Issues & Solutions</h3>
+                  <div class="issue-grid">
+                    <div class="issue-item">
+                      <h4>❌ Uneven Load Distribution</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Adjust server weights</li>
+                          <li>Use least connections algorithm</li>
+                          <li>Check for long-lived connections</li>
+                          <li>Verify server capacities are similar</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="issue-item">
+                      <h4>❌ Session Affinity Problems</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Implement IP hash or cookie-based routing</li>
+                          <li>
+                            Use external session storage (Redis, memcached)
+                          </li>
+                          <li>Configure proper session persistence</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="issue-item">
+                      <h4>❌ Health Check Failures</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Verify health check endpoint exists</li>
+                          <li>Adjust health check parameters</li>
+                          <li>Check network connectivity</li>
+                          <li>Review server logs</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="issue-item">
+                      <h4>❌ SSL Certificate Issues</h4>
+                      <div class="solution">
+                        <strong>Solutions:</strong>
+                        <ul>
+                          <li>Verify certificate validity and expiration</li>
+                          <li>Check certificate chain completeness</li>
+                          <li>Ensure proper file permissions</li>
+                          <li>Test SSL configuration</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
