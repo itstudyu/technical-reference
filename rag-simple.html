@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Simple guide to RAG (Retrieval-Augmented Generation) - give AI access to your own knowledge"
+    />
+    <title>RAG - Simple Guide | Technical Reference</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Enhanced styles for better UX */
+      .visual-card {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 1.5rem 0;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .simple-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .feature-box {
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .feature-box:hover {
+        transform: translateY(-5px);
+        border-color: #f59e0b;
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .flow-diagram {
+        background: #fff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: center;
+      }
+
+      .flow-step {
+        background: #f59e0b;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem;
+        display: inline-block;
+        min-width: 150px;
+        font-weight: bold;
+      }
+
+      .arrow-down {
+        font-size: 2rem;
+        color: #f59e0b;
+        margin: 0.5rem 0;
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .before-after {
+        padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .before {
+        background: #fef2f2;
+        border: 2px solid #fca5a5;
+      }
+
+      .after {
+        background: #f0fdf4;
+        border: 2px solid #86efac;
+      }
+
+      .example-box {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        font-family: "Courier New", monospace;
+        border-left: 4px solid #f59e0b;
+      }
+
+      .step-card {
+        background: #fff;
+        border-left: 4px solid #f59e0b;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <h1><a href="index.html">Tech Reference</a></h1>
+          </div>
+          <nav class="nav" aria-label="Main navigation">
+            <ul class="nav-list">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Networking
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="proxy.html" class="dropdown-link">Proxy</a></li>
+                  <li>
+                    <a href="reverse-proxy.html" class="dropdown-link"
+                      >Reverse Proxy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="api-gateway.html" class="dropdown-link"
+                      >API Gateway</a
+                    >
+                  </li>
+                  <li>
+                    <a href="load-balancer-simple.html" class="dropdown-link"
+                      >Load Balancer</a
+                    >
+                  </li>
+                  <li><a href="nginx.html" class="dropdown-link">NGINX</a></li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  Web Fundamentals
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="http-https.html" class="dropdown-link"
+                      >HTTP/HTTPS</a
+                    >
+                  </li>
+                  <li>
+                    <a href="backend-frontend.html" class="dropdown-link"
+                      >Backend/Frontend</a
+                    >
+                  </li>
+                  <li>
+                    <a href="encryption.html" class="dropdown-link"
+                      >Encryption</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-dropdown">
+                <button class="nav-link dropdown-toggle" aria-expanded="false">
+                  AI/ML
+                  <svg
+                    class="dropdown-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                  >
+                    <path d="M8 10.5L3.5 6h9L8 10.5z" />
+                  </svg>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="llm-simple.html" class="dropdown-link">LLM</a>
+                  </li>
+                  <li>
+                    <a href="fine-tuning-simple.html" class="dropdown-link"
+                      >Fine Tuning</a
+                    >
+                  </li>
+                  <li>
+                    <a href="rag-simple.html" class="dropdown-link active"
+                      >RAG</a
+                    >
+                  </li>
+                  <li><a href="mcp.html" class="dropdown-link">MCP</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="visual-card">
+            <h1
+              style="font-size: 2.5rem; margin-bottom: 1rem; text-align: center"
+            >
+              🔍 RAG (Retrieval-Augmented Generation)
+            </h1>
+            <p style="font-size: 1.2rem; text-align: center; opacity: 0.9">
+              Give AI access to your own knowledge base so it can answer
+              questions with your specific information
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div
+        class="container"
+        style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem"
+      >
+        <!-- What is RAG? -->
+        <section style="margin: 3rem 0">
+          <h2
+            style="
+              color: #2d3748;
+              font-size: 2rem;
+              margin-bottom: 2rem;
+              text-align: center;
+            "
+          >
+            🤔 What is RAG?
+          </h2>
+
+          <p style="font-size: 1.1rem; margin-bottom: 2rem; text-align: center">
+            RAG stands for <strong>Retrieval-Augmented Generation</strong>.
+            Think of it as giving your AI assistant access to your personal
+            library of documents, so it can find relevant information and give
+            you accurate answers based on YOUR data.
+          </p>
+
+          <div class="simple-grid">
+            <div class="feature-box">
+              <div class="feature-icon">📚</div>
+              <h3>Your Knowledge Base</h3>
+              <p>
+                Upload your documents, manuals, or data to create a searchable
+                knowledge base
+              </p>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon">🔍</div>
+              <h3>Smart Search</h3>
+              <p>AI finds the most relevant information from your documents</p>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon">🎯</div>
+              <h3>Accurate Answers</h3>
+              <p>
+                AI uses your specific information to generate precise responses
+              </p>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon">🔗</div>
+              <h3>Source Citations</h3>
+              <p>AI tells you exactly which documents the answer came from</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- How It Works -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            ⚙️ How RAG Works (Simple Steps)
+          </h2>
+
+          <div class="flow-diagram">
+            <div class="flow-step">1. You ask a question</div>
+            <div class="arrow-down">⬇️</div>
+            <div class="flow-step">2. AI searches your documents</div>
+            <div class="arrow-down">⬇️</div>
+            <div class="flow-step">3. AI finds relevant information</div>
+            <div class="arrow-down">⬇️</div>
+            <div class="flow-step">4. AI combines info + generates answer</div>
+            <div class="arrow-down">⬇️</div>
+            <div class="flow-step">5. You get an answer with sources</div>
+          </div>
+
+          <div
+            style="
+              background: #f0f9ff;
+              padding: 2rem;
+              border-radius: 12px;
+              margin: 2rem 0;
+            "
+          >
+            <h3 style="color: #0ea5e9; margin-bottom: 1rem">
+              🎯 Real Example:
+            </h3>
+            <div
+              style="
+                background: #e0f2fe;
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+              "
+            >
+              <strong>You ask:</strong> "What's our company's vacation policy?"
+            </div>
+            <div
+              style="
+                background: #fff3cd;
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+              "
+            >
+              <strong>RAG searches:</strong> Employee handbook, HR documents,
+              policy files
+            </div>
+            <div
+              style="
+                background: #d1ecf1;
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+              "
+            >
+              <strong>RAG finds:</strong> Section 4.2 of Employee Handbook
+            </div>
+            <div
+              style="
+                background: #d4edda;
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+              "
+            >
+              <strong>AI answers:</strong> "According to the Employee Handbook
+              (Section 4.2), employees get 15 days of vacation per year,
+              increasing to 20 days after 3 years of service. Vacation requests
+              must be submitted 2 weeks in advance."
+            </div>
+          </div>
+        </section>
+
+        <!-- Before vs After -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔄 Before vs After RAG
+          </h2>
+
+          <div class="comparison-grid">
+            <div class="before-after before">
+              <h3 style="color: #dc2626">❌ Regular AI (Without RAG)</h3>
+              <ul>
+                <li>Only knows general information from training</li>
+                <li>Can't access your specific documents</li>
+                <li>Might give generic or wrong answers</li>
+                <li>No source citations</li>
+                <li>Knowledge cutoff date limitations</li>
+                <li>Can't help with internal company info</li>
+              </ul>
+            </div>
+
+            <div class="before-after after">
+              <h3 style="color: #16a34a">✅ RAG AI (With Your Knowledge)</h3>
+              <ul>
+                <li>Knows your specific information</li>
+                <li>Searches through your documents</li>
+                <li>Gives accurate, relevant answers</li>
+                <li>Shows you the source documents</li>
+                <li>Always up-to-date with your latest info</li>
+                <li>Perfect for internal knowledge queries</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            💼 Perfect Use Cases for RAG
+          </h2>
+
+          <div class="simple-grid">
+            <div class="feature-box" style="border-color: #3b82f6">
+              <h3>📋 Company Knowledge Base</h3>
+              <p><strong>Use case:</strong> HR policies, procedures, manuals</p>
+              <p>
+                <strong>Example:</strong> "What's the process for requesting
+                time off?"
+              </p>
+            </div>
+
+            <div class="feature-box" style="border-color: #8b5cf6">
+              <h3>📖 Product Documentation</h3>
+              <p>
+                <strong>Use case:</strong> Technical docs, user manuals, FAQs
+              </p>
+              <p>
+                <strong>Example:</strong> "How do I configure the API settings?"
+              </p>
+            </div>
+
+            <div class="feature-box" style="border-color: #10b981">
+              <h3>🏥 Medical Records</h3>
+              <p>
+                <strong>Use case:</strong> Patient histories, research papers
+              </p>
+              <p>
+                <strong>Example:</strong> "What treatments were effective for
+                similar cases?"
+              </p>
+            </div>
+
+            <div class="feature-box" style="border-color: #f59e0b">
+              <h3>⚖️ Legal Documents</h3>
+              <p><strong>Use case:</strong> Contracts, case law, regulations</p>
+              <p>
+                <strong>Example:</strong> "What are the termination clauses in
+                this contract?"
+              </p>
+            </div>
+
+            <div class="feature-box" style="border-color: #ef4444">
+              <h3>🛒 Customer Support</h3>
+              <p>
+                <strong>Use case:</strong> Product manuals, troubleshooting
+                guides
+              </p>
+              <p><strong>Example:</strong> "How do I fix error code 404?"</p>
+            </div>
+
+            <div class="feature-box" style="border-color: #06b6d4">
+              <h3>📚 Research Database</h3>
+              <p>
+                <strong>Use case:</strong> Academic papers, research findings
+              </p>
+              <p>
+                <strong>Example:</strong> "What studies support this
+                hypothesis?"
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- How to Build RAG -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🛠️ How to Build Your Own RAG System
+          </h2>
+
+          <div class="step-card">
+            <h3 style="color: #f59e0b">Step 1: Prepare Your Documents</h3>
+            <p>Collect all the documents you want the AI to search through:</p>
+            <ul>
+              <li>PDFs, Word docs, text files</li>
+              <li>Web pages, wikis, knowledge bases</li>
+              <li>Spreadsheets, databases</li>
+              <li>Make sure they're well-organized and up-to-date</li>
+            </ul>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #f59e0b">Step 2: Choose Your Tools</h3>
+            <p>Pick tools based on your technical level:</p>
+            <div style="display: grid; gap: 1rem; margin-top: 1rem">
+              <div
+                style="
+                  background: #f0fdf4;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #22c55e;
+                "
+              >
+                <strong>🟢 Beginner:</strong> Use tools like Notion AI, ChatGPT
+                with file uploads, or Zapier
+              </div>
+              <div
+                style="
+                  background: #fef3c7;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #f59e0b;
+                "
+              >
+                <strong>🟡 Intermediate:</strong> Try LangChain, Haystack, or
+                LlamaIndex
+              </div>
+              <div
+                style="
+                  background: #fef2f2;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  border-left: 4px solid #ef4444;
+                "
+              >
+                <strong>🔴 Advanced:</strong> Build custom with OpenAI API +
+                vector databases
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #f59e0b">Step 3: Set Up Vector Database</h3>
+            <p>Store your documents in a way AI can search them:</p>
+            <ul>
+              <li>
+                Convert documents to "embeddings" (numerical representations)
+              </li>
+              <li>
+                Store in vector databases like Pinecone, Weaviate, or ChromaDB
+              </li>
+              <li>This makes search super fast and accurate</li>
+            </ul>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #f59e0b">Step 4: Connect AI Model</h3>
+            <p>Link your knowledge base to an AI model:</p>
+            <ul>
+              <li>Use APIs like OpenAI, Claude, or open-source models</li>
+              <li>Configure the AI to search your documents first</li>
+              <li>Set up the system to cite sources</li>
+            </ul>
+          </div>
+
+          <div class="step-card">
+            <h3 style="color: #f59e0b">Step 5: Test and Improve</h3>
+            <p>Make sure it works well:</p>
+            <ul>
+              <li>Ask questions you know the answers to</li>
+              <li>Check if sources are cited correctly</li>
+              <li>Adjust search settings if needed</li>
+              <li>Keep updating your documents</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Quick Start Example -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            ⚡ Quick Start Example (Python)
+          </h2>
+
+          <div class="example-box">
+            # Simple RAG example with LangChain<br />
+            from langchain.document_loaders import TextLoader<br />
+            from langchain.embeddings import OpenAIEmbeddings<br />
+            from langchain.vectorstores import Chroma<br />
+            from langchain.chains import RetrievalQA<br />
+            from langchain.llms import OpenAI<br />
+            <br />
+            # 1. Load your documents<br />
+            loader = TextLoader("your_documents.txt")<br />
+            documents = loader.load()<br />
+            <br />
+            # 2. Create embeddings and store in vector DB<br />
+            embeddings = OpenAIEmbeddings()<br />
+            vectorstore = Chroma.from_documents(documents, embeddings)<br />
+            <br />
+            # 3. Create the RAG chain<br />
+            qa_chain = RetrievalQA.from_chain_type(<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;llm=OpenAI(),<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;retriever=vectorstore.as_retriever()<br />
+            )<br />
+            <br />
+            # 4. Ask questions!<br />
+            answer = qa_chain.run("What is our refund policy?")<br />
+            print(answer)
+          </div>
+        </section>
+
+        <!-- Popular RAG Tools -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🔧 Popular RAG Tools
+          </h2>
+
+          <div class="simple-grid">
+            <div class="feature-box">
+              <h3>🦜 LangChain</h3>
+              <p><strong>What:</strong> Python/JavaScript framework</p>
+              <p><strong>Best for:</strong> Developers, customizable</p>
+              <p><strong>Difficulty:</strong> Intermediate</p>
+            </div>
+
+            <div class="feature-box">
+              <h3>🦙 LlamaIndex</h3>
+              <p><strong>What:</strong> Data framework for LLMs</p>
+              <p><strong>Best for:</strong> Document indexing</p>
+              <p><strong>Difficulty:</strong> Intermediate</p>
+            </div>
+
+            <div class="feature-box">
+              <h3>🌲 Pinecone</h3>
+              <p><strong>What:</strong> Vector database service</p>
+              <p><strong>Best for:</strong> Fast, scalable search</p>
+              <p><strong>Difficulty:</strong> Beginner-friendly</p>
+            </div>
+
+            <div class="feature-box">
+              <h3>💬 ChatGPT Plus</h3>
+              <p><strong>What:</strong> Built-in file analysis</p>
+              <p><strong>Best for:</strong> Quick start, no coding</p>
+              <p><strong>Difficulty:</strong> Beginner</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tips for Success -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            💡 Tips for RAG Success
+          </h2>
+
+          <div
+            style="
+              background: #f7fafc;
+              padding: 2rem;
+              border-radius: 12px;
+              border: 2px solid #e2e8f0;
+            "
+          >
+            <div style="display: grid; gap: 1rem">
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <span style="font-size: 1.5rem">📝</span>
+                <span
+                  ><strong>Clean Documents:</strong> Well-formatted, clear text
+                  works best</span
+                >
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <span style="font-size: 1.5rem">🔍</span>
+                <span
+                  ><strong>Good Chunking:</strong> Break long documents into
+                  logical sections</span
+                >
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <span style="font-size: 1.5rem">🎯</span>
+                <span
+                  ><strong>Relevant Data:</strong> Only include documents
+                  related to your use case</span
+                >
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <span style="font-size: 1.5rem">📊</span>
+                <span
+                  ><strong>Test Regularly:</strong> Check accuracy with known
+                  questions</span
+                >
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem">
+                <span style="font-size: 1.5rem">🔄</span>
+                <span
+                  ><strong>Keep Updated:</strong> Regularly refresh your
+                  document database</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section style="margin: 3rem 0">
+          <h2 style="color: #2d3748; font-size: 2rem; margin-bottom: 2rem">
+            🚀 Ready to Start?
+          </h2>
+
+          <div class="visual-card">
+            <h3 style="margin-bottom: 1rem">Your RAG Journey Starts Here:</h3>
+            <div style="display: grid; gap: 1rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>1. Start Simple:</strong> Try ChatGPT with file uploads
+                for your first RAG experience
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>2. Pick Your Documents:</strong> Choose 5-10 important
+                documents to start
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>3. Test with Known Questions:</strong> Ask questions you
+                know the answers to
+              </div>
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 1rem;
+                  border-radius: 8px;
+                "
+              >
+                <strong>4. Expand Gradually:</strong> Add more documents and
+                complexity as you learn
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 Technical Reference. Built with modern web standards.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Add smooth animations when elements come into view
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observe all animated elements
+      document
+        .querySelectorAll(".feature-box, .step-card, .before-after")
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(20px)";
+          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>
