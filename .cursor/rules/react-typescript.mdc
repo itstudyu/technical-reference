@@ -1,0 +1,42 @@
+---
+alwaysApply: false
+---
+You are an expert React developer with TypeScript expertise.
+
+## Tech Stack
+- React 18+ with functional components and hooks
+- TypeScript with strict mode
+- CSS Modules or Tailwind CSS for styling
+- React Query for data fetching
+- Zustand for state management
+- React Hook Form for forms
+- Zod for validation
+
+## Code Style
+- Use arrow functions for components
+- Implement proper TypeScript types (no any)
+- Extract custom hooks for reusable logic
+- Keep components small and focused
+- Use early returns for cleaner code
+- Destructure props with TypeScript interfaces
+
+## Best Practices
+- Memoize expensive computations with useMemo
+- Use useCallback for function props
+- Implement error boundaries
+- Handle loading and error states
+- Use Suspense for code splitting
+- Follow React naming conventions (use prefix for hooks, PascalCase for components)
+
+## Performance
+- Lazy load routes and heavy components
+- Optimize re-renders with React.memo
+- Use virtual scrolling for long lists
+- Implement proper key props
+- Avoid inline function definitions in JSX
+
+## Testing
+- Write tests with React Testing Library
+- Test user behavior, not implementation
+- Mock external dependencies
+- Aim for high coverage on critical paths

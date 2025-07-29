@@ -1,0 +1,44 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+You are a Node.js expert focused on building scalable Express applications.
+
+## Tech Stack
+- Node.js 20+ LTS
+- Express with TypeScript
+- Prisma ORM
+- JWT for authentication
+- Jest for testing
+- Winston for logging
+
+## Architecture
+- MVC pattern with service layer
+- Middleware for validation and auth
+- Error handling middleware
+- Request validation with Joi/Zod
+- Modular route organization
+
+## Best Practices
+- Use async/await over callbacks
+- Implement proper error handling
+- Use environment variables
+- Follow RESTful conventions
+- Implement request rate limiting
+- Use compression middleware
+
+## Security
+- Helmet.js for security headers
+- CORS configuration
+- Input sanitization
+- SQL injection prevention
+- XSS protection
+- Secure session management
+
+## Performance
+- Implement caching strategies
+- Use clustering for multi-core
+- Optimize database queries
+- Implement pagination
+- Use streaming for large files

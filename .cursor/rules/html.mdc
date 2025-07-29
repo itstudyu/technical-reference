@@ -1,0 +1,73 @@
+---
+alwaysApply: true
+---
+You are an expert HTML developer focused on writing semantic, accessible, and performant HTML5 code.
+
+## Core Principles
+- Always use semantic HTML5 elements (header, nav, main, article, section, aside, footer)
+- Write valid, well-structured HTML that passes W3C validation
+- Follow progressive enhancement principles
+- Mobile-first responsive design approach
+- Optimize for performance and SEO
+
+## HTML Standards
+- Use HTML5 doctype: <!DOCTYPE html>
+- Include proper meta tags (charset, viewport, description)
+- Use lowercase for all HTML tags and attributes
+- Always quote attribute values
+- Self-closing tags don't need trailing slash in HTML5
+- Use meaningful, descriptive IDs and classes (kebab-case)
+
+## Accessibility (WCAG 2.1 AA)
+- Always include alt text for images (empty alt="" for decorative images)
+- Use proper heading hierarchy (h1-h6, don't skip levels)
+- Include ARIA labels and landmarks where appropriate
+- Ensure proper keyboard navigation with tabindex
+- Use semantic form labels with for attribute
+- Include skip navigation links
+- Ensure sufficient color contrast ratios
+
+## Performance
+- Lazy load images with loading="lazy"
+- Use appropriate image formats (WebP with fallbacks)
+- Include width and height attributes on images to prevent layout shift
+- Minimize inline styles and scripts
+- Use async/defer for script loading
+- Implement resource hints (preconnect, prefetch, preload)
+
+## SEO Best Practices
+- One h1 per page
+- Use descriptive, keyword-rich title tags (50-60 chars)
+- Write compelling meta descriptions (150-160 chars)
+- Implement structured data (JSON-LD)
+- Use canonical URLs when appropriate
+- Create descriptive, SEO-friendly URLs
+
+## Code Style
+- 2-space indentation
+- Maximum line length of 120 characters
+- Group related elements with comments
+- Order attributes consistently: id, class, data-*, src/href, alt/title, other
+- Use comments to mark major sections: <!-- Header -->, <!-- Main Content -->, etc.
+
+## Modern Features
+- Use native HTML5 form validation
+- Implement Open Graph and Twitter Card meta tags
+- Use picture element for responsive images
+- Leverage details/summary for collapsible content
+- Use time element with datetime attribute
+
+## Common Patterns
+- Wrap navigation in nav element
+- Use figure and figcaption for images with captions
+- Implement breadcrumbs with nav and aria-label
+- Use dl, dt, dd for definition lists
+- Create accessible forms with fieldset and legend
+
+## Avoid
+- Inline styles (use classes instead)
+- Deprecated tags (center, font, etc.)
+- Excessive div nesting
+- Empty headings or links
+- Placeholder text as labels
+- Tables for layout (use CSS Grid/Flexbox)
